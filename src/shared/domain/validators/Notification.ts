@@ -11,6 +11,10 @@ export class Notification {
     }
   }
 
+  hasErrors(): boolean {
+    return this.errors.size == 0 ? false : true
+  }
+
   setError(error: string | string[], field?: string) {
     if (field) {
       this.errors.set(field, Array.isArray(error) ? error : [error]);

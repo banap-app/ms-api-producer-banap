@@ -43,7 +43,6 @@ export class Producer extends Entity {
         this.producerId = props.producerId ? new ProducerId(props.producerId) : new ProducerId()
         this.name = props.name
         this.email = props.email
-        console.log(props.password)
         this.password = props.password ? new Password(props.password) : new Password()
         this.profilePicture = props.profilePicture
         this.isActive = props.isActive
@@ -54,14 +53,13 @@ export class Producer extends Entity {
 
     static create(props:ProducerCreateCommand) {
         const producer = new Producer(props)
-        const v = producer.validate([])
+        producer.validate([])
         return producer
     }
 
     private validate(fields: string[]) {
         const producerValidate = ProducerValidatorFactory.create()
-        return producerValidate.validate(new Notification(), this, fields)
-
+        return producerValidate.validate(this.notification, this, fields)
     } 
 
     toJSON() {

@@ -16,17 +16,15 @@ export class ProducerRules {
     @IsNotEmpty()
     name: string
 
-    @IsStrongPassword()
-    password:Password
-
     @IsEmail()
+    @IsString({groups: ['email']})
     email:string
 
 }
 
 export class ProducerValidator extends ClassValidatorRules {
     validate(notification: Notification, data: any, fields?: string[]): boolean {
-        const newFields = fields ? fields : ['name', 'password', 'email']
+        const newFields = fields ? fields : ['name', 'email']
         return super.validate(notification, new ProducerRules(data), newFields)
     }
 }

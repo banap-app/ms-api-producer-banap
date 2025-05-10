@@ -44,14 +44,12 @@ export class Either<Ok = unknown, ErrorType = Error>
   }
 
   static ok<T, ErrorType = Error>(value: T): Either<T, ErrorType> {
-    //@ts-expect-error  - error can be null
     return new Either(value, null);
   }
 
   static fail<ErrorType = Error, Ok = unknown>(
     error: ErrorType
   ): Either<Ok, ErrorType> {
-    //@ts-expect-error  - ok can be null
     return new Either(null, error);
   }
 

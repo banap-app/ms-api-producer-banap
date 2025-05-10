@@ -9,7 +9,7 @@ export type ProducerConstructorProps = {
     producerId?: string
     name: string
     email: string
-    password: Password
+    password: string
     profilePicture: ProfilePicture | null
     isActive: boolean
     createdAt?: Date
@@ -20,7 +20,7 @@ export type ProducerConstructorProps = {
 export type ProducerCreateCommand = {
     name: string
     email: string
-    password: Password
+    password: string
     profilePicture: ProfilePicture | null
     isActive: boolean
 }
@@ -43,7 +43,8 @@ export class Producer extends Entity {
         this.producerId = props.producerId ? new ProducerId(props.producerId) : new ProducerId()
         this.name = props.name
         this.email = props.email
-        this.password = props.password
+        console.log(props.password)
+        this.password = props.password ? new Password(props.password) : new Password()
         this.profilePicture = props.profilePicture
         this.isActive = props.isActive
         this.createdAt = props.createdAt ? props.createdAt : new Date()
@@ -53,15 +54,15 @@ export class Producer extends Entity {
 
     static create(props:ProducerCreateCommand) {
         const producer = new Producer(props)
-        return producer.validate(['name', 'email', 'password'])
-
+        const v = producer.validate([])
+        return producer
     }
 
     private validate(fields: string[]) {
         const producerValidate = ProducerValidatorFactory.create()
-        producerValidate.validate(new Notification(), this, fields)
+        return producerValidate.validate(new Notification(), this, fields)
 
-    }
+    } 
 
     toJSON() {
         return {

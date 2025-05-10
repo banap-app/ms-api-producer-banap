@@ -11,7 +11,7 @@
     "url": "git+https://github.com/banap-app/ms-api-producer-banap.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Asher Novelli && Victor Luiz",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {

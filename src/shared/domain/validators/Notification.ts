@@ -12,7 +12,7 @@ export class Notification {
   }
 
   hasErrors(): boolean {
-    return this.errors.size == 0 ? false : true
+    return this.errors.size == 0 ? false : true;
   }
 
   setError(error: string | string[], field?: string) {

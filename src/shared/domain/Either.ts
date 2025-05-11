@@ -30,7 +30,7 @@ export class Either<Ok = unknown, ErrorType = Error>
   }
 
   static safe<Ok = unknown, ErrorType = Error>(
-    fn: () => Ok
+    fn: () => Ok,
   ): Either<Ok, ErrorType | any> {
     try {
       return Either.ok(fn());
@@ -48,7 +48,7 @@ export class Either<Ok = unknown, ErrorType = Error>
   }
 
   static fail<ErrorType = Error, Ok = unknown>(
-    error: ErrorType
+    error: ErrorType,
   ): Either<Ok, ErrorType> {
     return new Either(null, error);
   }
@@ -69,7 +69,7 @@ export class Either<Ok = unknown, ErrorType = Error>
    * The new Either can be a fail or a ok.
    */
   chain<NewOk, NewError = Error>(
-    fn: (value: Ok) => Either<NewOk, NewError>
+    fn: (value: Ok) => Either<NewOk, NewError>,
   ): Either<NewOk, ErrorType | NewError> {
     if (this.isOk()) {
       return fn(this.ok);
@@ -84,7 +84,7 @@ export class Either<Ok = unknown, ErrorType = Error>
    * The new Either can be a fail or a ok.
    */
   chainEach<NewOk, NewError>(
-    fn: (value: Flatten<Ok>) => Either<Flatten<NewOk>, Flatten<NewError>>
+    fn: (value: Flatten<Ok>) => Either<Flatten<NewOk>, Flatten<NewError>>,
   ): Either<NewOk, NewError> {
     if (this.isOk()) {
       if (!Array.isArray(this.ok)) {

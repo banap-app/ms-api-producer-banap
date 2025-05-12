@@ -8,6 +8,9 @@ export class FieldRules {
     Object.assign(this, entity);
   }
 
+  @IsNotEmpty()
+  propertyId: string;
+
   @MaxLength(255)
   @IsString()
   @IsNotEmpty()
@@ -26,7 +29,9 @@ export class FieldRules {
 
 export class FieldValidator extends ClassValidatorRules {
   validate(notification: Notification, data: any, fields?: string[]): boolean {
-    const newFields = fields ? fields : ["name", "description", "crop"];
+    const newFields = fields
+      ? fields
+      : ["propertyId", "name", "description", "crop"];
     return super.validate(notification, new FieldRules(data), newFields);
   }
 }

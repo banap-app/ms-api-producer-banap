@@ -1,4 +1,3 @@
-import { Password } from '../../producer/domain/PasswordVo';
 import { ProducerId } from '../../producer/domain/Producer';
 import { Entity } from '../../shared/domain/Entity';
 import { Uuid } from '../../shared/domain/value-objects/UuidVo';

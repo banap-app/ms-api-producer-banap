@@ -8,6 +8,7 @@ export type PropertyConstructorProps = {
   propertyId?: string;
   producerId: string;
   name: string;
+  isActive: boolean;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
@@ -16,6 +17,7 @@ export type PropertyConstructorProps = {
 export type PropertyCreateCommand = {
   producerId: string;
   name: string;
+  isActive: boolean;
 };
 
 export class PropertyId extends Uuid {}
@@ -24,6 +26,7 @@ export class Property extends Entity {
   private propertyId: PropertyId;
   private producerId: ProducerId;
   private name: string;
+  private isActive: boolean;
   private createdAt: Date;
   private updatedAt: Date;
   private deletedAt: Date | null;
@@ -51,13 +54,23 @@ export class Property extends Entity {
     return propertyValidate.validate(this.notification, this, fields);
   }
 
-  get getId() {
-    return this.propertyId;
-  }
-
   public changeName(name: string) {
     this.name = name;
     this.validate(["name"]);
+  }
+
+  public activate() {
+    this.isActive = true;
+    this.deletedAt = null;
+  }
+
+  public deactivate() {
+    this.isActive = false;
+    this.deletedAt = new Date();
+  }
+
+  get getId() {
+    return this.propertyId;
   }
 
   toJSON() {

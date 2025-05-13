@@ -1,10 +1,10 @@
-import { ICrypt } from '../../../../shared/application/ICrypt';
-import { UseCase } from '../../../../shared/application/IUseCase';
-import { EntityValidationError } from '../../../../shared/domain/validators/ValidationErrors';
 import { ProducerOutput, ProducerOutputMapper } from '../commons/ProducerOutputMapper';
 import { Producer } from '../../../domain/Producer';
 import { ProducerRepository } from '../../../domain/ProducerRepository';
 import { CreateProducerCommand } from './CreateProducerCommand';
+import { UseCase } from '../../../../shared/application/IUseCase';
+import { ICrypt } from '../../../../shared/application/ICrypt';
+import { EntityValidationError } from '../../../../shared/domain/validators/ValidationErrors';
 
 export class CreateProducerUseCase implements UseCase<CreateProducerCommand, CreateProducerOutput> {
     private producerRepository: ProducerRepository;
@@ -19,12 +19,18 @@ export class CreateProducerUseCase implements UseCase<CreateProducerCommand, Cre
         if(aProducer.notification.hasErrors()) {
             throw new EntityValidationError(aProducer.notification.toJSON())
         }
-        
-        const hashPassword = await this.cryptService.encode(aProducer.getPassword().getValue, 10)
+
+        const existsProducer = await this.producerRepository.findByEmail(aProducer.getEmail())
+        if (existsProducer) {
+            aProducer.notification.addError("Producer exists", "producer")
+            throw new Error(aProducer.notification.toJSON())
+        }
+
+        const hashPassword = await this.cryptService.encode(aProducer.getPassword().toString(), 10)
         
         aProducer.changePasswordHashed(hashPassword)
-        
         await this.producerRepository.insert(aProducer)
+
 
         return ProducerOutputMapper.toOutput(aProducer)
     }

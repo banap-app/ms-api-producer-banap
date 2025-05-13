@@ -5,10 +5,10 @@ import {
   IsStrongPassword,
   MaxLength,
 } from "class-validator";
-import { ClassValidatorRules } from "../../shared/domain/validators/ClassValidatorRules";
-import { Notification } from "../../shared/domain/validators/Notification";
 import { Producer } from "./Producer";
 import { Password } from "./PasswordVo";
+import { ClassValidatorRules } from "../../shared/domain/validators/ClassValidatorRules";
+import { Notification } from "../../shared/domain/validators/Notification";
 
 export class ProducerRules {
   constructor(entity: Producer) {

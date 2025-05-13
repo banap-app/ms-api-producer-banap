@@ -14,7 +14,7 @@ export type ProducerOutput = {
 
 export class ProducerOutputMapper {
     static toOutput(entity: Producer) {
-        const {producerId, ...otherProps} = entity.toJSON()
+        const {producerId,password, ...otherProps} = entity.toJSON()
         return {
             id: producerId,
             ...otherProps

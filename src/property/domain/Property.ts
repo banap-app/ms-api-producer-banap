@@ -1,3 +1,4 @@
+import { Password } from "../../producer/domain/PasswordVo";
 import { ProducerId } from "../../producer/domain/Producer";
 import { Entity } from "../../shared/domain/Entity";
 import { Uuid } from "../../shared/domain/value-objects/UuidVo";
@@ -52,6 +53,11 @@ export class Property extends Entity {
 
   get getId() {
     return this.propertyId;
+  }
+
+  public changeName(name: string) {
+    this.name = name;
+    this.validate(["name"]);
   }
 
   toJSON() {

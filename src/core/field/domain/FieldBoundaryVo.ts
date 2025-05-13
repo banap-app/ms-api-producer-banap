@@ -1,6 +1,6 @@
-import { Either } from "../../shared/domain/Either";
-import { ValueObject } from "../../shared/domain/ValueObject";
-import { InvalidFieldBoundaryError } from "./errors/InvalidFieldBoundaryError";
+import { Either } from '../../shared/domain/Either';
+import { ValueObject } from '../../shared/domain/ValueObject';
+import { InvalidFieldBoundaryError } from './errors/InvalidFieldBoundaryError';
 
 export type Coordinate = {
   lat: number;
@@ -34,7 +34,7 @@ export class FieldBoundary extends ValueObject {
       this.points.reduce((acc, current, i, arr) => {
         const next = arr[(i + 1) % arr.length];
         return acc + current.lat * next.lng - current.lng * next.lat;
-      }, 0) / 2
+      }, 0) / 2,
     );
   }
 }

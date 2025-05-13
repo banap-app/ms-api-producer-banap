@@ -1,8 +1,8 @@
-import { Password } from "../../producer/domain/PasswordVo";
-import { ProducerId } from "../../producer/domain/Producer";
-import { Entity } from "../../shared/domain/Entity";
-import { Uuid } from "../../shared/domain/value-objects/UuidVo";
-import { PropertyValidatorFactory } from "./PropertyValidator";
+import { Password } from '../../producer/domain/PasswordVo';
+import { ProducerId } from '../../producer/domain/Producer';
+import { Entity } from '../../shared/domain/Entity';
+import { Uuid } from '../../shared/domain/value-objects/UuidVo';
+import { PropertyValidatorFactory } from './PropertyValidator';
 
 export type PropertyConstructorProps = {
   propertyId?: string;
@@ -56,7 +56,7 @@ export class Property extends Entity {
 
   public changeName(name: string) {
     this.name = name;
-    this.validate(["name"]);
+    this.validate(['name']);
   }
 
   public activate() {

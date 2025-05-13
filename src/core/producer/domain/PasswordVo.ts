@@ -1,6 +1,6 @@
-import { Either } from "../../shared/domain/Either";
-import { ValueObject } from "../../shared/domain/ValueObject";
-import { InvalidPasswordError } from "./errors/InvalidPassordError";
+import { Either } from '../../shared/domain/Either';
+import { ValueObject } from '../../shared/domain/ValueObject';
+import { InvalidPasswordError } from './errors/InvalidPassordError';
 
 export class Password extends ValueObject {
   private password: string;

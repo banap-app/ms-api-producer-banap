@@ -1,6 +1,6 @@
-import { validateSync } from "class-validator";
-import { Notification } from "./Notification";
-import { IValidatorRules } from "./ValidatorRulesInterface";
+import { validateSync } from 'class-validator';
+import { Notification } from './Notification';
+import { IValidatorRules } from './ValidatorRulesInterface';
 
 export abstract class ClassValidatorRules implements IValidatorRules {
   validate(notification: Notification, data: any, fields?: string[]): boolean {

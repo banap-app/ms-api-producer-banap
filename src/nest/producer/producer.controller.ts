@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, Inject } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  BadRequestException,
+  Inject,
+} from '@nestjs/common';
 import { CreateProducerDto } from './dto/create-producer.dto';
 import { UpdateProducerDto } from './dto/update-producer.dto';
 import { CreateProducerCommand } from 'src/core/producer/application/use-cases/create-producer/CreateProducerCommand';
@@ -9,15 +19,15 @@ import { CreateProducerUseCase } from 'src/core/producer/application/use-cases/c
 export class ProducerController {
   constructor(
     @Inject(CreateProducerUseCase)
-    private readonly createProducerUseCase: CreateProducerUseCase
+    private readonly createProducerUseCase: CreateProducerUseCase,
   ) {}
 
   @Post()
   create(@Body() createProducerDto: CreateProducerDto) {
-   let profilePicture;
+    let profilePicture;
 
     if (!createProducerDto) {
-      throw new Error("Insert create producer DTO")
+      throw new Error('Insert create producer DTO');
     }
     if (createProducerDto && createProducerDto.profilePicture) {
       const [result, error] = ProfilePicture.createFromFile({
@@ -46,21 +56,24 @@ export class ProducerController {
 
   @Get()
   findAll() {
-    return
+    return;
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return
+    return;
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProducerDto: UpdateProducerDto) {
-    return
+  update(
+    @Param('id') id: string,
+    @Body() updateProducerDto: UpdateProducerDto,
+  ) {
+    return;
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return
+    return;
   }
 }

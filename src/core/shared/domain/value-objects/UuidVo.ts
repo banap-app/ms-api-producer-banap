@@ -1,6 +1,6 @@
-import { InvalidUuidError } from "../errors/InvalidUuidError";
-import { ValueObject } from "../ValueObject";
-import { v4 as uuidV4, validate as validateUuid } from "uuid";
+import { InvalidUuidError } from '../errors/InvalidUuidError';
+import { ValueObject } from '../ValueObject';
+import { v4 as uuidV4, validate as validateUuid } from 'uuid';
 
 export class Uuid extends ValueObject {
   readonly id: string;

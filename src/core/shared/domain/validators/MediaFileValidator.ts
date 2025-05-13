@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import crypto from 'crypto';
 
 export class MediaFileValidator {
   constructor(
@@ -37,14 +37,14 @@ export class MediaFileValidator {
   }
 
   private generateRandomName(raw_name: string) {
-    const extension = raw_name.split(".").pop();
+    const extension = raw_name.split('.').pop();
 
     return (
       crypto
-        .createHash("sha256")
+        .createHash('sha256')
         .update(raw_name + Math.random() + Date.now())
-        .digest("hex") +
-      "." +
+        .digest('hex') +
+      '.' +
       extension
     );
   }
@@ -60,7 +60,7 @@ export class InvalidMediaFileMimeTypeError extends Error {
   constructor(actual_mime_type: string, valid_mime_types: string[]) {
     super(
       `Invalid media file mime type: ${actual_mime_type} not in ${valid_mime_types.join(
-        ", ",
+        ', ',
       )}`,
     );
   }

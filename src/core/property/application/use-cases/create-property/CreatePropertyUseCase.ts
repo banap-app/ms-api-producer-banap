@@ -1,12 +1,12 @@
-import { UseCase } from "../../../../shared/application/IUseCase";
-import { EntityValidationError } from "../../../../shared/domain/validators/ValidationErrors";
-import { Property } from "../../../domain/Property";
-import { IPropertyRepository } from "../../../domain/IPropertyRepository";
+import { UseCase } from '../../../../shared/application/IUseCase';
+import { EntityValidationError } from '../../../../shared/domain/validators/ValidationErrors';
+import { Property } from '../../../domain/Property';
+import { IPropertyRepository } from '../../../domain/IPropertyRepository';
 import {
   PropertyOutput,
   PropertyOutputMapper,
-} from "../../commons/PropertyOutputMapper";
-import { CreatePropertyCommand } from "./CreatePropertyCommand";
+} from '../../commons/PropertyOutputMapper';
+import { CreatePropertyCommand } from './CreatePropertyCommand';
 
 export type CreatePropertyOutput = PropertyOutput;
 

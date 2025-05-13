@@ -1,5 +1,5 @@
-import { ProducerId } from "../../../producer/domain/Producer";
-import { Property } from "../../domain/Property";
+import { ProducerId } from '../../../producer/domain/Producer';
+import { Property } from '../../domain/Property';
 
 export type PropertyOutput = {
   id: string;

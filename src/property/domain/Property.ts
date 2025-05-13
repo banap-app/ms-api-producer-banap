@@ -56,7 +56,7 @@ export class Property extends Entity {
 
   toJSON() {
     return {
-      propertyId: this.propertyId,
+      propertyId: this.propertyId.id,
       producerId: this.producerId,
       name: this.name,
       createdAt: this.createdAt,

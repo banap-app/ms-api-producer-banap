@@ -4,12 +4,16 @@ import { UpdateProducerDto } from './dto/update-producer.dto';
 import { CreateProducerCommand } from 'src/core/producer/application/use-cases/create-producer/CreateProducerCommand';
 import { ProfilePicture } from 'src/core/producer/domain/ProfilePictureVo';
 import { CreateProducerUseCase } from 'src/core/producer/application/use-cases/create-producer/CreateProducerUseCase';
+import { UpdateProducerUseCase } from 'src/core/producer/application/use-cases/update-producer/UpdateProducerUseCase';
+import { UpdateProducerCommand } from 'src/core/producer/application/use-cases/update-producer/UpdateProducerCommand';
 
 @Controller('producer')
 export class ProducerController {
   constructor(
     @Inject(CreateProducerUseCase)
-    private readonly createProducerUseCase: CreateProducerUseCase
+    private readonly createProducerUseCase: CreateProducerUseCase,
+    @Inject(UpdateProducerUseCase)
+    private readonly updateProducerUseCase: UpdateProducerUseCase
   ) {}
 
   @Post()
@@ -54,9 +58,37 @@ export class ProducerController {
     return
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProducerDto: UpdateProducerDto) {
-    return
+  @Patch()
+  update(@Body() updateProducerDto: UpdateProducerDto) {
+    let profilePicture;
+
+    if (!updateProducerDto) {
+      throw new Error("Insert create producer DTO")
+    }
+    if (updateProducerDto && updateProducerDto.profilePicture) {
+      const [result, error] = ProfilePicture.createFromFile({
+        raw_name: updateProducerDto.profilePicture.raw_name,
+        mime_type: updateProducerDto.profilePicture.mime_type,
+        size: updateProducerDto.profilePicture.size,
+      });
+
+      if (error) {
+        throw new BadRequestException(result.value);
+      }
+
+      profilePicture = result.value;
+    }
+
+    const command = new UpdateProducerCommand({
+      producerId: updateProducerDto.producerId,
+      name: updateProducerDto.name,
+      email: updateProducerDto.email,
+      password: updateProducerDto.password,
+      isActive: updateProducerDto.isActive,
+      profilePicture,
+    });
+
+    return this.updateProducerUseCase.execute(command);
   }
 
   @Delete(':id')

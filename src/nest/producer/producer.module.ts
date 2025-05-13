@@ -6,6 +6,7 @@ import { ProducerTypeOrmRepository } from 'src/core/producer/infrastructure/db/t
 import { Repository } from 'typeorm';
 import { CreateProducerUseCase } from 'src/core/producer/application/use-cases/create-producer/CreateProducerUseCase';
 import { BcryptService } from 'src/core/producer/infrastructure/services/BcryptService';
+import { UpdateProducerUseCase } from 'src/core/producer/application/use-cases/update-producer/UpdateProducerUseCase';
 
 @Module({
   imports: [
@@ -13,10 +14,7 @@ import { BcryptService } from 'src/core/producer/infrastructure/services/BcryptS
   ],
   controllers: [ProducerController],
   providers: [
-    // 1. BcryptService diretamente como provider
     BcryptService,
-
-    // 2. ProducerTypeOrmRepository como provider com factory
     {
       provide: ProducerTypeOrmRepository,
       useFactory: (repo: Repository<ProducerEntity>) => {
@@ -24,8 +22,6 @@ import { BcryptService } from 'src/core/producer/infrastructure/services/BcryptS
       },
       inject: [getRepositoryToken(ProducerEntity)],
     },
-
-    // 3. CreateProducerUseCase com factory
     {
       provide: CreateProducerUseCase,
       useFactory: (
@@ -34,6 +30,14 @@ import { BcryptService } from 'src/core/producer/infrastructure/services/BcryptS
       ) => new CreateProducerUseCase(repo, crypt),
       inject: [ProducerTypeOrmRepository, BcryptService],
     },
+    {
+      provide: UpdateProducerUseCase,
+      useFactory: (
+        repo: ProducerTypeOrmRepository,
+        crypt: BcryptService
+      ) => new UpdateProducerUseCase(repo, crypt),
+      inject: [ProducerTypeOrmRepository, BcryptService]
+    }
   ],
 })
 export class ProducerModule {}

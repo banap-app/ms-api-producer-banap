@@ -2,9 +2,6 @@ import { Producer } from "src/core/producer/domain/Producer";
 import { ProfilePicture } from "src/core/producer/domain/ProfilePictureVo";
 import { Column, Entity, PrimaryGeneratedColumn, Generated, OneToOne, JoinColumn } from "typeorm";
 
-
-
-
 @Entity({name:"profile_picture_entity"})
 export class ProfilePictureEntity {
   @PrimaryGeneratedColumn()

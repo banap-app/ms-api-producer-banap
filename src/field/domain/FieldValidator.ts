@@ -8,22 +8,30 @@ export class FieldRules {
     Object.assign(this, entity);
   }
 
-  @IsNotEmpty()
+  @IsNotEmpty({
+    groups: ["propertyId"],
+  })
   propertyId: string;
 
   @MaxLength(255)
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({
+    groups: ["name"],
+  })
   name: string;
 
   @MaxLength(255)
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({
+    groups: ["description"],
+  })
   description: string;
 
   @MaxLength(255)
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({
+    groups: ["crop"],
+  })
   crop: string;
 }
 

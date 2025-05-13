@@ -63,6 +63,25 @@ export class Field extends Entity {
     return fieldValidate.validate(this.notification, this, fields);
   }
 
+  public changeName(name: string) {
+    this.name = name;
+    this.validate(["name"]);
+  }
+
+  public changeDescription(description: string) {
+    this.description = description;
+    this.validate(["description"]);
+  }
+
+  public changeCrop(crop: string) {
+    this.crop = crop;
+    this.validate(["crop"]);
+  }
+
+  public changeFieldBoundary(fieldBoundary: Coordinate[]) {
+    this.fieldBoundary = new FieldBoundary(fieldBoundary);
+  }
+
   public getArea() {
     return this.fieldBoundary.calculateFieldArea();
   }

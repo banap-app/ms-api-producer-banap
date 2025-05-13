@@ -23,7 +23,7 @@ export class ProducerTypeOrmRepository implements ProducerRepository {
     }
     async update(entity: Producer): Promise<void> {
         const producer = ProducerEntityTypeMapper.toTypeEntity(entity)
-        await this.ormRepository.update(producer.producer_id,producer)
+        await this.ormRepository.update({producer_id: producer.producer_id},producer)
     }
     bulkUpdate(entities: Producer[]): Promise<void> {
         throw new Error("Method not implemented.");

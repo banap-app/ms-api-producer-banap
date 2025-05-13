@@ -1,7 +1,7 @@
 import { ProfilePicture } from "src/core/producer/domain/ProfilePictureVo"
 
 export type UpdateProducerCommandProps = {
-    producer_id: string;
+    producerId: string;
     name: string
     email: string
     password: string
@@ -10,7 +10,7 @@ export type UpdateProducerCommandProps = {
 }
 
 export class UpdateProducerCommand {
-    public producer_id: string;
+    public producerId: string;
     public name: string
     public email: string
     public password: string
@@ -20,7 +20,7 @@ export class UpdateProducerCommand {
 
     constructor(props:UpdateProducerCommandProps) {
         if(!props) return
-        this.producer_id = props.producer_id
+        this.producerId = props.producerId
         this.name = props.name
         this.email = props.email
         this.password = props.password

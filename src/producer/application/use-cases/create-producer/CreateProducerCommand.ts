@@ -20,6 +20,7 @@ export class CreateProducerCommand {
         if(!props) return
         this.name = props.name
         this.email = props.email
+        this.password = props.password
         this.profilePicture = props.profilePicture
         this.isActive = props.isActive
     }

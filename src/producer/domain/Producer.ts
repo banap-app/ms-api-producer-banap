@@ -45,9 +45,7 @@ export class Producer extends Entity {
       : new ProducerId();
     this.name = props.name;
     this.email = props.email;
-    this.password = props.password
-      ? new Password(props.password)
-      : new Password();
+    this.password = props.password ? new Password(props.password) : null;
     this.profilePicture = props.profilePicture;
     this.isActive = props.isActive;
     this.createdAt = props.createdAt ? props.createdAt : new Date();
@@ -64,6 +62,42 @@ export class Producer extends Entity {
   private validate(fields: string[]) {
     const producerValidate = ProducerValidatorFactory.create();
     return producerValidate.validate(this.notification, this, fields);
+  }
+
+  public changeName(name:string) {
+    this.name = name
+    this.validate(['name'])
+  }
+
+  public changeEmail(email:string) {
+    this.email = email
+    this.validate(['email'])
+  }
+
+  public changePassword(password:string) {
+    const [passwordValid, errorPassword] = Password.create(password).asArray()
+    this.notification.addError(errorPassword.message, 'password')
+    this.password = passwordValid
+  }
+
+  public changePasswordHashed(hashedPassword: string) {
+    this.password = hashedPassword as any;
+  }
+
+  public activate() {
+    this.isActive = true
+  }
+
+  public deactive() {
+    this.isActive = false
+  }
+
+  public changeProfilePicture(profilePicture: ProfilePicture) {
+    this.profilePicture = profilePicture
+  }
+
+  public getPassword():Password {
+    return this.password
   }
 
   toJSON() {

@@ -1,16 +1,16 @@
+
 import { Entity } from "../../shared/domain/Entity";
-import { Notification } from "../../shared/domain/validators/Notification";
 import { Uuid } from "../../shared/domain/value-objects/UuidVo";
 import { Password } from "./PasswordVo";
 import { ProducerValidatorFactory } from "./ProducerValidator";
 import { ProfilePicture } from "./ProfilePictureVo";
 
 export type ProducerConstructorProps = {
-  producerId?: string;
+  producerId?: ProducerId;
   name: string;
   email: string;
   password: string;
-  profilePicture: ProfilePicture | null;
+  profilePicture?: ProfilePicture | null;
   isActive: boolean;
   createdAt?: Date;
   updatedAt?: Date;
@@ -21,7 +21,7 @@ export type ProducerCreateCommand = {
   name: string;
   email: string;
   password: string;
-  profilePicture: ProfilePicture | null;
+  profilePicture?: ProfilePicture | null;
   isActive: boolean;
 };
 
@@ -40,14 +40,10 @@ export class Producer extends Entity {
 
   constructor(props: ProducerConstructorProps) {
     super();
-    this.producerId = props.producerId
-      ? new ProducerId(props.producerId)
-      : new ProducerId();
+    this.producerId = props.producerId ?? new ProducerId()
     this.name = props.name;
     this.email = props.email;
-    this.password = props.password
-      ? new Password(props.password)
-      : new Password();
+    this.password = props.password ? new Password(props.password) : null;
     this.profilePicture = props.profilePicture;
     this.isActive = props.isActive;
     this.createdAt = props.createdAt ? props.createdAt : new Date();
@@ -61,9 +57,71 @@ export class Producer extends Entity {
     return producer;
   }
 
-  private validate(fields: string[]) {
+  public validate(fields?: string[]) {
     const producerValidate = ProducerValidatorFactory.create();
     return producerValidate.validate(this.notification, this, fields);
+  }
+
+  public changeName(name:string) {
+    this.name = name
+    this.validate(['name'])
+  }
+
+  public changeEmail(email:string) {
+    this.email = email
+    this.validate(['email'])
+  }
+
+  public changePassword(password:string) {
+    const [passwordValid, errorPassword] = Password.create(password).asArray()
+    this.notification.addError(errorPassword.message, 'password')
+    this.password = passwordValid
+  }
+
+  public changePasswordHashed(hashedPassword: string) {
+    this.password = hashedPassword as any;
+  }
+
+  public activate() {
+    this.isActive = true
+  }
+
+  public deactive() {
+    this.isActive = false
+  }
+
+  public changeProfilePicture(profilePicture: ProfilePicture) {
+    this.profilePicture = profilePicture
+  }
+
+  public getPassword():Password {
+    return this.password
+  }
+
+  public getName(): string {
+    return this.name
+  }
+
+  public getEmail(): string {
+    return this.email
+  }
+
+  public getIsActive(): boolean {
+    return this.isActive
+  }
+
+  public getCreatedAt(): Date {
+    return this.createdAt
+  }
+  public getUpdatedAt(): Date {
+    return this.updatedAt
+  }
+  public getDeletedAt(): Date | null {
+    return this.deletedAt
+  }
+
+  public getProfilePicture():ProfilePicture {
+    return this.profilePicture
   }
 
   toJSON() {

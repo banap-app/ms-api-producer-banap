@@ -8,9 +8,10 @@ export class PropertyRules {
     Object.assign(this, entity);
   }
 
-  @MaxLength(255, {
-    groups: ["name"],
-  })
+  @IsNotEmpty()
+  producerId: string;
+
+  @MaxLength(255)
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -18,7 +19,7 @@ export class PropertyRules {
 
 export class PropertyValidator extends ClassValidatorRules {
   validate(notification: Notification, data: any, fields?: string[]): boolean {
-    const newFields = fields ? fields : ["name"];
+    const newFields = fields ? fields : ["producerId", "name"];
     return super.validate(notification, new PropertyRules(data), newFields);
   }
 }

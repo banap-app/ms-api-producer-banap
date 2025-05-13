@@ -8,12 +8,16 @@ export class PropertyRules {
     Object.assign(this, entity);
   }
 
-  @IsNotEmpty()
+  @IsNotEmpty({
+    groups: ["producerId"],
+  })
   producerId: string;
 
   @MaxLength(255)
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({
+    groups: ["name"],
+  })
   name: string;
 }
 

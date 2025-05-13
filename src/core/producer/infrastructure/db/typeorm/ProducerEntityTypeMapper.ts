@@ -31,7 +31,7 @@ export class ProducerEntityTypeMapper {
             }) : undefined
         })
 
-        producer.validate(['name'])
+        producer.validate()
         
         if(producer.notification.hasErrors()) {
             throw new Error(producer.notification.toJSON())

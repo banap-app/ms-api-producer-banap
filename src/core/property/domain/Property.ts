@@ -48,7 +48,7 @@ export class Property extends Entity {
     return property;
   }
 
-  private validate(fields: string[]) {
+  public validate(fields: string[]) {
     const propertyValidate = PropertyValidatorFactory.create();
     return propertyValidate.validate(this.notification, this, fields);
   }
@@ -66,6 +66,30 @@ export class Property extends Entity {
   public deactivate() {
     this.isActive = false;
     this.deletedAt = new Date();
+  }
+
+  public getProducerId() {
+    return this.producerId;
+  }
+
+  public getName() {
+    return this.name;
+  }
+
+  public getIsActive() {
+    return this.isActive;
+  }
+
+  public getCreatedAt() {
+    return this.createdAt;
+  }
+
+  public getUpdatedAt() {
+    return this.updatedAt;
+  }
+
+  public getDeletedAt() {
+    return this.deletedAt;
   }
 
   get getId() {

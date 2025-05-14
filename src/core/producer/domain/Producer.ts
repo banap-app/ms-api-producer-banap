@@ -9,7 +9,7 @@ export type ProducerConstructorProps = {
   producerId?: ProducerId;
   name: string;
   email: string;
-  password: string;
+  password: Password;
   profilePicture?: ProfilePicture | null;
   isActive: boolean;
   createdAt?: Date;
@@ -43,7 +43,7 @@ export class Producer extends Entity {
     this.producerId = props.producerId ?? new ProducerId()
     this.name = props.name;
     this.email = props.email;
-    this.password = props.password ? new Password(props.password) : null;
+    this.password = props.password as Password;
     this.profilePicture = props.profilePicture;
     this.isActive = props.isActive;
     this.createdAt = props.createdAt ? props.createdAt : new Date();
@@ -52,10 +52,20 @@ export class Producer extends Entity {
   }
 
   static create(props: ProducerCreateCommand) {
-    const producer = new Producer(props);
-    producer.validate([]);
-    return producer;
+  const [passwordValid, errorPassword] = Password.create(props.password).asArray();
+
+  const producer = new Producer({
+    ...props,
+    password: passwordValid
+  });
+
+  if (errorPassword) {
+    producer.notification.addError(errorPassword.message, 'password');
   }
+
+  producer.validate([]);
+  return producer;
+}
 
   public validate(fields?: string[]) {
     const producerValidate = ProducerValidatorFactory.create();
@@ -83,11 +93,15 @@ export class Producer extends Entity {
   }
 
   public activate() {
+    if(this.deletedAt !== null || this.deletedAt !== undefined) {
+      this.deletedAt = null
+    } 
     this.isActive = true
   }
 
   public deactive() {
     this.isActive = false
+    this.deletedAt = new Date()
   }
 
   public changeProfilePicture(profilePicture: ProfilePicture) {

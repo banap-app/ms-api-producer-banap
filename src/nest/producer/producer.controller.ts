@@ -6,6 +6,8 @@ import { ProfilePicture } from 'src/core/producer/domain/ProfilePictureVo';
 import { CreateProducerUseCase } from 'src/core/producer/application/use-cases/create-producer/CreateProducerUseCase';
 import { UpdateProducerUseCase } from 'src/core/producer/application/use-cases/update-producer/UpdateProducerUseCase';
 import { UpdateProducerCommand } from 'src/core/producer/application/use-cases/update-producer/UpdateProducerCommand';
+import { DeleteProducerCommand } from 'src/core/producer/application/use-cases/delete-producer/DeleteProducerCommand';
+import { DeleteProducerUseCase } from 'src/core/producer/application/use-cases/delete-producer/DeleteProducerUseCase';
 
 @Controller('producer')
 export class ProducerController {
@@ -13,7 +15,9 @@ export class ProducerController {
     @Inject(CreateProducerUseCase)
     private readonly createProducerUseCase: CreateProducerUseCase,
     @Inject(UpdateProducerUseCase)
-    private readonly updateProducerUseCase: UpdateProducerUseCase
+    private readonly updateProducerUseCase: UpdateProducerUseCase,
+    @Inject(DeleteProducerUseCase)
+    private readonly deleteProducerUseCase: DeleteProducerUseCase
   ) {}
 
   @Post()
@@ -93,6 +97,7 @@ export class ProducerController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return
+    const command = new DeleteProducerCommand(id)
+    this.deleteProducerUseCase.execute(command)
   }
 }

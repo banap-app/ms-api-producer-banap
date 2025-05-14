@@ -1,3 +1,4 @@
+import { Password } from "src/core/producer/domain/PasswordVo";
 import { Producer, ProducerId } from "../../../domain/Producer";
 import { ProfilePicture } from "../../../domain/ProfilePictureVo";
 import { ProducerEntity } from "./ProducerEntity";
@@ -17,14 +18,14 @@ export class ProducerEntityTypeMapper {
         })
     }
 
-    static toDomain(producerEntity:ProducerEntity):Producer {
+    static toDomain(producerEntity:ProducerEntity, options:{needPasswords: boolean} = {needPasswords:false}):Producer {
         
         const producer = new Producer({
             producerId: new ProducerId(producerEntity.producer_id),
             name: producerEntity.name,
             email: producerEntity.email,
             isActive: producerEntity.isActive,
-            password: null,
+            password: options.needPasswords == true && producerEntity.password ? Password.hashPassword(producerEntity.password) : null,
             profilePicture: producerEntity.profilePicture ?  new ProfilePicture({
                 name: producerEntity.profilePicture.name,
                 location: producerEntity.profilePicture.location

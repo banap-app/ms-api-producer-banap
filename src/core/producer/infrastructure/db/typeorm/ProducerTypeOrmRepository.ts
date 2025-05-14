@@ -28,8 +28,8 @@ export class ProducerTypeOrmRepository implements ProducerRepository {
     bulkUpdate(entities: Producer[]): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    delete(entity_id: ProducerId): Promise<void> {
-        throw new Error("Method not implemented.");
+    async delete(entity_id: ProducerId): Promise<void> {
+        await this.ormRepository.delete({producer_id: entity_id.id})
     }
     bulkDelete(entities_ids: ProducerId[]): Promise<void> {
         throw new Error("Method not implemented.");
@@ -37,8 +37,9 @@ export class ProducerTypeOrmRepository implements ProducerRepository {
     findAll(): Promise<Producer[]> {
         throw new Error("Method not implemented.");
     }
-    findById(entity_id: ProducerId): Promise<Producer> {
-        throw new Error("Method not implemented.");
+    async findById(entity_id: ProducerId): Promise<Producer> {
+        const producer = await this.ormRepository.findOneBy({producer_id: entity_id.id})
+        return ProducerEntityTypeMapper.toDomain(producer, {needPasswords: true})
     }
     
 }

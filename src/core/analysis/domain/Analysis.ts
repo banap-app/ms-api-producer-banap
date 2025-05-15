@@ -93,23 +93,23 @@ export class Analysis extends Entity {
 
     }
 
-    get getId(): ValueObject {
-        throw new Error("Method not implemented.");
+    get getId(): AnalysisId {
+        return this.analysisId
     }
 
     toJSON() {
         return {
-            analysisId: this.analysisId,
-            fieldId: this.fieldId,
-            desiredBaseSaturation: this.desiredBaseSaturation,
-            currentBaseSaturation: this.currentBaseSaturation,
-            totalCationExchangeCapacity: this.totalCationExchangeCapacity,
-            relativeTotalNeutralizingPower: this.relativeTotalNeutralizingPower,
-            liming: this.liming,
-            phosphor: this.phosphor,
-            potassium: this.potassium,
-            expectedProductivity: this.expectedProductivity,
-            nitrogen: this.nitrogen,
+            analysisId: this.analysisId.id,
+            fieldId: this.fieldId.id,
+            desiredBaseSaturation: this.desiredBaseSaturation.getValue,
+            currentBaseSaturation: this.currentBaseSaturation.getValue,
+            totalCationExchangeCapacity: this.totalCationExchangeCapacity.getValue,
+            relativeTotalNeutralizingPower: this.relativeTotalNeutralizingPower.getValue,
+            liming: this.liming.getValue,
+            phosphor: this.phosphor.getValue,
+            potassium: this.potassium.getValue,
+            expectedProductivity: this.expectedProductivity.getValue,
+            nitrogen: this.nitrogen.getValue,
             isActive: this.isActive,
             createdAt: this.createdAt,
             updatedAt: this.updatedAt,

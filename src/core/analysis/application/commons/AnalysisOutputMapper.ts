@@ -1,12 +1,12 @@
 import { Analysis } from "../../domain/Analysis";
-import {ExpectedProductivity, Liming, Nitrogen, Phosphor, Potassium, RelativeTotalNeutralizingPower, TotalCationExchangeCapacity, } from '../../domain/indexVo'
+import {CurrentBaseSaturation, DesiredBaseSaturation, ExpectedProductivity, Liming, Nitrogen, Phosphor, Potassium, RelativeTotalNeutralizingPower, TotalCationExchangeCapacity, } from '../../domain/indexVo'
 
 export class AnalysisOutputMapper {
     static toOutput(entity: Analysis) {
         const { analysisId,fieldId, ...props } = entity.toJSON()
         return {
-            analysisId: analysisId.id,
-            fieldId: fieldId.id,
+            id: analysisId,
+            fieldId: fieldId
             ...props
         }
     }
@@ -18,13 +18,13 @@ export type AnalysisOutput = {
     fieldId: string
     desiredBaseSaturation: number
     currentBaseSaturation: number
-   totalCationExchangeCapacity: TotalCationExchangeCapacity
-    relativeTotalNeutralizingPower: RelativeTotalNeutralizingPower
-    liming: Liming
-    phosphor: Phosphor
-    potassium: Potassium
-    expectedProductivity: ExpectedProductivity
-    nitrogen: Nitrogen
+   totalCationExchangeCapacity: number
+    relativeTotalNeutralizingPower: number
+    liming: number
+    phosphor: number
+    potassium: number
+    expectedProductivity: number
+    nitrogen: number
     isActive: boolean
     createdAt: Date
     updatedAt: Date

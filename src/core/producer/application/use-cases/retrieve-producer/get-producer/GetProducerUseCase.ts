@@ -16,8 +16,12 @@ export class GetProducerUseCase implements UseCase<GetProducerCommand, GetProduc
         if(!producer) {
             throw new Error("Not found a Producer")
         }
+        
         producer.validate()
 
+        if(!producer.getIsActive()) {
+            throw new Error("Not found a Producer")
+        }
         if(producer.notification.hasErrors()) {
             throw new EntityValidationError(producer.notification.toJSON())
         }

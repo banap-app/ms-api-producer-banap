@@ -8,6 +8,8 @@ import { UpdateProducerUseCase } from 'src/core/producer/application/use-cases/u
 import { UpdateProducerCommand } from 'src/core/producer/application/use-cases/update-producer/UpdateProducerCommand';
 import { DeleteProducerCommand } from 'src/core/producer/application/use-cases/delete-producer/DeleteProducerCommand';
 import { DeleteProducerUseCase } from 'src/core/producer/application/use-cases/delete-producer/DeleteProducerUseCase';
+import { GetProducerUseCase } from 'src/core/producer/application/use-cases/retrieve-producer/get-producer/GetProducerUseCase';
+import { SwaggerCreateProducer } from './producer.controller.interface';
 
 @Controller('producer')
 export class ProducerController {
@@ -17,9 +19,13 @@ export class ProducerController {
     @Inject(UpdateProducerUseCase)
     private readonly updateProducerUseCase: UpdateProducerUseCase,
     @Inject(DeleteProducerUseCase)
-    private readonly deleteProducerUseCase: DeleteProducerUseCase
+    private readonly deleteProducerUseCase: DeleteProducerUseCase,
+    @Inject(GetProducerUseCase)
+    private readonly getProducerUseCase: GetProducerUseCase
   ) {}
 
+  
+  @SwaggerCreateProducer()
   @Post()
   create(@Body() createProducerDto: CreateProducerDto) {
    let profilePicture;
@@ -59,7 +65,7 @@ export class ProducerController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return
+    return this.getProducerUseCase.execute({producerId: id})
   }
 
   @Patch()

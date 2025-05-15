@@ -8,6 +8,7 @@ import { CreateProducerUseCase } from 'src/core/producer/application/use-cases/c
 import { BcryptService } from 'src/core/producer/infrastructure/services/BcryptService';
 import { UpdateProducerUseCase } from 'src/core/producer/application/use-cases/update-producer/UpdateProducerUseCase';
 import { DeleteProducerUseCase } from 'src/core/producer/application/use-cases/delete-producer/DeleteProducerUseCase';
+import { GetProducerUseCase } from 'src/core/producer/application/use-cases/retrieve-producer/get-producer/GetProducerUseCase';
 
 @Module({
   imports: [
@@ -45,6 +46,13 @@ import { DeleteProducerUseCase } from 'src/core/producer/application/use-cases/d
         repo: ProducerTypeOrmRepository,
         crypt: BcryptService
       ) => new DeleteProducerUseCase(repo,crypt),
+      inject: [ProducerTypeOrmRepository]
+    },
+    {
+      provide: GetProducerUseCase,
+      useFactory: (
+        repo: ProducerTypeOrmRepository
+      ) => new GetProducerUseCase(repo),
       inject: [ProducerTypeOrmRepository]
     }
   ],

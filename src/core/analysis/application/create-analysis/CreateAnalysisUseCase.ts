@@ -21,7 +21,10 @@ export class CreateAnalysisUseCase implements UseCase<CreateAnalysisCommand, Cre
         if(existsAnalysis) {
             throw new Error("Exists an Analysis")
         }
+        
+        if(aCommand.typeAnalysis == 'npk' && anAnalysis){
 
+        }
         await this.analysisRepository.insert(anAnalysis)
 
         return AnalysisOutputMapper.toOutput(anAnalysis)

@@ -27,6 +27,7 @@ export class CreateAnalysisCommand {
     public expectedProductivity?: ExpectedProductivity
     public nitrogen?: Nitrogen
     public isActive: boolean
+    public typeAnalysis: 'npk' | 'liming'
 
     constructor(props: CreateAnalysisCommandProps) {
         if (!props) return

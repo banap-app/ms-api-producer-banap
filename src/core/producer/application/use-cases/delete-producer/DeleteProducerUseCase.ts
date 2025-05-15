@@ -21,9 +21,7 @@ export class DeleteProducerUseCase
     if (!producer) {
       throw new Error('Producer dont exists');
     }
-    console.log(producer)
     producer.deactive();
-    producer.changePasswordHashed(producer.getPassword().getValue)
     await this.producerRepository.update(producer);
     return;
   }

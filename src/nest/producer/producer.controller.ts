@@ -9,7 +9,7 @@ import { UpdateProducerCommand } from 'src/core/producer/application/use-cases/u
 import { DeleteProducerCommand } from 'src/core/producer/application/use-cases/delete-producer/DeleteProducerCommand';
 import { DeleteProducerUseCase } from 'src/core/producer/application/use-cases/delete-producer/DeleteProducerUseCase';
 import { GetProducerUseCase } from 'src/core/producer/application/use-cases/retrieve-producer/get-producer/GetProducerUseCase';
-import { GetProducerCommand } from '../../core/producer/application/use-cases/retrieve-producer/get-producer/GetProducerUseCase';
+import { SwaggerCreateProducer } from './producer.controller.interface';
 
 @Controller('producer')
 export class ProducerController {
@@ -24,6 +24,8 @@ export class ProducerController {
     private readonly getProducerUseCase: GetProducerUseCase
   ) {}
 
+  
+  @SwaggerCreateProducer()
   @Post()
   create(@Body() createProducerDto: CreateProducerDto) {
    let profilePicture;

@@ -1,14 +1,6 @@
 import { FieldId } from "src/core/field/domain/Field";
 import { AnalysisValidatorFactory } from "./AnalysisValidator";
-import { CurrentBaseSaturation } from "./CurrentBaseSaturationVo";
-import { DesiredBaseSaturation } from "./DesiredBaseSaturationVo";
-import { ExpectedProductivity } from "./ExpectedProductivityVo";
-import { Liming } from "./LimingVo";
-import { Nitrogen } from "./NitrogenVo";
-import { Phosphor } from "./PhosporVo";
-import { Potassium } from "./PotassiumVo";
-import { RelativeTotalNeutralizingPower } from "./RelativeTotalNeutralizingPowerVo";
-import { TotalCationExchangeCapacity } from "./TotalCationExchangeCapacityVo";
+import {ExpectedProductivity, Liming, Nitrogen, Phosphor, Potassium, RelativeTotalNeutralizingPower, TotalCationExchangeCapacity, DesiredBaseSaturation, CurrentBaseSaturation} from './indexVo'
 import { Uuid } from "src/core/shared/domain/value-objects/UuidVo";
 import { Entity } from "src/core/shared/domain/Entity";
 import { ValueObject } from "src/core/shared/domain/ValueObject";

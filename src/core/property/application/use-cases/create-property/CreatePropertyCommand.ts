@@ -11,7 +11,7 @@ export class CreatePropertyCommand {
 
   constructor(props: CreatePropertyCommandProps) {
     if (!props) return;
-    this.producerId = this.producerId;
+    this.producerId = props.producerId;
     this.name = props.name;
     this.isActive = props.isActive;
   }

@@ -7,9 +7,10 @@ import { Repository } from 'typeorm';
 import { CreatePropertyUseCase } from 'src/core/property/application/use-cases/create-property/CreatePropertyUseCase';
 import { ProducerTypeOrmRepository } from 'src/core/producer/infrastructure/db/typeorm/ProducerTypeOrmRepository';
 import { ProducerEntity } from 'src/core/producer/infrastructure/db/typeorm/ProducerEntity';
+import { ProducerModule } from '../producer/producer.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PropertyEntity])],
+  imports: [TypeOrmModule.forFeature([PropertyEntity]), ProducerModule],
   controllers: [PropertyController],
   providers: [
     {
@@ -25,7 +26,7 @@ import { ProducerEntity } from 'src/core/producer/infrastructure/db/typeorm/Prod
         propertyRepo: PropertyTypeOrmRepository,
         producerRepo: ProducerTypeOrmRepository,
       ) => new CreatePropertyUseCase(propertyRepo, producerRepo),
-      inject: [PropertyTypeOrmRepository],
+      inject: [PropertyTypeOrmRepository, ProducerTypeOrmRepository],
     },
   ],
 })

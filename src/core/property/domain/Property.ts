@@ -37,6 +37,7 @@ export class Property extends Entity {
       : new PropertyId();
     this.producerId = new ProducerId(props.producerId);
     this.name = props.name;
+    this.isActive = props.isActive;
     this.createdAt = props.createdAt ? props.createdAt : new Date();
     this.updatedAt = props.updatedAt ? props.updatedAt : new Date();
     this.deletedAt = props.deletedAt ? props.deletedAt : null;
@@ -101,6 +102,7 @@ export class Property extends Entity {
       propertyId: this.propertyId.id,
       producerId: this.producerId,
       name: this.name,
+      isActive: this.isActive,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       deletedAt: this.deletedAt,

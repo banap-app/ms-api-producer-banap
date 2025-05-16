@@ -1,12 +1,9 @@
-import { ProducerId } from 'src/core/producer/domain/Producer';
 import { ProducerEntity } from 'src/core/producer/infrastructure/db/typeorm/ProducerEntity';
 import {
   Column,
-  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -41,7 +38,7 @@ export class PropertyEntity {
   @Column({ type: 'timestamp', name: 'updated_at' })
   updatedAt: Date;
 
-  @Column({ type: 'timestamp', name: 'deleted_at' })
+  @Column({ type: 'timestamp', name: 'deleted_at', nullable: true })
   deletedAt: Date;
 
   static fromDomain(props: PropertyConstructorProps): PropertyEntity {

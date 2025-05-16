@@ -50,5 +50,6 @@ import { GetProducerUseCase } from 'src/core/producer/application/use-cases/retr
       inject: [ProducerTypeOrmRepository],
     },
   ],
+  exports: [ProducerTypeOrmRepository],
 })
 export class ProducerModule {}

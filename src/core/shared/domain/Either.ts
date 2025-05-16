@@ -88,7 +88,7 @@ export class Either<Ok = unknown, ErrorType = Error>
   ): Either<NewOk, NewError> {
     if (this.isOk()) {
       if (!Array.isArray(this.ok)) {
-        throw new Error("Method chainEach only works with arrays");
+        throw new Error('Method chainEach only works with arrays');
       }
       const result = this.ok.map((o) => {
         return fn(o);

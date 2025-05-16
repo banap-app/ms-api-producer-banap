@@ -1,8 +1,7 @@
-import { Password } from "../../producer/domain/PasswordVo";
-import { ProducerId } from "../../producer/domain/Producer";
-import { Entity } from "../../shared/domain/Entity";
-import { Uuid } from "../../shared/domain/value-objects/UuidVo";
-import { PropertyValidatorFactory } from "./PropertyValidator";
+import { ProducerId } from '../../producer/domain/Producer';
+import { Entity } from '../../shared/domain/Entity';
+import { Uuid } from '../../shared/domain/value-objects/UuidVo';
+import { PropertyValidatorFactory } from './PropertyValidator';
 
 export type PropertyConstructorProps = {
   propertyId?: string;
@@ -38,6 +37,7 @@ export class Property extends Entity {
       : new PropertyId();
     this.producerId = new ProducerId(props.producerId);
     this.name = props.name;
+    this.isActive = props.isActive;
     this.createdAt = props.createdAt ? props.createdAt : new Date();
     this.updatedAt = props.updatedAt ? props.updatedAt : new Date();
     this.deletedAt = props.deletedAt ? props.deletedAt : null;
@@ -49,14 +49,14 @@ export class Property extends Entity {
     return property;
   }
 
-  private validate(fields: string[]) {
+  public validate(fields: string[]) {
     const propertyValidate = PropertyValidatorFactory.create();
     return propertyValidate.validate(this.notification, this, fields);
   }
 
   public changeName(name: string) {
     this.name = name;
-    this.validate(["name"]);
+    this.validate(['name']);
   }
 
   public activate() {
@@ -69,15 +69,40 @@ export class Property extends Entity {
     this.deletedAt = new Date();
   }
 
+  public getProducerId() {
+    return this.producerId;
+  }
+
+  public getName() {
+    return this.name;
+  }
+
+  public getIsActive() {
+    return this.isActive;
+  }
+
+  public getCreatedAt() {
+    return this.createdAt;
+  }
+
+  public getUpdatedAt() {
+    return this.updatedAt;
+  }
+
+  public getDeletedAt() {
+    return this.deletedAt;
+  }
+
   get getId() {
     return this.propertyId;
   }
 
   toJSON() {
     return {
-      propertyId: this.propertyId,
+      propertyId: this.propertyId.id,
       producerId: this.producerId,
       name: this.name,
+      isActive: this.isActive,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       deletedAt: this.deletedAt,

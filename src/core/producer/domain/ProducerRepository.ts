@@ -1,6 +1,6 @@
-import { IRepository } from "../../shared/domain/repository/IRepository";
-import { Producer, ProducerId } from "./Producer";
+import { IRepository } from '../../shared/domain/repository/IRepository';
+import { Producer, ProducerId } from './Producer';
 
 export interface ProducerRepository extends IRepository<Producer, ProducerId> {
-    findByEmail(email:string): Promise<Producer>
+  findByEmail(email: string): Promise<Producer>;
 }

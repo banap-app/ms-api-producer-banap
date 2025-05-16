@@ -6,7 +6,7 @@ export class AnalysisOutputMapper {
         const { analysisId,fieldId, ...props } = entity.toJSON()
         return {
             id: analysisId,
-            fieldId: fieldId
+            fieldId: fieldId,
             ...props
         }
     }

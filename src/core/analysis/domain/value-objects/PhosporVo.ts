@@ -1,4 +1,4 @@
-import { MacroNutrientError } from "./errors/MacroNutrientError";
+import { MacroNutrientError } from "../errors/MacroNutrientError";
 import { ValueObject } from "src/core/shared/domain/ValueObject";
 
 export class Phosphor extends ValueObject{

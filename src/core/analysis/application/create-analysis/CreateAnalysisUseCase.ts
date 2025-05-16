@@ -23,7 +23,11 @@ export class CreateAnalysisUseCase implements UseCase<CreateAnalysisCommand, Cre
         }
         
         if(aCommand.typeAnalysis == 'npk' && anAnalysis){
-
+            anAnalysis.calculateNpk()
+            anAnalysis.validate()
+            if(anAnalysis.notification.hasErrors()) {
+                throw new Error(anAnalysis.notification.toJSON())
+            }
         }
         await this.analysisRepository.insert(anAnalysis)
 

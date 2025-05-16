@@ -1,5 +1,5 @@
 import { ValueObject } from "src/core/shared/domain/ValueObject";
-import { MacroNutrientError } from "./errors/MacroNutrientError";
+import { MacroNutrientError } from "../errors/MacroNutrientError";
 
 export class TotalCationExchangeCapacity extends ValueObject{
     constructor(private readonly totalCationExchangeCapacity: number) {

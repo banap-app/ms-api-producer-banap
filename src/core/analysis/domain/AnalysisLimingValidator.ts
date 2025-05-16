@@ -1,7 +1,7 @@
 import {  IsNotEmpty, IsNumber, IsOptional } from "class-validator";
 import { AnalysisId } from "./Analysis";
-import { ClassValidatorRules } from "src/core/shared/domain/validators/ClassValidatorRules";
-import { Notification } from "src/core/shared/domain/validators/Notification";
+import { ClassValidatorRules } from "../../shared/domain/validators/ClassValidatorRules";
+import { Notification } from "../../shared/domain/validators/Notification";
 import { AnalysisLiming } from "./AnalysisLiming";
 import { CurrentBaseSaturation, DesiredBaseSaturation, RelativeTotalNeutralizingPower, TotalCationExchangeCapacity } from "./value-objects/indexVo";
 
@@ -25,7 +25,7 @@ export class AnalysisLimingRules {
     relativeTotalNeutralizingPower: RelativeTotalNeutralizingPower
 
     constructor(entity: AnalysisLiming) {
-        this.analysisLimingId = entity['analysisLimingId'].toString()
+        this.analysisLimingId = entity['analysisLimingId'].id
         
         this.analysisId = entity['analysisId']
        
@@ -42,7 +42,7 @@ export class AnalysisLimingRules {
 export class AnalysisLimingValidator extends ClassValidatorRules {
     validate(notification: Notification, data: any, fields?: string[]): boolean {
 
-        const newFields = fields ? fields : ['analysisId', 'analysisLimingId', 'relativeTotalNeutralizingPower', 'totalCationExchangeCapacity', 'desiredBaseSaturation', 'currentBaseSaturation']
+        const newFields = fields ? fields : [ 'analysisLimingId', 'relativeTotalNeutralizingPower', 'totalCationExchangeCapacity', 'desiredBaseSaturation', 'currentBaseSaturation']
 
         return super.validate(notification, new AnalysisLimingRules(data), newFields)
     }

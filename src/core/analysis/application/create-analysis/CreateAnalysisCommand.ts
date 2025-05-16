@@ -1,33 +1,17 @@
 import { FieldId } from "src/core/field/domain/Field"
-import { CurrentBaseSaturation, DesiredBaseSaturation, ExpectedProductivity, Liming, Nitrogen, Phosphor, Potassium, RelativeTotalNeutralizingPower, TotalCationExchangeCapacity } from '../../domain/indexVo'
+import { AnalysisNpk } from "../../domain/AnalysisNpk"
+import { AnalysisLiming } from "../../domain/AnalysisLiming"
 
 type CreateAnalysisCommandProps = {
-    fieldId?: FieldId
-    desiredBaseSaturation?: DesiredBaseSaturation
-    currentBaseSaturation?: CurrentBaseSaturation
-    totalCationExchangeCapacity?: TotalCationExchangeCapacity
-    relativeTotalNeutralizingPower?: RelativeTotalNeutralizingPower
-    liming?: Liming
-    phosphor?: Phosphor
-    potassium?: Potassium
-    expectedProductivity?: ExpectedProductivity
-    nitrogen?: Nitrogen
+    fieldId: FieldId
     isActive: boolean
+    typeAnalysis:  AnalysisNpk | AnalysisLiming
 }
 
 export class CreateAnalysisCommand {
-    public fieldId?: FieldId
-    public desiredBaseSaturation?: DesiredBaseSaturation
-    public currentBaseSaturation?: CurrentBaseSaturation
-    public totalCationExchangeCapacity?: TotalCationExchangeCapacity
-    public relativeTotalNeutralizingPower?: RelativeTotalNeutralizingPower
-    public liming?: Liming
-    public phosphor?: Phosphor
-    public potassium?: Potassium
-    public expectedProductivity?: ExpectedProductivity
-    public nitrogen?: Nitrogen
+    public fieldId: FieldId
     public isActive: boolean
-    public typeAnalysis: 'npk' | 'liming'
+    public typeAnalysis:  AnalysisNpk | AnalysisLiming
 
     constructor(props: CreateAnalysisCommandProps) {
         if (!props) return

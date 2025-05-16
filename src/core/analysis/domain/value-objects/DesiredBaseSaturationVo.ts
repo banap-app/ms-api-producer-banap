@@ -1,4 +1,4 @@
-import { ValueObject } from "src/core/shared/domain/ValueObject";
+import { ValueObject } from "../../../shared/domain/ValueObject";
 import { MacroNutrientError } from "../errors/MacroNutrientError";
 
 export class DesiredBaseSaturation extends ValueObject{

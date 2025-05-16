@@ -1,17 +1,35 @@
-import { IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsNotEmptyObject, IsNumber, IsOptional } from 'class-validator';
 import { AnalysisId } from './Analysis';
-import { ClassValidatorRules } from 'src/core/shared/domain/validators/ClassValidatorRules';
-import { Notification } from 'src/core/shared/domain/validators/Notification';
+import { ClassValidatorRules } from '../../shared/domain/validators/ClassValidatorRules';
+import { Notification } from '../../shared/domain/validators/Notification';
 import { AnalysisNpk } from './AnalysisNpk';
+import { ExpectedProductivity, Nitrogen, Phosphor, Potassium } from './value-objects/indexVo'
 
 export class AnalysisNpkRules {
 
   @IsNotEmpty({ groups: ['analysisId'] })
   analysisId: AnalysisId;
 
-  constructor(entity: AnalysisNpk) {
-    this.analysisId = entity['analysisId'];
-  }
+  @IsNotEmpty({ groups: ['phosphor'] })
+  phosphor: Phosphor
+
+  @IsNotEmpty({ groups: ['potassium'] })
+  @IsNotEmptyObject()
+  potassium: Potassium
+
+  @IsNotEmpty({ groups: ['expectedProductivity'] })
+  expectedProductivity: ExpectedProductivity
+
+  @IsNotEmpty({ groups: ['nitrogen'] })
+  nitrogen: Nitrogen
+
+    constructor(entity: AnalysisNpk) {
+      this.analysisId = entity['analysisId'];
+      this.phosphor = entity['phosphor']
+      this.potassium = entity['potassium']
+      this.expectedProductivity = entity['expectedProductivity']
+      this.nitrogen = entity['nitrogen']
+    }
 }
 
 export class AnalysisNpkValidator extends ClassValidatorRules {
@@ -19,8 +37,11 @@ export class AnalysisNpkValidator extends ClassValidatorRules {
     const newFields = fields
       ? fields
       : [
-          'analysisId'
-        ];
+        'phosphor',
+        'potassium',
+        'nitrogen',
+        'expectedProductivity'
+      ];
 
     return super.validate(
       notification,

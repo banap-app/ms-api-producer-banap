@@ -1,5 +1,6 @@
 import { Analysis } from "../../domain/Analysis";
-import {CurrentBaseSaturation, DesiredBaseSaturation, ExpectedProductivity, Liming, Nitrogen, Phosphor, Potassium, RelativeTotalNeutralizingPower, TotalCationExchangeCapacity, } from '../../domain/indexVo'
+import { AnalysisLiming } from "../../domain/AnalysisLiming";
+import { AnalysisNpk } from "../../domain/AnalysisNpk";
 
 export class AnalysisOutputMapper {
     static toOutput(entity: Analysis) {
@@ -16,15 +17,7 @@ export class AnalysisOutputMapper {
 export type AnalysisOutput = {
     id: string
     fieldId: string
-    desiredBaseSaturation: number
-    currentBaseSaturation: number
-   totalCationExchangeCapacity: number
-    relativeTotalNeutralizingPower: number
-    liming: number
-    phosphor: number
-    potassium: number
-    expectedProductivity: number
-    nitrogen: number
+    typeAnalysis: AnalysisLiming | AnalysisNpk
     isActive: boolean
     createdAt: Date
     updatedAt: Date

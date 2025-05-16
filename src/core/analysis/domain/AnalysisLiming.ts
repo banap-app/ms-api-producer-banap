@@ -1,20 +1,18 @@
-import { Entity } from 'src/core/shared/domain/Entity';
-import { ValueObject } from 'src/core/shared/domain/ValueObject';
+import { Entity } from '../../shared/domain/Entity';
 import {
   CurrentBaseSaturation,
   DesiredBaseSaturation,
-  ExpectedProductivity,
   Liming,
   RelativeTotalNeutralizingPower,
   TotalCationExchangeCapacity,
 } from './value-objects/indexVo';
 import { AnalysisId } from './Analysis';
-import { Uuid } from 'src/core/shared/domain/value-objects/UuidVo';
+import { Uuid } from '../../shared/domain/value-objects/UuidVo';
 import { AnalysisLimingValidatorFactory } from './AnalysisLimingValidator';
 
 export type AnalysisLimingConstructorProps = {
   analysisLimingId?: AnalysisLimingId;
-  analysisId: AnalysisId;
+  analysisId?: AnalysisId;
   desiredBaseSaturation?: DesiredBaseSaturation;
   currentBaseSaturation?: CurrentBaseSaturation;
   totalCationExchangeCapacity?: TotalCationExchangeCapacity;
@@ -22,7 +20,7 @@ export type AnalysisLimingConstructorProps = {
 };
 
 export type AnalysisLimingCreateProps = {
-  analysisId: AnalysisId;
+  analysisId?: AnalysisId;
   desiredBaseSaturation: DesiredBaseSaturation;
   currentBaseSaturation: CurrentBaseSaturation;
   totalCationExchangeCapacity: TotalCationExchangeCapacity;
@@ -33,7 +31,7 @@ export class AnalysisLimingId extends Uuid {}
 
 export class AnalysisLiming extends Entity {
   private analysisLimingId: AnalysisLimingId;
-  private analysisId: AnalysisId;
+  private analysisId?: AnalysisId;
   private desiredBaseSaturation: DesiredBaseSaturation;
   private currentBaseSaturation: CurrentBaseSaturation;
   private totalCationExchangeCapacity: TotalCationExchangeCapacity;
@@ -43,9 +41,9 @@ export class AnalysisLiming extends Entity {
   constructor(props: AnalysisLimingConstructorProps) {
     super();
     this.analysisLimingId = props.analysisLimingId
-      ? props.analysisId
+      ? props.analysisLimingId
       : new AnalysisLimingId();
-    this.analysisId = new AnalysisId(props.analysisId.id);
+    this.analysisId =props.analysisId ? props.analysisId : new AnalysisId();
     this.currentBaseSaturation = props.currentBaseSaturation
     this.desiredBaseSaturation = props.desiredBaseSaturation
     this.totalCationExchangeCapacity = props.totalCationExchangeCapacity
@@ -63,8 +61,15 @@ export class AnalysisLiming extends Entity {
     return analysisLimingValidator.validate(this.notification, this, fields);
   }
 
-  public calculateLiming() {
+  public defineAnalysisParent(analysisId: AnalysisId): AnalysisLiming {
+    this.analysisId = analysisId
+    this.validate(['analysisId'])
     return this
+  }
+
+  public calculateLiming() {
+    this.liming = new Liming(23)
+    return 3
   }
 
   get getId(): AnalysisLimingId {

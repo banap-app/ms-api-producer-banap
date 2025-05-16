@@ -1,19 +1,13 @@
-import { Entity } from 'src/core/shared/domain/Entity';
-import { ValueObject } from 'src/core/shared/domain/ValueObject';
+import { Entity } from '../../shared/domain/Entity';
+import { ValueObject } from '../../shared/domain/ValueObject';
 import {
-  CurrentBaseSaturation,
-  DesiredBaseSaturation,
   ExpectedProductivity,
-  Liming,
   Nitrogen,
   Phosphor,
   Potassium,
-  RelativeTotalNeutralizingPower,
-  TotalCationExchangeCapacity,
 } from './value-objects/indexVo';
 import { AnalysisId } from './Analysis';
-import { Uuid } from 'src/core/shared/domain/value-objects/UuidVo';
-import { EntityValidationError } from 'src/core/shared/domain/validators/ValidationErrors';
+import { Uuid } from '../../shared/domain/value-objects/UuidVo';
 import { AnalysisNpkValidatorFactory } from './AnalysisNpkValidator';
 
 export type AnalysisConstructorProps = {
@@ -30,7 +24,6 @@ export type AnalysisNpkCreateProps = {
   phosphor?: Phosphor;
   potassium?: Potassium;
   expectedProductivity?: ExpectedProductivity;
-  nitrogen?: Nitrogen;
 };
 
 export class AnalysisNpkId extends Uuid {}
@@ -61,12 +54,22 @@ export class AnalysisNpk extends Entity {
     return analysisNpk;
   }
 
+  public defineAnalysisParent(analysisId: AnalysisId): AnalysisNpk {
+    this.analysisId = analysisId
+    this.validate(['analysisId'])
+    return this
+  }
+
   private validate(fields?: string[]) {
     const analysisNpkValidator = AnalysisNpkValidatorFactory.create();
     return analysisNpkValidator.validate(this.notification, this, fields);
   }
 
   public calculateNpk() {
+
+    if(this.notification.hasErrors()) {
+      return
+    }
 
     const expectedProductivity = this.expectedProductivity.getValue;
 

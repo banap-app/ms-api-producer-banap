@@ -1,5 +1,5 @@
 import { MacroNutrientError } from "../errors/MacroNutrientError";
-import { ValueObject } from "src/core/shared/domain/ValueObject";
+import { ValueObject } from "../../../shared/domain/ValueObject";
 
 export class ExpectedProductivity extends ValueObject{
     constructor(private readonly expectedProductivity: number) {

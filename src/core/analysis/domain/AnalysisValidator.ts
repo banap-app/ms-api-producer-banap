@@ -1,8 +1,8 @@
 import { IsBoolean, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
 import { Analysis } from "./Analysis";
-import { ClassValidatorRules } from "src/core/shared/domain/validators/ClassValidatorRules";
-import { Notification } from "src/core/shared/domain/validators/Notification";
-import { FieldId } from "src/core/field/domain/Field";
+import { ClassValidatorRules } from "../../shared/domain/validators/ClassValidatorRules";
+import { Notification } from "../../shared/domain/validators/Notification";
+import { FieldId } from "../../field/domain/Field";
 
 export class AnalysisRules {
     @IsNotEmpty({ groups: ['analysisId'] })

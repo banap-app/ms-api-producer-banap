@@ -1,20 +1,19 @@
-import { FieldId } from 'src/core/field/domain/Field';
-import { AnalysisValidatorFactory } from './AnalysisValidator';
-import { Uuid } from 'src/core/shared/domain/value-objects/UuidVo';
-import { Entity } from 'src/core/shared/domain/Entity';
-import { AnalysisLiming } from './AnalysisLiming';
-import { AnalysisNpk } from './AnalysisNpk';
-
+import { FieldId } from "../../field/domain/Field";
+import { AnalysisLiming } from "./AnalysisLiming";
+import { AnalysisNpk } from "./AnalysisNpk";
+import { Uuid } from "../../shared/domain/value-objects/UuidVo";
+import { AnalysisValidatorFactory } from "./AnalysisValidator";
+import { Entity } from "../../shared/domain/Entity";
 export type AnalysisCreateProps = {
   fieldId: FieldId;
   isActive: boolean;
-  typeAnalysis: AnalysisLiming | AnalysisNpk;
+  typeAnalysis?: AnalysisLiming | AnalysisNpk;
 };
 
 export type AnalysisConstructorProps = {
   analysisId?: AnalysisId;
   fieldId?: FieldId;
-  typeAnalysis: AnalysisLiming | AnalysisNpk;
+  typeAnalysis?: AnalysisLiming | AnalysisNpk;
   isActive: boolean;
   createdAt?: Date;
   updatedAt?: Date;
@@ -27,11 +26,11 @@ export class AnalysisId extends Uuid {}
 export class Analysis extends Entity {
   private analysisId: AnalysisId;
   private fieldId: FieldId;
-  private typeAnalysis: AnalysisLiming | AnalysisNpk;
+  private typeAnalysis?: AnalysisLiming | AnalysisNpk;
   private isActive: boolean;
   private createdAt: Date;
   private updatedAt: Date;
-  private deletedAt: Date | null;
+  private deletedAt?: Date | null;
 
   constructor(props: AnalysisConstructorProps) {
     super();
@@ -39,8 +38,8 @@ export class Analysis extends Entity {
     this.fieldId = props.fieldId ?? null;
     this.isActive = props.isActive;
     this.typeAnalysis = props.typeAnalysis;
-    this.createdAt = props.createdAt;
-    this.updatedAt = props.updatedAt;
+    this.createdAt = props.createdAt ?? new Date();
+    this.updatedAt = props.updatedAt ?? new Date();
     this.deletedAt = props.deletedAt;
   }
 
@@ -58,14 +57,21 @@ export class Analysis extends Entity {
     return analysisValidator.validate(this.notification, this, fields);
   }
 
+  public defineTypeOfAnalysis (typeAnalysis: AnalysisLiming | AnalysisNpk) {
+    this.typeAnalysis = typeAnalysis
+  }
+
   public calculate() {
+    if(this.typeAnalysis == null) {
+      this.notification.addError('Invalid Type Analysis', 'InvalidTypeAnalysis')
+    }
     if(this.typeAnalysis instanceof AnalysisLiming) {
-      this.typeAnalysis.notification.copyErrors(this.notification)
+      this.notification.copyErrors(this.typeAnalysis.notification)
       this.typeAnalysis.calculateLiming()
     }
 
     if(this.typeAnalysis instanceof AnalysisNpk) {
-      this.typeAnalysis.notification.copyErrors(this.notification)
+      this.notification.copyErrors(this.typeAnalysis.notification)
       this.typeAnalysis.calculateNpk()
     }
   }
@@ -79,6 +85,7 @@ export class Analysis extends Entity {
     return {
       analysisId: this.analysisId.id,
       fieldId: this.fieldId.id,
+      typeAnalysis:this.typeAnalysis,
       isActive: this.isActive,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
@@ -86,3 +93,5 @@ export class Analysis extends Entity {
     };
   }
 }
+
+

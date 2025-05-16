@@ -1,8 +1,8 @@
-import { UseCase } from "src/core/shared/application/IUseCase";
+import { UseCase } from "../../../shared/application/IUseCase";
 import { CreateAnalysisCommand } from "./CreateAnalysisCommand";
 import { AnalysisRepository } from "../../domain/AnalysisRepository";
-import { Analysis, AnalysisId } from "../../domain/Analysis";
-import { EntityValidationError } from "src/core/shared/domain/validators/ValidationErrors";
+import { Analysis } from "../../domain/Analysis";
+import { EntityValidationError } from "../../../shared/domain/validators/ValidationErrors";
 import { AnalysisOutput, AnalysisOutputMapper } from "../commons/AnalysisOutputMapper";
  
 export class CreateAnalysisUseCase implements UseCase<CreateAnalysisCommand, CreateAnalysisOutput> {
@@ -12,6 +12,9 @@ export class CreateAnalysisUseCase implements UseCase<CreateAnalysisCommand, Cre
     }
     async execute(aCommand: CreateAnalysisCommand): Promise<CreateAnalysisOutput> {
         const anAnalysis = Analysis.create(aCommand)
+        const typeAnalysis = aCommand.typeAnalysis.defineAnalysisParent(anAnalysis.getId)
+        anAnalysis.defineTypeOfAnalysis(typeAnalysis)
+
         if(anAnalysis.notification.hasErrors()){
             throw new EntityValidationError(anAnalysis.notification.toJSON())
         }
@@ -22,13 +25,8 @@ export class CreateAnalysisUseCase implements UseCase<CreateAnalysisCommand, Cre
             throw new Error("Exists an Analysis")
         }
         
-        if(aCommand.typeAnalysis == 'npk' && anAnalysis){
-            anAnalysis.calculateNpk()
-            anAnalysis.validate()
-            if(anAnalysis.notification.hasErrors()) {
-                throw new Error(anAnalysis.notification.toJSON())
-            }
-        }
+        await anAnalysis.calculate()
+      
         await this.analysisRepository.insert(anAnalysis)
 
         return AnalysisOutputMapper.toOutput(anAnalysis)

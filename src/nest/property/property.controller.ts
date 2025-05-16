@@ -6,16 +6,22 @@ import {
   Patch,
   Param,
   Delete,
+  Inject,
 } from '@nestjs/common';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { UpdatePropertyDto } from './dto/update-property.dto';
 import { CreatePropertyUseCase } from 'src/core/property/application/use-cases/create-property/CreatePropertyUseCase';
 import { CreatePropertyCommand } from 'src/core/property/application/use-cases/create-property/CreatePropertyCommand';
+import { SwaggerCreateProperty } from './property.controller.interface';
 
 @Controller('property')
 export class PropertyController {
-  constructor(private readonly createPropertyUseCase: CreatePropertyUseCase) {}
+  constructor(
+    @Inject(CreatePropertyUseCase)
+    private readonly createPropertyUseCase: CreatePropertyUseCase,
+  ) {}
 
+  @SwaggerCreateProperty()
   @Post()
   create(@Body() createPropertyDto: CreatePropertyDto) {
     if (!createPropertyDto) {

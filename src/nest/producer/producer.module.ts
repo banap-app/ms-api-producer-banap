@@ -9,15 +9,15 @@ import { ProducerTypeOrmRepository } from 'src/core/producer/infrastructure/db/t
 import { Repository } from 'typeorm';
 import { CreateProducerUseCase } from 'src/core/producer/application/use-cases/create-producer/CreateProducerUseCase';
 import { BcryptService } from 'src/core/producer/infrastructure/services/BcryptService';
+import { UpdateProducerUseCase } from 'src/core/producer/application/use-cases/update-producer/UpdateProducerUseCase';
+import { DeleteProducerUseCase } from 'src/core/producer/application/use-cases/delete-producer/DeleteProducerUseCase';
+import { GetProducerUseCase } from 'src/core/producer/application/use-cases/retrieve-producer/get-producer/GetProducerUseCase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ProducerEntity, ProfilePictureEntity])],
   controllers: [ProducerController],
   providers: [
-    // 1. BcryptService diretamente como provider
     BcryptService,
-
-    // 2. ProducerTypeOrmRepository como provider com factory
     {
       provide: ProducerTypeOrmRepository,
       useFactory: (repo: Repository<ProducerEntity>) => {
@@ -25,14 +25,35 @@ import { BcryptService } from 'src/core/producer/infrastructure/services/BcryptS
       },
       inject: [getRepositoryToken(ProducerEntity)],
     },
-
-    // 3. CreateProducerUseCase com factory
     {
       provide: CreateProducerUseCase,
       useFactory: (repo: ProducerTypeOrmRepository, crypt: BcryptService) =>
         new CreateProducerUseCase(repo, crypt),
       inject: [ProducerTypeOrmRepository, BcryptService],
     },
+    {
+      provide: UpdateProducerUseCase,
+      useFactory: (
+        repo: ProducerTypeOrmRepository,
+        crypt: BcryptService
+      ) => new UpdateProducerUseCase(repo, crypt),
+      inject: [ProducerTypeOrmRepository, BcryptService]
+    },
+    {
+      provide: DeleteProducerUseCase,
+      useFactory: (
+        repo: ProducerTypeOrmRepository,
+        crypt: BcryptService
+      ) => new DeleteProducerUseCase(repo,crypt),
+      inject: [ProducerTypeOrmRepository]
+    },
+    {
+      provide: GetProducerUseCase,
+      useFactory: (
+        repo: ProducerTypeOrmRepository
+      ) => new GetProducerUseCase(repo),
+      inject: [ProducerTypeOrmRepository]
+    }
   ],
 })
 export class ProducerModule {}

@@ -7,7 +7,10 @@ export class Password extends ValueObject {
   constructor(password?: string) {
     super();
     this.password = password;
-    this.validate();
+  }
+
+  static hashPassword(hashPassword: string): Password {
+   return new Password(hashPassword)
   }
 
   private validate() {
@@ -22,7 +25,14 @@ export class Password extends ValueObject {
   get getValue(): string {
     return this.password;
   }
+
+  private static createWithValidation(password: string): Password {
+    const instance = new Password(password);
+    instance.validate();
+    return instance;
+  }
+
   static create(password: string): Either<Password, InvalidPasswordError> {
-    return Either.safe(() => new Password(password));
+    return Either.safe(() => Password.createWithValidation(password));
   }
 }

@@ -33,27 +33,22 @@ import { GetProducerUseCase } from 'src/core/producer/application/use-cases/retr
     },
     {
       provide: UpdateProducerUseCase,
-      useFactory: (
-        repo: ProducerTypeOrmRepository,
-        crypt: BcryptService
-      ) => new UpdateProducerUseCase(repo, crypt),
-      inject: [ProducerTypeOrmRepository, BcryptService]
+      useFactory: (repo: ProducerTypeOrmRepository, crypt: BcryptService) =>
+        new UpdateProducerUseCase(repo, crypt),
+      inject: [ProducerTypeOrmRepository, BcryptService],
     },
     {
       provide: DeleteProducerUseCase,
-      useFactory: (
-        repo: ProducerTypeOrmRepository,
-        crypt: BcryptService
-      ) => new DeleteProducerUseCase(repo,crypt),
-      inject: [ProducerTypeOrmRepository]
+      useFactory: (repo: ProducerTypeOrmRepository, crypt: BcryptService) =>
+        new DeleteProducerUseCase(repo, crypt),
+      inject: [ProducerTypeOrmRepository],
     },
     {
       provide: GetProducerUseCase,
-      useFactory: (
-        repo: ProducerTypeOrmRepository
-      ) => new GetProducerUseCase(repo),
-      inject: [ProducerTypeOrmRepository]
-    }
+      useFactory: (repo: ProducerTypeOrmRepository) =>
+        new GetProducerUseCase(repo),
+      inject: [ProducerTypeOrmRepository],
+    },
   ],
 })
 export class ProducerModule {}

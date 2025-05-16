@@ -51,20 +51,22 @@ export class Producer extends Entity {
   }
 
   static create(props: ProducerCreateCommand) {
-  const [passwordValid, errorPassword] = Password.create(props.password).asArray();
+    const [passwordValid, errorPassword] = Password.create(
+      props.password,
+    ).asArray();
 
-  const producer = new Producer({
-    ...props,
-    password: passwordValid
-  });
+    const producer = new Producer({
+      ...props,
+      password: passwordValid,
+    });
 
-  if (errorPassword) {
-    producer.notification.addError(errorPassword.message, 'password');
+    if (errorPassword) {
+      producer.notification.addError(errorPassword.message, 'password');
+    }
+
+    producer.validate([]);
+    return producer;
   }
-
-  producer.validate([]);
-  return producer;
-}
 
   public validate(fields?: string[]) {
     const producerValidate = ProducerValidatorFactory.create();
@@ -92,15 +94,15 @@ export class Producer extends Entity {
   }
 
   public activate() {
-    if(this.deletedAt !== null || this.deletedAt !== undefined) {
-      this.deletedAt = null
-    } 
-    this.isActive = true
+    if (this.deletedAt !== null || this.deletedAt !== undefined) {
+      this.deletedAt = null;
+    }
+    this.isActive = true;
   }
 
   public deactive() {
-    this.isActive = false
-    this.deletedAt = new Date()
+    this.isActive = false;
+    this.deletedAt = new Date();
   }
 
   public changeProfilePicture(profilePicture: ProfilePicture) {

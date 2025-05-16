@@ -31,10 +31,9 @@ export class ProducerController {
     @Inject(DeleteProducerUseCase)
     private readonly deleteProducerUseCase: DeleteProducerUseCase,
     @Inject(GetProducerUseCase)
-    private readonly getProducerUseCase: GetProducerUseCase
+    private readonly getProducerUseCase: GetProducerUseCase,
   ) {}
 
-  
   @SwaggerCreateProducer()
   @Post()
   create(@Body() createProducerDto: CreateProducerDto) {
@@ -75,7 +74,7 @@ export class ProducerController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.getProducerUseCase.execute({producerId: id})
+    return this.getProducerUseCase.execute({ producerId: id });
   }
 
   @Patch()
@@ -83,7 +82,7 @@ export class ProducerController {
     let profilePicture;
 
     if (!updateProducerDto) {
-      throw new Error("Insert create producer DTO")
+      throw new Error('Insert create producer DTO');
     }
     if (updateProducerDto && updateProducerDto.profilePicture) {
       const [result, error] = ProfilePicture.createFromFile({
@@ -113,7 +112,7 @@ export class ProducerController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    const command = new DeleteProducerCommand(id)
-    this.deleteProducerUseCase.execute(command)
+    const command = new DeleteProducerCommand(id);
+    this.deleteProducerUseCase.execute(command);
   }
 }

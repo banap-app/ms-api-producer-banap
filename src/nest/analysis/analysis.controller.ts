@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Inject } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, Req } from '@nestjs/common';
 import { CreateAnalysisDto } from './dto/create-analysis.dto';
 import { UpdateAnalysisDto } from './dto/update-analysis.dto';
 import { CreateAnalysisUseCase } from '../../core/analysis/application/create-analysis/CreateAnalysisUseCase';
 import { CreateAnalysisCommand } from '../../core/analysis/application/create-analysis/CreateAnalysisCommand';
+import { Request } from 'express';
 
 @Controller('analysis')
 export class AnalysisController {
@@ -12,7 +13,9 @@ export class AnalysisController {
   ) {}
 
   @Post()
-  create(@Body() createAnalysisDto: CreateAnalysisDto) {
+  create(
+    @Req() request:Request,
+    @Body() createAnalysisDto: CreateAnalysisDto) {
     const aCommand = new CreateAnalysisCommand({
       fieldId: createAnalysisDto.fieldId,
       isActive: createAnalysisDto.isActive,

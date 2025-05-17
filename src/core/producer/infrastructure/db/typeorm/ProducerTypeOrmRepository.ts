@@ -1,4 +1,4 @@
-import { DataSource, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { Producer, ProducerId } from "../../../domain/Producer";
 import { ProducerRepository } from "../../../domain/ProducerRepository";
 import { ProducerEntity } from "./ProducerEntity";

@@ -1,30 +1,47 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { AnalysisLimingEntity } from './AnalysisLimingEntity';
+import { AnalysisNpkEntity }     from './AnalysisNpkEntity';
 
-@Entity({ name: "analysis" })
+@Entity({ name: 'analysis' })
 export class AnalysisEntity {
-
-  @PrimaryGeneratedColumn("uuid", {name: "analysis_id"})
+  @PrimaryGeneratedColumn('uuid', { name: 'analysis_id' })
   analysisId: string;
 
-  @Column({ type: "uuid", name:"field_id"})
-  fieldId: string
+  @Column('uuid', { name: 'field_id' })
+  fieldId: string;
 
-  @Column({ type: "varchar", length: 60 })
-  typeAnalysis: string
+  @Column('varchar', { length: 60 })
+  typeAnalysis: string;
 
-  @Column({ type: "boolean" })
+  @Column('boolean')
   isActive: boolean;
 
-  @Column({ type: "timestamp" })
+  @Column('timestamp')
   createdAt: Date;
 
-  @Column({ type: "timestamp" })
+  @Column('timestamp')
   updatedAt: Date;
 
-  @Column({ type: "timestamp", nullable: true })
-  deletedAt: Date;
+  @Column('timestamp', { nullable: true })
+  deletedAt?: Date;
 
-  @OneToOne(()=> AnalysisNpk)
-  @JoinColumn()
+  // NÃO declara @JoinColumn aqui — o lado filho tem a FK
+  @OneToOne(
+    () => AnalysisLimingEntity,
+    liming => liming.analysis,
+    { cascade: true, nullable: true }
+  )
+  liming?: AnalysisLimingEntity;
 
+  @OneToOne(
+    () => AnalysisNpkEntity,
+    npk => npk.analysis,
+    { cascade: true, nullable: true }
+  )
+  npk?: AnalysisNpkEntity;
 }

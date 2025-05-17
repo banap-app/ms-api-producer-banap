@@ -6,9 +6,9 @@ import {
   Phosphor,
   Potassium,
 } from './value-objects/indexVo';
-import { AnalysisId } from './Analysis';
 import { Uuid } from '../../shared/domain/value-objects/UuidVo';
 import { AnalysisNpkValidatorFactory } from './AnalysisNpkValidator';
+import { AnalysisId } from './AnalysisId';
 
 export type AnalysisConstructorProps = {
   analysisNpkId?: AnalysisNpkId;
@@ -224,10 +224,40 @@ export class AnalysisNpk extends Entity {
     }
   }
 
+  public getAnalysisNpkId(): AnalysisNpkId {
+    return this.analysisNpkId;
+  }
+
+  public getAnalysisId(): AnalysisId {
+    return this.analysisId;
+  }
+
+  public getPhosphor(): Phosphor | null {
+    return this.phosphor;
+  }
+
+  public getPotassium(): Potassium | null {
+    return this.potassium;
+  }
+
+  public getExpectedProductivity(): ExpectedProductivity | null {
+    return this.expectedProductivity;
+  }
+
+  public getNitrogen(): Nitrogen | null {
+    return this.nitrogen;
+  }
+
   get getId(): ValueObject {
     throw new Error('Method not implemented.');
   }
   toJSON() {
-    throw new Error('Method not implemented.');
+    return {
+      analysisNpkId:this.analysisNpkId,
+      phosphor: this.phosphor,
+      potassium: this.potassium,
+      nitrogen: this.nitrogen,
+      expectedProductivity:this.expectedProductivity
+    }
   }
 }

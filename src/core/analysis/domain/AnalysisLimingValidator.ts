@@ -1,56 +1,72 @@
-import {  IsNotEmpty, IsNumber, IsOptional } from "class-validator";
-import { AnalysisId } from "./Analysis";
-import { ClassValidatorRules } from "../../shared/domain/validators/ClassValidatorRules";
-import { Notification } from "../../shared/domain/validators/Notification";
-import { AnalysisLiming } from "./AnalysisLiming";
-import { CurrentBaseSaturation, DesiredBaseSaturation, RelativeTotalNeutralizingPower, TotalCationExchangeCapacity } from "./value-objects/indexVo";
+import { ClassValidatorRules } from '../../shared/domain/validators/ClassValidatorRules';
+import { Notification } from '../../shared/domain/validators/Notification';
+import { AnalysisId } from './AnalysisId';
+import { AnalysisLiming } from './AnalysisLiming';
+import {
+  CurrentBaseSaturation,
+  DesiredBaseSaturation,
+  RelativeTotalNeutralizingPower,
+  TotalCationExchangeCapacity,
+} from './value-objects/indexVo';
+import { IsNotEmpty } from 'class-validator';
 
 export class AnalysisLimingRules {
-    @IsNotEmpty({ groups: ['analysisLimingId'] })
-    analysisLimingId: string
+  @IsNotEmpty({ groups: ['analysisLimingId'] })
+  analysisLimingId: string;
 
-    @IsNotEmpty({ groups: ['analysisId'] })
-    analysisId: AnalysisId
-  
-    @IsNotEmpty({groups: ['desiredBaseSaturation']})
-    desiredBaseSaturation: DesiredBaseSaturation
+  @IsNotEmpty({ groups: ['analysisId'] })
+  analysisId: AnalysisId;
 
-    @IsNotEmpty({groups: ['currentBaseSaturation']})
-    currentBaseSaturation: CurrentBaseSaturation
+  @IsNotEmpty({ groups: ['desiredBaseSaturation'] })
+  desiredBaseSaturation: DesiredBaseSaturation;
 
-    @IsNotEmpty({groups: ['totalCationExchangeCapacity']})
-    totalCationExchangeCapacity: TotalCationExchangeCapacity
+  @IsNotEmpty({ groups: ['currentBaseSaturation'] })
+  currentBaseSaturation: CurrentBaseSaturation;
 
-    @IsNotEmpty({groups: ['relativeTotalNeutralizingPower']})
-    relativeTotalNeutralizingPower: RelativeTotalNeutralizingPower
+  @IsNotEmpty({ groups: ['totalCationExchangeCapacity'] })
+  totalCationExchangeCapacity: TotalCationExchangeCapacity;
 
-    constructor(entity: AnalysisLiming) {
-        this.analysisLimingId = entity['analysisLimingId'].id
-        
-        this.analysisId = entity['analysisId']
-       
-        this.desiredBaseSaturation = entity['desiredBaseSaturation']
+  @IsNotEmpty({ groups: ['relativeTotalNeutralizingPower'] })
+  relativeTotalNeutralizingPower: RelativeTotalNeutralizingPower;
 
-        this.currentBaseSaturation = entity['currentBaseSaturation']
+  constructor(entity: AnalysisLiming) {
+    this.analysisLimingId = entity['analysisLimingId'].id;
 
-        this.totalCationExchangeCapacity = entity['totalCationExchangeCapacity']
+    this.analysisId = entity['analysisId'];
 
-        this.relativeTotalNeutralizingPower = entity['relativeTotalNeutralizingPower']
-    }
+    this.desiredBaseSaturation = entity['desiredBaseSaturation'];
+
+    this.currentBaseSaturation = entity['currentBaseSaturation'];
+
+    this.totalCationExchangeCapacity = entity['totalCationExchangeCapacity'];
+
+    this.relativeTotalNeutralizingPower =
+      entity['relativeTotalNeutralizingPower'];
+  }
 }
 
 export class AnalysisLimingValidator extends ClassValidatorRules {
-    validate(notification: Notification, data: any, fields?: string[]): boolean {
+  validate(notification: Notification, data: any, fields?: string[]): boolean {
+    const newFields = fields
+      ? fields
+      : [
+          'analysisLimingId',
+          'relativeTotalNeutralizingPower',
+          'totalCationExchangeCapacity',
+          'desiredBaseSaturation',
+          'currentBaseSaturation',
+        ];
 
-        const newFields = fields ? fields : [ 'analysisLimingId', 'relativeTotalNeutralizingPower', 'totalCationExchangeCapacity', 'desiredBaseSaturation', 'currentBaseSaturation']
-
-        return super.validate(notification, new AnalysisLimingRules(data), newFields)
-    }
+    return super.validate(
+      notification,
+      new AnalysisLimingRules(data),
+      newFields,
+    );
+  }
 }
 
-
 export class AnalysisLimingValidatorFactory {
-    static create() {
-        return new AnalysisLimingValidator()
-    }
+  static create() {
+    return new AnalysisLimingValidator();
+  }
 }

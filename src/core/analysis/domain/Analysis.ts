@@ -1,9 +1,11 @@
-import { FieldId } from "../../field/domain/Field";
-import { AnalysisLiming } from "./AnalysisLiming";
-import { AnalysisNpk } from "./AnalysisNpk";
-import { Uuid } from "../../shared/domain/value-objects/UuidVo";
-import { AnalysisValidatorFactory } from "./AnalysisValidator";
-import { Entity } from "../../shared/domain/Entity";
+import { Entity } from '../../shared/domain/Entity';
+import { Uuid } from '../../shared/domain/value-objects/UuidVo';
+import { FieldId } from '../../field/domain/Field';
+import { AnalysisLiming } from './AnalysisLiming';
+import { AnalysisNpk } from './AnalysisNpk';
+import { AnalysisValidatorFactory } from './AnalysisValidator';
+import { AnalysisId } from './AnalysisId';
+
 export type AnalysisCreateProps = {
   fieldId: FieldId;
   isActive: boolean;
@@ -20,8 +22,6 @@ export type AnalysisConstructorProps = {
   deletedAt?: Date;
 };
 
-
-export class AnalysisId extends Uuid {}
 
 export class Analysis extends Entity {
   private analysisId: AnalysisId;
@@ -57,26 +57,53 @@ export class Analysis extends Entity {
     return analysisValidator.validate(this.notification, this, fields);
   }
 
-  public defineTypeOfAnalysis (typeAnalysis: AnalysisLiming | AnalysisNpk) {
-    this.typeAnalysis = typeAnalysis
+  public defineTypeOfAnalysis(typeAnalysis: AnalysisLiming | AnalysisNpk) {
+    this.typeAnalysis = typeAnalysis;
+    this.validate();
   }
 
   public calculate() {
-    if(this.typeAnalysis == null) {
-      this.notification.addError('Invalid Type Analysis', 'InvalidTypeAnalysis')
+    if (this.typeAnalysis == null) {
+      this.notification.addError(
+        'Invalid Type Analysis',
+        'InvalidTypeAnalysis',
+      );
     }
-    if(this.typeAnalysis instanceof AnalysisLiming) {
-      this.notification.copyErrors(this.typeAnalysis.notification)
-      this.typeAnalysis.calculateLiming()
+    if (this.typeAnalysis instanceof AnalysisLiming) {
+      this.typeAnalysis.calculateLiming();
+      this.notification.copyErrors(this.typeAnalysis.notification);
     }
 
-    if(this.typeAnalysis instanceof AnalysisNpk) {
-      this.notification.copyErrors(this.typeAnalysis.notification)
-      this.typeAnalysis.calculateNpk()
+    if (this.typeAnalysis instanceof AnalysisNpk) {
+      this.typeAnalysis.calculateNpk();
+      this.notification.copyErrors(this.typeAnalysis.notification);
     }
   }
 
-  
+  public getFieldId(): FieldId {
+    return this.fieldId;
+  }
+
+  public getTypeAnalysis(): AnalysisLiming | AnalysisNpk {
+    return this.typeAnalysis;
+  }
+
+  public getIsActive(): boolean {
+    return this.isActive;
+  }
+
+  public getCreatedAt(): Date {
+    return this.createdAt;
+  }
+
+  public getUpdatedAt(): Date {
+    return this.updatedAt;
+  }
+
+  public getDeletedAt(): Date | null | undefined {
+    return this.deletedAt;
+  }
+
   get getId(): AnalysisId {
     return this.analysisId;
   }
@@ -85,7 +112,7 @@ export class Analysis extends Entity {
     return {
       analysisId: this.analysisId.id,
       fieldId: this.fieldId.id,
-      typeAnalysis:this.typeAnalysis,
+      typeAnalysis: this.typeAnalysis,
       isActive: this.isActive,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
@@ -93,5 +120,3 @@ export class Analysis extends Entity {
     };
   }
 }
-
-

@@ -6,15 +6,16 @@ import {
   RelativeTotalNeutralizingPower,
   TotalCationExchangeCapacity,
 } from './value-objects/indexVo';
-import { AnalysisId } from './Analysis';
 import { Uuid } from '../../shared/domain/value-objects/UuidVo';
 import { AnalysisLimingValidatorFactory } from './AnalysisLimingValidator';
+import { AnalysisId } from './AnalysisId';
 
 export type AnalysisLimingConstructorProps = {
   analysisLimingId?: AnalysisLimingId;
   analysisId?: AnalysisId;
   desiredBaseSaturation?: DesiredBaseSaturation;
   currentBaseSaturation?: CurrentBaseSaturation;
+  liming?: Liming;
   totalCationExchangeCapacity?: TotalCationExchangeCapacity;
   relativeTotalNeutralizingPower?: RelativeTotalNeutralizingPower;
 };
@@ -28,7 +29,6 @@ export type AnalysisLimingCreateProps = {
 };
 
 export class AnalysisLimingId extends Uuid {}
-
 export class AnalysisLiming extends Entity {
   private analysisLimingId: AnalysisLimingId;
   private analysisId?: AnalysisId;
@@ -48,6 +48,7 @@ export class AnalysisLiming extends Entity {
     this.desiredBaseSaturation = props.desiredBaseSaturation
     this.totalCationExchangeCapacity = props.totalCationExchangeCapacity
     this.relativeTotalNeutralizingPower = props.relativeTotalNeutralizingPower
+    this.liming = props.liming
   }
 
   static create(props: AnalysisLimingCreateProps) {
@@ -75,7 +76,43 @@ export class AnalysisLiming extends Entity {
   get getId(): AnalysisLimingId {
     return this.analysisLimingId
   }
-  toJSON() {
-    throw new Error('Method not implemented.');
+   public getAnalysisLimingId(): AnalysisLimingId {
+    return this.analysisLimingId;
+  }
+
+  public getAnalysisId(): AnalysisId | undefined {
+    return this.analysisId;
+  }
+
+  public getDesiredBaseSaturation(): DesiredBaseSaturation {
+    return this.desiredBaseSaturation;
+  }
+
+  public getCurrentBaseSaturation(): CurrentBaseSaturation {
+    return this.currentBaseSaturation;
+  }
+
+  public getTotalCationExchangeCapacity(): TotalCationExchangeCapacity {
+    return this.totalCationExchangeCapacity;
+  }
+
+  public getRelativeTotalNeutralizingPower(): RelativeTotalNeutralizingPower {
+    return this.relativeTotalNeutralizingPower;
+  }
+
+  public getLiming(): Liming {
+    return this.liming;
+  }
+
+  public toJSON() {
+    return {
+      analysisLimingId: this.analysisLimingId.id,
+      analysisId: this.analysisId?.id,
+      desiredBaseSaturation: this.desiredBaseSaturation.getValue,
+      currentBaseSaturation: this.currentBaseSaturation.getValue,
+      totalCationExchangeCapacity: this.totalCationExchangeCapacity.getValue,
+      relativeTotalNeutralizingPower: this.relativeTotalNeutralizingPower.getValue,
+      liming: this.liming.getValue,
+    };
   }
 }

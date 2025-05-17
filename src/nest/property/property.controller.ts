@@ -7,18 +7,30 @@ import {
   Param,
   Delete,
   Inject,
+  Query,
 } from '@nestjs/common';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { UpdatePropertyDto } from './dto/update-property.dto';
 import { CreatePropertyUseCase } from 'src/core/property/application/use-cases/create-property/CreatePropertyUseCase';
 import { CreatePropertyCommand } from 'src/core/property/application/use-cases/create-property/CreatePropertyCommand';
-import { SwaggerCreateProperty } from './property.controller.interface';
+import {
+  SwaggerCreateProperty,
+  SwaggerGetProperty,
+  SwaggerListProperties,
+} from './property.controller.interface';
+import { GetPropertyUseCase } from 'src/core/property/application/use-cases/retrieve-property/GetPropertyUseCase';
+import { ListPropertyUseCase } from 'src/core/property/application/use-cases/retrieve-property/ListPropertiesUseCase';
+import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('property')
 export class PropertyController {
   constructor(
     @Inject(CreatePropertyUseCase)
     private readonly createPropertyUseCase: CreatePropertyUseCase,
+    @Inject(GetPropertyUseCase)
+    private readonly getPropertyUseCase: GetPropertyUseCase,
+    @Inject(ListPropertyUseCase)
+    private readonly listPropertyUseCase: ListPropertyUseCase,
   ) {}
 
   @SwaggerCreateProperty()
@@ -37,15 +49,21 @@ export class PropertyController {
     return this.createPropertyUseCase.execute(command);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.propertyService.findAll();
-  // }
+  @SwaggerListProperties()
+  @Get()
+  findAll(@Query('producerId') producerId: string) {
+    return this.listPropertyUseCase.execute({
+      producerId,
+    });
+  }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.propertyService.findOne(+id);
-  // }
+  @SwaggerGetProperty()
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.getPropertyUseCase.execute({
+      propertyId: id,
+    });
+  }
 
   // @Patch(':id')
   // update(

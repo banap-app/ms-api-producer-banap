@@ -1,3 +1,4 @@
+import { Producer } from 'src/core/producer/domain/Producer';
 import { ProducerEntity } from 'src/core/producer/infrastructure/db/typeorm/ProducerEntity';
 import {
   Column,
@@ -22,9 +23,12 @@ export class PropertyEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'property_id' })
   propertyId: string;
 
+  @Column({ name: 'producer_id' })
+  producerId: string;
+
   @ManyToOne(() => ProducerEntity, (producer) => producer.producer_id)
   @JoinColumn({ name: 'producer_id' })
-  producerId: string;
+  producer: ProducerEntity;
 
   @Column({ type: 'varchar', length: 255 })
   name: string;

@@ -1,27 +1,5 @@
-<<<<<<< HEAD
-import { ProfilePicture } from "src/core/producer/domain/ProfilePictureVo"
-import { TypeUser } from "src/core/producer/domain/TypeUser";
-
-export type UpdateProducerCommandProps = {
-    producerId: string;
-    name: string
-    email: string
-    password: string
-    isActive: boolean
-    profilePicture: ProfilePicture
-    typeUser: TypeUser
-}
-
-export class UpdateProducerCommand {
-    public producerId: string;
-    public name: string
-    public email: string
-    public password: string
-    public profilePicture: ProfilePicture
-    public isActive: boolean
-    typeUser: TypeUser
-=======
 import { ProfilePicture } from 'src/core/producer/domain/ProfilePictureVo';
+import { TypeUser } from 'src/core/producer/domain/TypeUser';
 
 export type UpdateProducerCommandProps = {
   producerId: string;
@@ -30,6 +8,7 @@ export type UpdateProducerCommandProps = {
   password: string;
   isActive: boolean;
   profilePicture: ProfilePicture;
+  typeUser: TypeUser;
 };
 
 export class UpdateProducerCommand {
@@ -39,8 +18,7 @@ export class UpdateProducerCommand {
   public password: string;
   public profilePicture: ProfilePicture;
   public isActive: boolean;
->>>>>>> f03c679ba8cddfa4f52e02419ff1c9ce85e3bcdc
-
+  typeUser: TypeUser;
   constructor(props: UpdateProducerCommandProps) {
     if (!props) return;
     this.producerId = props.producerId;

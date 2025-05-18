@@ -1,14 +1,8 @@
 import { Module } from '@nestjs/common';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import { ProducerController } from './producer.controller';
-<<<<<<< HEAD
 import { ProducerEntity, ProfilePictureEntity, TypeUserEntity } from 'src/core/producer/infrastructure/db/typeorm/ProducerEntity';
-=======
-import {
-  ProducerEntity,
-  ProfilePictureEntity,
-} from 'src/core/producer/infrastructure/db/typeorm/ProducerEntity';
->>>>>>> f03c679ba8cddfa4f52e02419ff1c9ce85e3bcdc
+
 import { ProducerTypeOrmRepository } from 'src/core/producer/infrastructure/db/typeorm/ProducerTypeOrmRepository';
 import { Repository } from 'typeorm';
 import { CreateProducerUseCase } from 'src/core/producer/application/use-cases/create-producer/CreateProducerUseCase';
@@ -18,13 +12,9 @@ import { DeleteProducerUseCase } from 'src/core/producer/application/use-cases/d
 import { GetProducerUseCase } from 'src/core/producer/application/use-cases/retrieve-producer/get-producer/GetProducerUseCase';
 
 @Module({
-<<<<<<< HEAD
   imports: [
     TypeOrmModule.forFeature([ProducerEntity, ProfilePictureEntity, TypeUserEntity]),
   ],
-=======
-  imports: [TypeOrmModule.forFeature([ProducerEntity, ProfilePictureEntity])],
->>>>>>> f03c679ba8cddfa4f52e02419ff1c9ce85e3bcdc
   controllers: [ProducerController],
   providers: [
     BcryptService,

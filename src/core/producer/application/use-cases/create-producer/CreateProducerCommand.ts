@@ -1,3 +1,4 @@
+import { TypeUser } from "src/core/producer/domain/TypeUser"
 import { ProfilePicture } from "../../../domain/ProfilePictureVo"
 
 export type CreateProducerCommandProps = {
@@ -6,6 +7,7 @@ export type CreateProducerCommandProps = {
     password: string
     isActive: boolean
     profilePicture: ProfilePicture
+    typeUser: TypeUser
 }
 
 export class CreateProducerCommand {
@@ -14,6 +16,7 @@ export class CreateProducerCommand {
     public password: string
     public profilePicture: ProfilePicture
     public isActive: boolean
+    public typeUser: TypeUser
 
 
     constructor(props:CreateProducerCommandProps) {
@@ -23,5 +26,6 @@ export class CreateProducerCommand {
         this.password = props.password
         this.profilePicture = props.profilePicture
         this.isActive = props.isActive
+        this.typeUser = props.typeUser
     }
 }

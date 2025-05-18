@@ -1,8 +1,42 @@
-import { Producer } from "src/core/producer/domain/Producer";
-import { ProfilePicture } from "src/core/producer/domain/ProfilePictureVo";
-import { Column, Entity, PrimaryGeneratedColumn, Generated, OneToOne, JoinColumn } from "typeorm";
+import { TypeUser } from 'src/core/producer/domain/TypeUser';
+import { ProfilePicture } from '../../../../../core/producer/domain/ProfilePictureVo';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+  ManyToOne,
+} from 'typeorm';
 
-@Entity({name:"profile_picture_entity"})
+@Entity({ name: 'type_users' })
+export class TypeUserEntity {
+  @PrimaryGeneratedColumn('increment')
+  id: number;
+
+  @Column({ name: 'type_name', nullable: false, unique: true })
+  typeName: string;
+
+  constructor(props?: { typeName: string; id: number }) {
+    if (props) {
+      this.typeName = props.typeName;
+      this.id = props.id;
+    }
+  }
+
+  static fromVo(vo: TypeUser): TypeUserEntity {
+    if (vo === TypeUser.NULL) {
+      throw new Error('Tipo de usuário inválido: NULL');
+    }
+    return new TypeUserEntity({
+      id: vo,
+      typeName: TypeUser[vo],
+    });
+  }
+}
+
+
+@Entity({ name: 'profile_picture_entity' })
 export class ProfilePictureEntity {
   @PrimaryGeneratedColumn()
   id?: number;
@@ -28,47 +62,51 @@ export class ProfilePictureEntity {
   }
 }
 
-
 export type ProducerConstructorProps = {
-    producerId: string
-    name: string
-    email: string
-    password: string
-    isActive: boolean
-    profilePicture: ProfilePicture
-    createdAt: Date
-    updatedAt: Date
-    deletedAt: Date
-}
+  producerId: string;
+  name: string;
+  email: string;
+  password: string;
+  isActive: boolean;
+  profilePicture: ProfilePicture;
+  typeUser: TypeUser;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: Date;
+};
 
-@Entity({ name: "producer" })
+@Entity({ name: 'users' })
 export class ProducerEntity {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid', { name: 'id' })
   producer_id: string;
 
-  @Column({ type: "varchar", length: 255 })
+  @Column({ type: 'varchar', length: 255 })
   name: string;
 
-  @Column({ type: "varchar", length: 300 })
+  @Column({ type: 'varchar', length: 300 })
   email: string;
 
-  @Column({ type: "text" })
+  @Column({ type: 'text' })
   password: string;
 
-  @Column({ type: "boolean" })
+  @Column({ type: 'boolean' })
   isActive: boolean;
+
+  @ManyToOne(() => TypeUserEntity)
+  @JoinColumn({ name: 'type_user_id', referencedColumnName: 'id' })
+  typeUser: TypeUserEntity;
 
   @OneToOne(() => ProfilePictureEntity, { cascade: true, nullable: true })
   @JoinColumn()
   profilePicture?: ProfilePictureEntity;
 
-  @Column({ type: "timestamp" })
+  @Column({ type: 'timestamp' })
   createdAt: Date;
 
-  @Column({ type: "timestamp" })
+  @Column({ type: 'timestamp' })
   updatedAt: Date;
 
-  @Column({ type: "timestamp", nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
   deletedAt: Date;
 
   // ✨ Factory para criar a entidade fora do TypeORM (sem interferir na lib)
@@ -85,6 +123,7 @@ export class ProducerEntity {
     entity.createdAt = props.createdAt;
     entity.updatedAt = props.updatedAt;
     entity.deletedAt = props.deletedAt;
+    entity.typeUser = TypeUserEntity.fromVo(props.typeUser);
     return entity;
   }
 }

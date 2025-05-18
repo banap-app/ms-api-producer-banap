@@ -10,6 +10,7 @@ import { DeleteProducerCommand } from 'src/core/producer/application/use-cases/d
 import { DeleteProducerUseCase } from 'src/core/producer/application/use-cases/delete-producer/DeleteProducerUseCase';
 import { GetProducerUseCase } from 'src/core/producer/application/use-cases/retrieve-producer/get-producer/GetProducerUseCase';
 import { SwaggerCreateProducer } from './producer.controller.interface';
+import { TypeUser } from 'src/core/producer/domain/TypeUser';
 
 @Controller('producer')
 export class ProducerController {
@@ -53,6 +54,7 @@ export class ProducerController {
       password: createProducerDto.password,
       isActive: createProducerDto.isActive,
       profilePicture,
+      typeUser: createProducerDto.typeUser == 2 ? TypeUser.Producer : createProducerDto.typeUser == 1? TypeUser.Engineer : TypeUser.NULL
     });
 
     return this.createProducerUseCase.execute(command);
@@ -96,6 +98,7 @@ export class ProducerController {
       password: updateProducerDto.password,
       isActive: updateProducerDto.isActive,
       profilePicture,
+      typeUser: updateProducerDto.typeUser == 2 ? TypeUser.Producer : updateProducerDto.typeUser == 1? TypeUser.Engineer : TypeUser.NULL
     });
 
     return this.updateProducerUseCase.execute(command);

@@ -2,8 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProducerEntity, ProfilePictureEntity } from 'src/core/producer/infrastructure/db/typeorm/ProducerEntity';
-import { ProducerController } from './producer/producer.controller';
+import { ProducerEntity, ProfilePictureEntity, TypeUserEntity } from 'src/core/producer/infrastructure/db/typeorm/ProducerEntity';
 import { ProducerModule } from './producer/producer.module';
 
 @Module({
@@ -14,8 +13,8 @@ import { ProducerModule } from './producer/producer.module';
     username: "postgres",
     password: "admin",
     database: "banap_database",
-    entities: [ProducerEntity, ProfilePictureEntity],
-    synchronize: true
+    entities: [ProducerEntity, ProfilePictureEntity, TypeUserEntity],
+    synchronize: false
   }), ProducerModule],
   controllers: [AppController],
   providers: [AppService],

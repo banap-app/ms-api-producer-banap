@@ -1,8 +1,8 @@
-import { PropertyId } from "../../property/domain/Property";
-import { Entity } from "../../shared/domain/Entity";
-import { Uuid } from "../../shared/domain/value-objects/UuidVo";
-import { Coordinate, FieldBoundary } from "./FieldBoundaryVo";
-import { FieldValidatorFactory } from "./FieldValidator";
+import { PropertyId } from '../../property/domain/Property';
+import { Entity } from '../../shared/domain/Entity';
+import { Uuid } from '../../shared/domain/value-objects/UuidVo';
+import { Coordinate, FieldBoundary } from './FieldBoundaryVo';
+import { FieldValidatorFactory } from './FieldValidator';
 
 export type FieldConstructorProps = {
   fieldId?: string;
@@ -11,6 +11,7 @@ export type FieldConstructorProps = {
   description: string;
   crop: string;
   fieldBoundary: Coordinate[];
+  isActive: boolean;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
@@ -22,6 +23,7 @@ export type FieldCreateCommand = {
   description: string;
   crop: string;
   fieldBoundary: Coordinate[];
+  isActive: boolean;
 };
 
 export class FieldId extends Uuid {}
@@ -33,6 +35,7 @@ export class Field extends Entity {
   private description: string;
   private crop: string;
   private fieldBoundary: FieldBoundary;
+  private isActive: boolean;
   private createdAt: Date;
   private updatedAt: Date;
   private deletedAt: Date;
@@ -47,6 +50,7 @@ export class Field extends Entity {
     this.fieldBoundary = props.fieldBoundary
       ? new FieldBoundary(props.fieldBoundary)
       : new FieldBoundary();
+    this.isActive = props.isActive;
     this.createdAt = props.createdAt ? props.createdAt : new Date();
     this.updatedAt = props.updatedAt ? props.updatedAt : new Date();
     this.deletedAt = props.deletedAt ? props.deletedAt : null;
@@ -61,6 +65,35 @@ export class Field extends Entity {
   private validate(fields: string[]) {
     const fieldValidate = FieldValidatorFactory.create();
     return fieldValidate.validate(this.notification, this, fields);
+  }
+
+  public changeName(name: string) {
+    this.name = name;
+    this.validate(['name']);
+  }
+
+  public changeDescription(description: string) {
+    this.description = description;
+    this.validate(['description']);
+  }
+
+  public changeCrop(crop: string) {
+    this.crop = crop;
+    this.validate(['crop']);
+  }
+
+  public activate() {
+    this.isActive = true;
+    this.deletedAt = null;
+  }
+
+  public deactivate() {
+    this.isActive = false;
+    this.deletedAt = new Date();
+  }
+
+  public changeFieldBoundary(fieldBoundary: Coordinate[]) {
+    this.fieldBoundary = new FieldBoundary(fieldBoundary);
   }
 
   public getArea() {

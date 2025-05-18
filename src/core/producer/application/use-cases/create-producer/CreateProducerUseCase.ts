@@ -4,11 +4,11 @@ import {
 } from '../commons/ProducerOutputMapper';
 import { Producer } from '../../../domain/Producer';
 import { ProducerRepository } from '../../../domain/ProducerRepository';
-import { CreateProducerCommand } from './CreateProducerCommand';
 import { UseCase } from '../../../../shared/application/IUseCase';
 import { ICrypt } from '../../../../shared/application/ICrypt';
 import { EntityValidationError } from '../../../../shared/domain/validators/ValidationErrors';
 import { TypeUser } from 'src/core/producer/domain/TypeUser';
+import { CreateProducerCommand } from './CreateProducerCommand';
 
 export class CreateProducerUseCase
   implements UseCase<CreateProducerCommand, CreateProducerOutput>

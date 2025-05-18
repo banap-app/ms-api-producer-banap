@@ -44,7 +44,7 @@ export class Producer extends Entity {
 
   constructor(props: ProducerConstructorProps) {
     super();
-    this.producerId = props.producerId ?? new ProducerId()
+    this.producerId = props.producerId ?? new ProducerId();
     this.name = props.name;
     this.email = props.email;
     this.password = props.password as Password;
@@ -57,40 +57,42 @@ export class Producer extends Entity {
   }
 
   static create(props: ProducerCreateCommand) {
-  const [passwordValid, errorPassword] = Password.create(props.password).asArray();
+    const [passwordValid, errorPassword] = Password.create(
+      props.password,
+    ).asArray();
 
-  const producer = new Producer({
-    ...props,
-    password: passwordValid
-  });
+    const producer = new Producer({
+      ...props,
+      password: passwordValid,
+    });
 
-  if (errorPassword) {
-    producer.notification.addError(errorPassword.message, 'password');
+    if (errorPassword) {
+      producer.notification.addError(errorPassword.message, 'password');
+    }
+
+    producer.validate([]);
+    return producer;
   }
-
-  producer.validate([]);
-  return producer;
-}
 
   public validate(fields?: string[]) {
     const producerValidate = ProducerValidatorFactory.create();
     return producerValidate.validate(this.notification, this, fields);
   }
 
-  public changeName(name:string) {
-    this.name = name
-    this.validate(['name'])
+  public changeName(name: string) {
+    this.name = name;
+    this.validate(['name']);
   }
 
-  public changeEmail(email:string) {
-    this.email = email
-    this.validate(['email'])
+  public changeEmail(email: string) {
+    this.email = email;
+    this.validate(['email']);
   }
 
-  public changePassword(password:string) {
-    const [passwordValid, errorPassword] = Password.create(password).asArray()
-    this.notification.addError(errorPassword.message, 'password')
-    this.password = passwordValid
+  public changePassword(password: string) {
+    const [passwordValid, errorPassword] = Password.create(password).asArray();
+    this.notification.addError(errorPassword.message, 'password');
+    this.password = passwordValid;
   }
 
   public changePasswordHashed(hashedPassword: string) {
@@ -98,49 +100,49 @@ export class Producer extends Entity {
   }
 
   public activate() {
-    if(this.deletedAt !== null || this.deletedAt !== undefined) {
-      this.deletedAt = null
-    } 
-    this.isActive = true
+    if (this.deletedAt !== null || this.deletedAt !== undefined) {
+      this.deletedAt = null;
+    }
+    this.isActive = true;
   }
 
   public deactive() {
-    this.isActive = false
-    this.deletedAt = new Date()
+    this.isActive = false;
+    this.deletedAt = new Date();
   }
 
   public changeProfilePicture(profilePicture: ProfilePicture) {
-    this.profilePicture = profilePicture
+    this.profilePicture = profilePicture;
   }
 
-  public getPassword():Password {
-    return this.password
+  public getPassword(): Password {
+    return this.password;
   }
 
   public getName(): string {
-    return this.name
+    return this.name;
   }
 
   public getEmail(): string {
-    return this.email
+    return this.email;
   }
 
   public getIsActive(): boolean {
-    return this.isActive
+    return this.isActive;
   }
 
   public getCreatedAt(): Date {
-    return this.createdAt
+    return this.createdAt;
   }
   public getUpdatedAt(): Date {
-    return this.updatedAt
+    return this.updatedAt;
   }
   public getDeletedAt(): Date | null {
-    return this.deletedAt
+    return this.deletedAt;
   }
 
-  public getProfilePicture():ProfilePicture {
-    return this.profilePicture
+  public getProfilePicture(): ProfilePicture {
+    return this.profilePicture;
   }
 
   public getTypeUser(): TypeUser {

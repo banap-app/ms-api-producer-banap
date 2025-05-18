@@ -7,7 +7,7 @@ export type CreateProducerCommandProps = {
     password: string
     isActive: boolean
     profilePicture: ProfilePicture
-    typeUser: TypeUser
+    typeUser:TypeUser
 }
 
 export class CreateProducerCommand {
@@ -16,7 +16,7 @@ export class CreateProducerCommand {
     public password: string
     public profilePicture: ProfilePicture
     public isActive: boolean
-    public typeUser: TypeUser
+    private typeUser: TypeUser
 
 
     constructor(props:CreateProducerCommandProps) {

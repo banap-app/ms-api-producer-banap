@@ -8,10 +8,10 @@ export class DeleteProducerUseCase
   implements UseCase<DeleteProducerCommand, DeleteProducerOutput>
 {
   private producerRepository: ProducerRepository;
-  private cryptService:ICrypt
+  private cryptService: ICrypt;
   constructor(producerRepository: ProducerRepository, cryptService: ICrypt) {
     this.producerRepository = producerRepository;
-    this.cryptService = cryptService
+    this.cryptService = cryptService;
   }
   async execute(
     aCommand: DeleteProducerCommand,

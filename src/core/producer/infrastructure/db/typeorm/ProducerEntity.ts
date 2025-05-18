@@ -109,7 +109,6 @@ export class ProducerEntity {
   @Column({ type: 'timestamp', nullable: true })
   deletedAt: Date;
 
-  // ✨ Factory para criar a entidade fora do TypeORM (sem interferir na lib)
   static fromDomain(props: ProducerConstructorProps): ProducerEntity {
     const entity = new ProducerEntity();
     entity.producer_id = props.producerId;

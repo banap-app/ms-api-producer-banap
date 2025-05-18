@@ -6,6 +6,14 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Producer API')
     .setVersion('1.0')
+    .addApiKey(
+      {
+        type: 'apiKey',
+        name: 'Authorization', // ou "x-token", se preferir um nome diferente
+        in: 'header',
+      },
+      'token'
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

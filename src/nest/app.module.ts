@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProducerEntity, ProfilePictureEntity } from 'src/core/producer/infrastructure/db/typeorm/ProducerEntity';
+import { ProducerEntity, ProfilePictureEntity, TypeUserEntity } from 'src/core/producer/infrastructure/db/typeorm/ProducerEntity';
 import { ProducerModule } from './producer/producer.module';
 import { AnalysisEntity } from 'src/core/analysis/infrastructure/db/typeorm/AnalysisEntity';
 import { AnalysisNpkEntity } from 'src/core/analysis/infrastructure/db/typeorm/AnalysisNpkEntity';
@@ -22,7 +22,7 @@ import httpConfig from './config/httpConfig';
     username: "postgres",
     password: "admin",
     database: "banap_database",
-    entities: [ProducerEntity, ProfilePictureEntity, AnalysisEntity, AnalysisNpkEntity, AnalysisLimingEntity],
+    entities: [ProducerEntity, ProfilePictureEntity,TypeUserEntity, AnalysisEntity, AnalysisNpkEntity, AnalysisLimingEntity],
     synchronize: false
   }),
   ConfigModule.forRoot({

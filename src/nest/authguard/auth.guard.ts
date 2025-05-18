@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
     if (isPublic) return true;
 
     const req = context.switchToHttp().getRequest();
-    const authHeader = req.headers.authorization?.split(' ')[1];
+    const authHeader = req.headers.authorization;
     if (!authHeader) throw new UnauthorizedException();
 
     const user = await this.axios.post('/api/auth/verify', {

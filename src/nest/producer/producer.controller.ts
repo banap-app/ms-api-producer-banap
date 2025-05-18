@@ -21,7 +21,10 @@ import { DeleteProducerUseCase } from 'src/core/producer/application/use-cases/d
 import { GetProducerUseCase } from 'src/core/producer/application/use-cases/retrieve-producer/get-producer/GetProducerUseCase';
 import { SwaggerCreateProducer } from './producer.controller.interface';
 import { TypeUser } from 'src/core/producer/domain/TypeUser';
+import { Public } from '../authguard/public.decorator';
+import { ApiSecurity } from '@nestjs/swagger';
 
+@ApiSecurity('token') 
 @Controller('producer')
 export class ProducerController {
   constructor(
@@ -36,6 +39,7 @@ export class ProducerController {
   ) {}
 
   @SwaggerCreateProducer()
+  @Public()
   @Post()
   create(@Body() createProducerDto: CreateProducerDto) {
     let profilePicture;

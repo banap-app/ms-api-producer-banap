@@ -4,7 +4,9 @@ import { UpdateAnalysisDto } from './dto/update-analysis.dto';
 import { CreateAnalysisUseCase } from '../../core/analysis/application/create-analysis/CreateAnalysisUseCase';
 import { CreateAnalysisCommand } from '../../core/analysis/application/create-analysis/CreateAnalysisCommand';
 import { Request } from 'express';
+import { ApiSecurity } from '@nestjs/swagger';
 
+@ApiSecurity('token') 
 @Controller('analysis')
 export class AnalysisController {
   constructor(

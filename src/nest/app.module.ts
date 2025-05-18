@@ -13,6 +13,7 @@ import { AuthGuard } from './authguard/auth.guard';
 import { ConfigModule } from '@nestjs/config';
 import { AxiosModule } from './axios-module/axios.module';
 import httpConfig from './config/httpConfig';
+import { PropertyModule } from './property/property.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -32,6 +33,7 @@ import httpConfig from './config/httpConfig';
   }),
   ProducerModule,
   AnalysisModule,
+  PropertyModule,
 AxiosModule],
   controllers: [AppController],
   providers: [AppService,Reflector,

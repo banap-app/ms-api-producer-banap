@@ -1,8 +1,8 @@
-import { PropertyId } from "../../property/domain/Property";
-import { Entity } from "../../shared/domain/Entity";
-import { Uuid } from "../../shared/domain/value-objects/UuidVo";
-import { Coordinate, FieldBoundary } from "./FieldBoundaryVo";
-import { FieldValidatorFactory } from "./FieldValidator";
+import { PropertyId } from '../../property/domain/Property';
+import { Entity } from '../../shared/domain/Entity';
+import { Uuid } from '../../shared/domain/value-objects/UuidVo';
+import { Coordinate, FieldBoundary } from './FieldBoundaryVo';
+import { FieldValidatorFactory } from './FieldValidator';
 
 export type FieldConstructorProps = {
   fieldId?: string;
@@ -69,17 +69,17 @@ export class Field extends Entity {
 
   public changeName(name: string) {
     this.name = name;
-    this.validate(["name"]);
+    this.validate(['name']);
   }
 
   public changeDescription(description: string) {
     this.description = description;
-    this.validate(["description"]);
+    this.validate(['description']);
   }
 
   public changeCrop(crop: string) {
     this.crop = crop;
-    this.validate(["crop"]);
+    this.validate(['crop']);
   }
 
   public activate() {

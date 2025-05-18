@@ -10,7 +10,7 @@ export class Password extends ValueObject {
   }
 
   static hashPassword(hashPassword: string): Password {
-   return new Password(hashPassword)
+    return new Password(hashPassword);
   }
 
   private validate() {

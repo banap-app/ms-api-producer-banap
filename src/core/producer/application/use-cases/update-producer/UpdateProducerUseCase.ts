@@ -8,6 +8,7 @@ import { ProducerRepository } from 'src/core/producer/domain/ProducerRepository'
 import { Producer } from 'src/core/producer/domain/Producer';
 import { EntityValidationError } from 'src/core/shared/domain/validators/ValidationErrors';
 import { ICrypt } from 'src/core/shared/application/ICrypt';
+import { TypeUser } from 'src/core/producer/domain/TypeUser';
 
 export class UpdateProducerUseCase
   implements UseCase<UpdateProducerCommand, UpdateProducerOutput>
@@ -23,6 +24,11 @@ export class UpdateProducerUseCase
     aCommand: UpdateProducerCommand,
   ): Promise<UpdateProducerOutput> {
     const aProducer = Producer.create(aCommand);
+
+    if (aCommand.typeUser !== TypeUser.Producer) {
+      aProducer.notification.addError('InvalidTypeOfUser', 'InvalidTypeUser');
+    }
+
     if (aProducer.notification.hasErrors()) {
       throw new EntityValidationError(aProducer.notification.toJSON());
     }

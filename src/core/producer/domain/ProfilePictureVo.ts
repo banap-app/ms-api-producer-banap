@@ -1,10 +1,10 @@
-import { Either } from "../../shared/domain/Either";
-import { MediaFileValidator } from "../../shared/domain/validators/MediaFileValidator";
-import { ImageMedia } from "../../shared/domain/value-objects/ImageMedia";
+import { Either } from '../../shared/domain/Either';
+import { MediaFileValidator } from '../../shared/domain/validators/MediaFileValidator';
+import { ImageMedia } from '../../shared/domain/value-objects/ImageMedia';
 
 export class ProfilePicture extends ImageMedia {
   static maxSize = 1024 * 1024 * 10; // 10 MB
-  static mimeTypes = ["image/jpeg", "image/png", "image/jpg"];
+  static mimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
 
   static createFromFile({
     raw_name,

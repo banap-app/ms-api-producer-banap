@@ -6,7 +6,6 @@ export class BcryptService implements ICrypt {
       return bcrypt.compareSync(rawData, hashData)  
   }
   async encode(value: string, saltOrRounds: number): Promise<string> {
-    return bcrypt.hash(value, saltOrRounds);
+    return await bcrypt.hash(value, saltOrRounds);
   }
-
 }

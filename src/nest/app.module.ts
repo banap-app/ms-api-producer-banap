@@ -23,7 +23,7 @@ import httpConfig from './config/httpConfig';
     password: "admin",
     database: "banap_database",
     entities: [ProducerEntity, ProfilePictureEntity, AnalysisEntity, AnalysisNpkEntity, AnalysisLimingEntity],
-    synchronize: true
+    synchronize: false
   }),
   ConfigModule.forRoot({
     envFilePath: '.env',

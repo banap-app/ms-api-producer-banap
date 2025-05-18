@@ -38,4 +38,10 @@ export class CreateProducerDto {
     mime_type: string;
     size: number;
   };
+
+  @ApiProperty({
+    description: "Type of user",
+    example: 1
+  })
+  typeUser: number
 }

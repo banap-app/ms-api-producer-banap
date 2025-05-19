@@ -14,6 +14,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AxiosModule } from './axios-module/axios.module';
 import httpConfig from './config/httpConfig';
 import { PropertyModule } from './property/property.module';
+import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/PropertyEntity';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -23,8 +24,8 @@ import { PropertyModule } from './property/property.module';
     username: "postgres",
     password: "admin",
     database: "banap_database",
-    entities: [ProducerEntity, ProfilePictureEntity,TypeUserEntity, AnalysisEntity, AnalysisNpkEntity, AnalysisLimingEntity],
-    synchronize: false
+    entities: [ProducerEntity, ProfilePictureEntity,TypeUserEntity,PropertyEntity, AnalysisEntity, AnalysisNpkEntity, AnalysisLimingEntity],
+    synchronize: true
   }),
   ConfigModule.forRoot({
     envFilePath: '.env',

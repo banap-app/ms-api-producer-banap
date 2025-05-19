@@ -21,6 +21,7 @@ import { PropertyModule } from './property/property.module';
 import { FieldEntity } from 'src/core/field/infrastructure/db/typeorm/FieldEntity';
 import { FieldModule } from './field/field.module';
 import { FieldBoundaryEntity } from 'src/core/field/infrastructure/db/typeorm/FieldBoundaryEntity';
+import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/PropertyEntity';
 
 @Module({
   imports: [
@@ -36,13 +37,14 @@ import { FieldBoundaryEntity } from 'src/core/field/infrastructure/db/typeorm/Fi
         FieldBoundaryEntity,
         ProducerEntity,
         ProfilePictureEntity,
+        PropertyEntity,
         TypeUserEntity,
         AnalysisEntity,
         AnalysisNpkEntity,
         AnalysisLimingEntity,
        
       ],
-      synchronize: true,
+      synchronize: false,
     }),
     ConfigModule.forRoot({
       envFilePath: '.env',

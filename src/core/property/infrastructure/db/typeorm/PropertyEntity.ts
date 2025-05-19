@@ -28,7 +28,7 @@ export class PropertyEntity {
   @Column({ name: 'producer_id' })
   producerId: string;
 
-  @ManyToOne(() => ProducerEntity, (producer) => producer.producer_id)
+  @ManyToOne(() => ProducerEntity, (producer) => producer.id)
   @JoinColumn({ name: 'producer_id' })
   producer: ProducerEntity;
 

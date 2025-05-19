@@ -25,7 +25,7 @@ export class ProducerEntityTypeMapper {
     options: { needPasswords: boolean } = { needPasswords: false },
   ): Producer {
     const producer = new Producer({
-      producerId: new ProducerId(producerEntity.producer_id),
+      producerId: new ProducerId(producerEntity.id),
       name: producerEntity.name,
       email: producerEntity.email,
       isActive: producerEntity.isActive,

@@ -42,7 +42,7 @@ export class PropertyController {
     }
 
     const command = new CreatePropertyCommand({
-      producerId: request.user,
+      producerId: request.user.id,
       name: createPropertyDto.name,
       isActive: createPropertyDto.isActive,
     });

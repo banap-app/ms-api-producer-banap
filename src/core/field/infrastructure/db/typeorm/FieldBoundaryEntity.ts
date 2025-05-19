@@ -56,7 +56,7 @@ export class FieldBoundaryEntity {
         const entity = new FieldBoundaryEntity();
         entity.boundary = {
             type: 'Polygon',
-            coordinates: [vo['points'].map((p:Coordinate) => [p.lng, p.lat])],
+            coordinates: [vo.map((p:Coordinate) => [p.lng, p.lat])],
         };
         return entity;
     }

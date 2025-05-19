@@ -20,6 +20,7 @@ export class FieldTypeOrmRepository implements IFieldRepository {
   async insert(entity: Field): Promise<void> {
   
     const fieldEntity = FieldEntityMapper.toTypeEntity(entity);
+    console.log(fieldEntity)
     await this.ormRepository.save(fieldEntity);
   }
 

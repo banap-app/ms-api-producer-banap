@@ -46,7 +46,7 @@ import { FieldBoundaryEntity } from 'src/core/field/infrastructure/db/typeorm/Fi
         },
     {
       provide: CreateFieldUseCase,
-      useFactory: (fieldRepo:FieldTypeOrmRepository, propertyRepo: PropertyTypeOrmRepository, producerRepo: ProducerTypeOrmRepository) => new CreateFieldUseCase(fieldRepo,propertyRepo, producerRepo)
+      useFactory: (fieldRepo:FieldTypeOrmRepository, propertyRepo: PropertyTypeOrmRepository, producerRepo: ProducerTypeOrmRepository) => new CreateFieldUseCase(fieldRepo,propertyRepo, producerRepo), inject: [FieldTypeOrmRepository, PropertyTypeOrmRepository, ProducerTypeOrmRepository]
     }
   ],
   exports: [FieldTypeOrmRepository]

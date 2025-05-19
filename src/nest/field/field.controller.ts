@@ -1,22 +1,24 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Inject } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, Req } from '@nestjs/common';
 import { CreateFieldDto } from './dto/create-field.dto';
 import { UpdateFieldDto } from './dto/update-field.dto';
 import { CreateFieldUseCase } from 'src/core/field/application/use-cases/create-field/CreateFieldUseCase';
 import { CreateFieldCommand } from 'src/core/field/application/use-cases/create-field/CreateFieldCommand';
+import { ApiSecurity } from '@nestjs/swagger';
 
+@ApiSecurity('token')
 @Controller('field')
 export class FieldController {
 
   constructor(@Inject(CreateFieldUseCase) private readonly createFieldUseCase: CreateFieldUseCase) {}
 
   @Post()
-  create(@Body() createFieldDto: CreateFieldDto) {
+  create(@Body() createFieldDto: CreateFieldDto, @Req() request) {
     const aCommand = new CreateFieldCommand({
       crop: createFieldDto.crop,
       description: createFieldDto.description,
       isActive: createFieldDto.isActive,
       name: createFieldDto.name,
-      producerId: createFieldDto.producerId,
+      producerId: request.user.id,
       propertyId: createFieldDto.propertyId,
       fieldBoundary: createFieldDto.fieldBoundary
     })

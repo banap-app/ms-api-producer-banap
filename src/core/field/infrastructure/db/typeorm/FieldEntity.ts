@@ -16,6 +16,7 @@ import {
   OneToOne,
   Polygon,
   PrimaryGeneratedColumn,
+  RelationId,
 } from 'typeorm';
 import { FieldBoundaryEntity } from './FieldBoundaryEntity';
 
@@ -51,17 +52,14 @@ export class FieldEntity {
   })
   boundary: FieldBoundaryEntity;
 
-  @OneToOne(() => ProducerEntity)
-  @JoinColumn({ referencedColumnName: 'producer_id', name: 'producer_id' })
+  @ManyToOne(() => ProducerEntity)
+  @JoinColumn({ name: 'producer_id',referencedColumnName: "id" })
   producerId: string;
-  @Column({ name: 'property_id' })
+
+  @ManyToOne(() => PropertyEntity)
+  @JoinColumn({ name: 'property_id',referencedColumnName: "propertyId" })
   propertyId: string;
 
-  @ManyToOne(() => PropertyEntity, property => property.fields, {
-    eager: true,
-  })
-  @JoinColumn({ name: 'property_id' })
-  property: PropertyEntity;
 
   static fromDomain(props: FieldEntityConstructorProps): FieldEntity {
     const entity = new FieldEntity();

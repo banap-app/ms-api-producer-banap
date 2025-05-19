@@ -26,7 +26,7 @@ export class CreateProducerUseCase
     const aProducer = Producer.create(aCommand);
 
     if (aCommand.typeUser !== TypeUser.Producer) {
-        aProducer.notification.addError("InvalidTypeOfUser", "InvalidTypeUser")
+      aProducer.notification.addError('InvalidTypeOfUser', 'InvalidTypeUser');
     }
 
     if (aProducer.notification.hasErrors()) {
@@ -44,7 +44,7 @@ export class CreateProducerUseCase
 
     const hashPassword = await this.cryptService.encode(
       aProducer.getPassword().getValue.toString(),
-      10
+      10,
     );
 
     aProducer.changePasswordHashed(hashPassword);

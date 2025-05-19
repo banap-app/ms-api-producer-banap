@@ -1,3 +1,4 @@
+import { ProducerId } from 'src/core/producer/domain/Producer';
 import { PropertyId } from '../../property/domain/Property';
 import { Entity } from '../../shared/domain/Entity';
 import { Uuid } from '../../shared/domain/value-objects/UuidVo';
@@ -7,6 +8,7 @@ import { FieldValidatorFactory } from './FieldValidator';
 export type FieldConstructorProps = {
   fieldId?: string;
   propertyId: string;
+  producerId: string;
   name: string;
   description: string;
   crop: string;
@@ -19,6 +21,7 @@ export type FieldConstructorProps = {
 
 export type FieldCreateCommand = {
   propertyId: string;
+  producerId: string;
   name: string;
   description: string;
   crop: string;
@@ -31,6 +34,7 @@ export class FieldId extends Uuid {}
 export class Field extends Entity {
   private fieldId: FieldId;
   private propertyId: PropertyId;
+  private producerId: ProducerId;
   private name: string;
   private description: string;
   private crop: string;
@@ -44,6 +48,7 @@ export class Field extends Entity {
     super();
     this.fieldId = props.fieldId ? new FieldId(props.fieldId) : new FieldId();
     this.propertyId = new PropertyId(props.propertyId);
+    this.producerId = new ProducerId(props.producerId);
     this.name = props.name;
     this.description = props.description;
     this.crop = props.crop;
@@ -100,18 +105,60 @@ export class Field extends Entity {
     return this.fieldBoundary.calculateFieldArea();
   }
 
+  public getPropertyId() {
+    return this.propertyId;
+  }
+
+  public getProducerId() {
+    return this.producerId;
+  }
+
+  public getName() {
+    return this.name;
+  }
+
+  public getDescription() {
+    return this.description;
+  }
+
+  public getCrop() {
+    return this.crop;
+  }
+
+  public getFieldBoundary() {
+    return this.fieldBoundary;
+  }
+
+  public getIsActive() {
+    return this.isActive;
+  }
+
+  public getCreatedAt() {
+    return this.createdAt;
+  }
+
+  public getUpdatedAt() {
+    return this.updatedAt;
+  }
+
+  public getDeletedAt() {
+    return this.deletedAt;
+  }
+
   get getId() {
     return this.fieldId;
   }
 
   toJSON() {
     return {
-      fieldId: this.fieldId,
-      propertyId: this.propertyId,
+      fieldId: this.fieldId.id,
+      propertyId: this.propertyId.id,
+      producerId: this.producerId.id,
       name: this.name,
       description: this.description,
       fieldBoundary: this.fieldBoundary,
       crop: this.crop,
+      isActive: this.isActive,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       deletedAt: this.deletedAt,

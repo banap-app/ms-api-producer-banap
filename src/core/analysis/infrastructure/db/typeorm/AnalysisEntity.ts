@@ -1,11 +1,6 @@
-import {
-  Column,
-  Entity,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { AnalysisLimingEntity } from './AnalysisLimingEntity';
-import { AnalysisNpkEntity }     from './AnalysisNpkEntity';
+import { AnalysisNpkEntity } from './AnalysisNpkEntity';
 
 @Entity({ name: 'analysis' })
 export class AnalysisEntity {
@@ -31,17 +26,15 @@ export class AnalysisEntity {
   deletedAt?: Date;
 
   // NÃO declara @JoinColumn aqui — o lado filho tem a FK
-  @OneToOne(
-    () => AnalysisLimingEntity,
-    liming => liming.analysis,
-    { cascade: true, nullable: true }
-  )
+  @OneToOne(() => AnalysisLimingEntity, (liming) => liming.analysis, {
+    cascade: true,
+    nullable: true,
+  })
   liming?: AnalysisLimingEntity;
 
-  @OneToOne(
-    () => AnalysisNpkEntity,
-    npk => npk.analysis,
-    { cascade: true, nullable: true }
-  )
+  @OneToOne(() => AnalysisNpkEntity, (npk) => npk.analysis, {
+    cascade: true,
+    nullable: true,
+  })
   npk?: AnalysisNpkEntity;
 }

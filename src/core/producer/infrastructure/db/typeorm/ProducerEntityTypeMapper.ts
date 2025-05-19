@@ -16,7 +16,7 @@ export class ProducerEntityTypeMapper {
       deletedAt: producer.getDeletedAt(),
       updatedAt: producer.getUpdatedAt(),
       profilePicture: producer.getProfilePicture(),
-      typeUser: producer.getTypeUser()
+      typeUser: producer.getTypeUser(),
     });
   }
 

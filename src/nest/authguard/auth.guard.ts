@@ -1,5 +1,10 @@
 // auth.guard.ts
-import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from './public.decorator';
 import { AxiosService } from '../axios-module/axios.service';
@@ -8,7 +13,7 @@ import { AxiosService } from '../axios-module/axios.service';
 export class AuthGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    private readonly axios: AxiosService
+    private readonly axios: AxiosService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -21,8 +26,7 @@ export class AuthGuard implements CanActivate {
     const req = context.switchToHttp().getRequest();
     const authHeader = req.headers.authorization;
     if (!authHeader) throw new UnauthorizedException();
-
-    
+   
     const response = await this.axios.post('/api/auth/verify', {
         token: authHeader
     })
@@ -32,6 +36,7 @@ export class AuthGuard implements CanActivate {
     req.user = {
       id: response.data.decodedToken
     };
+    
     return true;
   }
 }

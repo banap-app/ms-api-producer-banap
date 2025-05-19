@@ -3,7 +3,7 @@ import { Property } from '../../domain/Property';
 
 export type PropertyOutput = {
   id: string;
-  producerId: ProducerId;
+  producerId: string;
   name: string;
   createdAt: Date;
   updatedAt: Date;

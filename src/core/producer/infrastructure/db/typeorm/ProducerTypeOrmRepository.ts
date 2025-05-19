@@ -1,8 +1,8 @@
-import { Repository } from "typeorm";
-import { Producer, ProducerId } from "../../../domain/Producer";
-import { ProducerRepository } from "../../../domain/ProducerRepository";
-import { ProducerEntity } from "./ProducerEntity";
-import { ProducerEntityTypeMapper } from "./ProducerEntityTypeMapper";
+import { Repository } from 'typeorm';
+import { Producer, ProducerId } from '../../../domain/Producer';
+import { ProducerRepository } from '../../../domain/ProducerRepository';
+import { ProducerEntity } from './ProducerEntity';
+import { ProducerEntityTypeMapper } from './ProducerEntityTypeMapper';
 
 export class ProducerTypeOrmRepository implements ProducerRepository {
   private ormRepository: Repository<ProducerEntity>;

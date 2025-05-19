@@ -25,7 +25,7 @@ import { ApiSecurity } from '@nestjs/swagger';
 import { AuthGuard } from '../authguard/auth.guard';
 
 @UseGuards(AuthGuard)
-@ApiSecurity('token') 
+@ApiSecurity('token')
 @Controller('property')
 export class PropertyController {
   constructor(
@@ -55,7 +55,7 @@ export class PropertyController {
   @SwaggerListProperties()
   @Get()
   findAll(@Req() request) {
-    const producerId = request.user.id as string
+    const producerId = request.user.id as string;
     return this.listPropertyUseCase.execute({
       producerId,
     });

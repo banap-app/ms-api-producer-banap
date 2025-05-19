@@ -18,14 +18,12 @@ export class FieldTypeOrmRepository implements IFieldRepository {
   }
 
   async insert(entity: Field): Promise<void> {
-  
     const fieldEntity = FieldEntityMapper.toTypeEntity(entity);
-    console.log(fieldEntity)
+    console.log(fieldEntity);
     await this.ormRepository.save(fieldEntity);
   }
 
   async update(entity: Field): Promise<void> {
-   
     const existing = await this.ormRepository.findOne({
       where: { fieldId: entity.getId.id },
       relations: ['boundary', 'producer', 'property'],
@@ -43,11 +41,14 @@ export class FieldTypeOrmRepository implements IFieldRepository {
     existing.deletedAt = entity.getDeletedAt();
 
     // update boundary
-    FieldEntityMapper.assignBoundary(existing, entity.getFieldBoundary().getPoints());
+    FieldEntityMapper.assignBoundary(
+      existing,
+      entity.getFieldBoundary().getPoints(),
+    );
 
     // update relations (if needed)
-    existing.producerId = entity.getProducerId().id
-    existing.propertyId = entity.getPropertyId().id
+    existing.producerId = entity.getProducerId().id;
+    existing.propertyId = entity.getPropertyId().id;
 
     await this.ormRepository.save(existing);
   }

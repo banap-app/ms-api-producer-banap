@@ -1,16 +1,30 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Inject,
+  Req,
+} from '@nestjs/common';
 import { CreateFieldDto } from './dto/create-field.dto';
 import { UpdateFieldDto } from './dto/update-field.dto';
 import { CreateFieldUseCase } from 'src/core/field/application/use-cases/create-field/CreateFieldUseCase';
 import { CreateFieldCommand } from 'src/core/field/application/use-cases/create-field/CreateFieldCommand';
 import { ApiSecurity } from '@nestjs/swagger';
+import { SwaggerCreateField } from './field.controller.interface';
 
 @ApiSecurity('token')
 @Controller('field')
 export class FieldController {
+  constructor(
+    @Inject(CreateFieldUseCase)
+    private readonly createFieldUseCase: CreateFieldUseCase,
+  ) {}
 
-  constructor(@Inject(CreateFieldUseCase) private readonly createFieldUseCase: CreateFieldUseCase) {}
-
+  @SwaggerCreateField()
   @Post()
   create(@Body() createFieldDto: CreateFieldDto, @Req() request) {
     const aCommand = new CreateFieldCommand({
@@ -20,24 +34,20 @@ export class FieldController {
       name: createFieldDto.name,
       producerId: request.user.id,
       propertyId: createFieldDto.propertyId,
-      fieldBoundary: createFieldDto.fieldBoundary
-    })
-    return this.createFieldUseCase.execute(aCommand)
+      fieldBoundary: createFieldDto.fieldBoundary,
+    });
+    return this.createFieldUseCase.execute(aCommand);
   }
 
-  @Get()
-  findAll() {
-  }
+  // @Get()
+  // findAll() {}
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {}
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFieldDto: UpdateFieldDto) {
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateFieldDto: UpdateFieldDto) {}
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {}
 }

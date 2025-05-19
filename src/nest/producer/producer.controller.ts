@@ -19,7 +19,12 @@ import { UpdateProducerCommand } from 'src/core/producer/application/use-cases/u
 import { DeleteProducerCommand } from 'src/core/producer/application/use-cases/delete-producer/DeleteProducerCommand';
 import { DeleteProducerUseCase } from 'src/core/producer/application/use-cases/delete-producer/DeleteProducerUseCase';
 import { GetProducerUseCase } from 'src/core/producer/application/use-cases/retrieve-producer/get-producer/GetProducerUseCase';
-import { SwaggerCreateProducer } from './producer.controller.interface';
+import {
+  SwaggerCreateProducer,
+  SwaggerDeleteProducer,
+  SwaggerGetProducer,
+  SwaggerUpdateProducer,
+} from './producer.controller.interface';
 import { TypeUser } from 'src/core/producer/domain/TypeUser';
 import { Public } from '../authguard/public.decorator';
 import { ApiSecurity } from '@nestjs/swagger';
@@ -78,16 +83,18 @@ export class ProducerController {
     return this.createProducerUseCase.execute(command);
   }
 
-  @Get()
-  findAll() {
-    return;
-  }
+  // @Get()
+  // findAll() {
+  //   return;
+  // }
 
+  @SwaggerGetProducer()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.getProducerUseCase.execute({ producerId: id });
   }
 
+  @SwaggerUpdateProducer()
   @Patch()
   update(@Body() updateProducerDto: UpdateProducerDto) {
     let profilePicture;
@@ -127,6 +134,7 @@ export class ProducerController {
     return this.updateProducerUseCase.execute(command);
   }
 
+  @SwaggerDeleteProducer()
   @Delete(':id')
   remove(@Param('id') id: string) {
     const command = new DeleteProducerCommand(id);

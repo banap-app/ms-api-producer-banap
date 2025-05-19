@@ -2,27 +2,23 @@ import {
   Coordinate,
   FieldBoundary,
 } from 'src/core/field/domain/FieldBoundaryVo';
-import {
-  FieldEntity,
-  FieldEntityConstructorProps,
-} from './FieldEntity';
+import { FieldEntity, FieldEntityConstructorProps } from './FieldEntity';
 import { Field, FieldId } from 'src/core/field/domain/Field';
 import { FieldBoundaryEntity } from './FieldBoundaryEntity';
 export class FieldEntityMapper {
   static toTypeEntity(entity: Field): FieldEntity {
     return FieldEntity.fromDomain({
-     fieldId: entity.getId.id,
-     crop: entity.getCrop(),
-     description: entity.getDescription(),
-     fieldBoundary: entity.getFieldBoundary(),
+      fieldId: entity.getId.id,
+      crop: entity.getCrop(),
+      description: entity.getDescription(),
+      fieldBoundary: entity.getFieldBoundary(),
       isActive: entity.getIsActive(),
       name: entity.getName(),
       producerId: entity.getProducerId().id,
       propertyId: entity.getPropertyId().id,
       createdAt: entity.getCreatedAt(),
       updatedAt: entity.getUpdatedAt(),
-      deletedAt: entity.getDeletedAt()
-     
+      deletedAt: entity.getDeletedAt(),
     });
   }
 
@@ -45,13 +41,13 @@ export class FieldEntityMapper {
       deletedAt: entity.deletedAt,
       fieldBoundary: coords,
     });
-    field.validate()
-    
-    if(field.notification.hasErrors()){
-         throw new Error(field.notification.toJSON());
+    field.validate();
+
+    if (field.notification.hasErrors()) {
+      throw new Error(field.notification.toJSON());
     }
 
-    return field
+    return field;
   }
 
   static assignBoundary(entity: FieldEntity, coords: Coordinate[]): void {

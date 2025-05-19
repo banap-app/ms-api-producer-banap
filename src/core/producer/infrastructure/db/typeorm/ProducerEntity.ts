@@ -88,7 +88,11 @@ export class ProducerEntity {
   @Column({ type: 'int', name: 'profile_picture_id', nullable: true })
   profilePictureId?: number;
 
-  @OneToOne(() => ProfilePictureEntity, { cascade: true, eager: true, nullable: true })
+  @OneToOne(() => ProfilePictureEntity, {
+    cascade: true,
+    eager: true,
+    nullable: true,
+  })
   @JoinColumn({ name: 'profile_picture_id' })
   profilePicture?: ProfilePictureEntity;
 

@@ -33,7 +33,7 @@ import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/Prop
       password: 'admin',
       database: 'banap_database',
       entities: [
-         FieldEntity,
+        FieldEntity,
         FieldBoundaryEntity,
         ProducerEntity,
         ProfilePictureEntity,
@@ -42,7 +42,6 @@ import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/Prop
         AnalysisEntity,
         AnalysisNpkEntity,
         AnalysisLimingEntity,
-
       ],
       synchronize: false,
     }),

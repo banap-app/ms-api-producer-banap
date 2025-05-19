@@ -21,7 +21,7 @@ export class FieldBoundary extends ValueObject {
   }
 
   public getPoints(): Coordinate[] {
-    return this.points
+    return this.points;
   }
 
   private validate() {

@@ -15,6 +15,7 @@ import { CreateAnalysisUseCase } from '../../core/analysis/application/create-an
 import { CreateAnalysisCommand } from '../../core/analysis/application/create-analysis/CreateAnalysisCommand';
 import { Request } from 'express';
 import { ApiSecurity } from '@nestjs/swagger';
+import { SwaggerCreateAnalysis } from './analysis.controller.interface';
 
 @ApiSecurity('token')
 @Controller('analysis')
@@ -24,6 +25,7 @@ export class AnalysisController {
     private readonly createAnalysisUseCase: CreateAnalysisUseCase,
   ) {}
 
+  @SwaggerCreateAnalysis()
   @Post()
   create(
     @Req() request: Request,

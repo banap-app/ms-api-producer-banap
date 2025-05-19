@@ -23,7 +23,6 @@ export function SwaggerCreateProperty() {
 export function SwaggerListProperties() {
   return applyDecorators(
     ApiOperation({ summary: 'List all Properties' }),
-    ApiQuery({ name: 'producerId', required: true, type: String }),
     ApiResponse({
       status: 200,
       description: 'List of properties',

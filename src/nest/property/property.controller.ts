@@ -9,6 +9,7 @@ import {
   Inject,
   Query,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { CreatePropertyUseCase } from 'src/core/property/application/use-cases/create-property/CreatePropertyUseCase';
@@ -21,8 +22,10 @@ import {
 import { GetPropertyUseCase } from 'src/core/property/application/use-cases/retrieve-property/GetPropertyUseCase';
 import { ListPropertyUseCase } from 'src/core/property/application/use-cases/retrieve-property/ListPropertiesUseCase';
 import { ApiSecurity } from '@nestjs/swagger';
+import { AuthGuard } from '../authguard/auth.guard';
 
-@ApiSecurity('token')
+@UseGuards(AuthGuard)
+@ApiSecurity('token') 
 @Controller('property')
 export class PropertyController {
   constructor(
@@ -40,9 +43,8 @@ export class PropertyController {
     if (!createPropertyDto) {
       throw new Error('Insert create property DTO');
     }
-
     const command = new CreatePropertyCommand({
-      producerId: request.user,
+      producerId: request.user.id,
       name: createPropertyDto.name,
       isActive: createPropertyDto.isActive,
     });
@@ -52,7 +54,8 @@ export class PropertyController {
 
   @SwaggerListProperties()
   @Get()
-  findAll(@Query('producerId') producerId: string) {
+  findAll(@Req() request) {
+    const producerId = request.user.id as string
     return this.listPropertyUseCase.execute({
       producerId,
     });

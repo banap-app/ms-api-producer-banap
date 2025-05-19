@@ -18,6 +18,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AxiosModule } from './axios-module/axios.module';
 import httpConfig from './config/httpConfig';
 import { PropertyModule } from './property/property.module';
+import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/PropertyEntity';
 
 @Module({
   imports: [

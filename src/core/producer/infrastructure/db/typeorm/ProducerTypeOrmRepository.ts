@@ -40,8 +40,9 @@ export class ProducerTypeOrmRepository implements ProducerRepository {
     throw new Error('Method not implemented.');
   }
   async findById(entity_id: ProducerId): Promise<Producer> {
-    const producer = await this.ormRepository.findOneBy({
-      producer_id: entity_id.id,
+    const producer = await this.ormRepository.findOne({
+      where: {producer_id: entity_id.id},
+      relations: ['typeUser']
     });
     return ProducerEntityTypeMapper.toDomain(producer, { needPasswords: true });
   }

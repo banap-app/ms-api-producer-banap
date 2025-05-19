@@ -1,13 +1,40 @@
-import { Producer } from 'src/core/producer/domain/Producer';
-import { ProfilePicture } from 'src/core/producer/domain/ProfilePictureVo';
+import { TypeUser } from 'src/core/producer/domain/TypeUser';
+import { ProfilePicture } from '../../../../../core/producer/domain/ProfilePictureVo';
 import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
-  Generated,
   OneToOne,
   JoinColumn,
+  ManyToOne,
 } from 'typeorm';
+
+@Entity({ name: 'type_users' })
+export class TypeUserEntity {
+  @PrimaryGeneratedColumn('increment')
+  id: number;
+
+  @Column({ name: 'type_name', nullable: false, unique: true })
+  typeName: string;
+
+  constructor(props?: { typeName: string; id: number }) {
+    if (props) {
+      this.typeName = props.typeName;
+      this.id = props.id;
+    }
+  }
+
+  static fromVo(vo: TypeUser): TypeUserEntity {
+    if (vo === TypeUser.NULL) {
+      throw new Error('Tipo de usuário inválido: NULL');
+    }
+    return new TypeUserEntity({
+      id: vo,
+      typeName: TypeUser[vo],
+    });
+  }
+}
+
 
 @Entity({ name: 'profile_picture_entity' })
 export class ProfilePictureEntity {
@@ -42,14 +69,15 @@ export type ProducerConstructorProps = {
   password: string;
   isActive: boolean;
   profilePicture: ProfilePicture;
+  typeUser: TypeUser;
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date;
 };
 
-@Entity({ name: 'producer' })
+@Entity({ name: 'users' })
 export class ProducerEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('uuid', { name: 'id' })
   producer_id: string;
 
   @Column({ type: 'varchar', length: 255 })
@@ -64,6 +92,10 @@ export class ProducerEntity {
   @Column({ type: 'boolean' })
   isActive: boolean;
 
+  @ManyToOne(() => TypeUserEntity)
+  @JoinColumn({ name: 'type_user_id', referencedColumnName: 'id' })
+  typeUser: TypeUserEntity;
+
   @OneToOne(() => ProfilePictureEntity, { cascade: true, nullable: true })
   @JoinColumn()
   profilePicture?: ProfilePictureEntity;
@@ -77,7 +109,6 @@ export class ProducerEntity {
   @Column({ type: 'timestamp', nullable: true })
   deletedAt: Date;
 
-  // ✨ Factory para criar a entidade fora do TypeORM (sem interferir na lib)
   static fromDomain(props: ProducerConstructorProps): ProducerEntity {
     const entity = new ProducerEntity();
     entity.producer_id = props.producerId;
@@ -91,6 +122,7 @@ export class ProducerEntity {
     entity.createdAt = props.createdAt;
     entity.updatedAt = props.updatedAt;
     entity.deletedAt = props.deletedAt;
+    entity.typeUser = TypeUserEntity.fromVo(props.typeUser);
     return entity;
   }
 }

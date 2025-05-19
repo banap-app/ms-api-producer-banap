@@ -2,6 +2,7 @@ import { Password } from 'src/core/producer/domain/PasswordVo';
 import { Producer, ProducerId } from '../../../domain/Producer';
 import { ProfilePicture } from '../../../domain/ProfilePictureVo';
 import { ProducerEntity } from './ProducerEntity';
+import { TypeUser } from 'src/core/producer/domain/TypeUser';
 
 export class ProducerEntityTypeMapper {
   static toTypeEntity(producer: Producer): ProducerEntity {
@@ -15,6 +16,7 @@ export class ProducerEntityTypeMapper {
       deletedAt: producer.getDeletedAt(),
       updatedAt: producer.getUpdatedAt(),
       profilePicture: producer.getProfilePicture(),
+      typeUser: producer.getTypeUser()
     });
   }
 
@@ -27,6 +29,12 @@ export class ProducerEntityTypeMapper {
       name: producerEntity.name,
       email: producerEntity.email,
       isActive: producerEntity.isActive,
+      typeUser:
+        producerEntity.typeUser.typeName == 'Producer'
+          ? TypeUser.Producer
+          : producerEntity.typeUser.typeName == 'Engineer'
+            ? TypeUser.Engineer
+            : TypeUser.NULL,
       password:
         options.needPasswords == true && producerEntity.password
           ? Password.hashPassword(producerEntity.password)

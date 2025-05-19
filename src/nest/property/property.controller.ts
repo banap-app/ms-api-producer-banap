@@ -8,9 +8,9 @@ import {
   Delete,
   Inject,
   Query,
+  Req,
 } from '@nestjs/common';
 import { CreatePropertyDto } from './dto/create-property.dto';
-import { UpdatePropertyDto } from './dto/update-property.dto';
 import { CreatePropertyUseCase } from 'src/core/property/application/use-cases/create-property/CreatePropertyUseCase';
 import { CreatePropertyCommand } from 'src/core/property/application/use-cases/create-property/CreatePropertyCommand';
 import {
@@ -20,8 +20,9 @@ import {
 } from './property.controller.interface';
 import { GetPropertyUseCase } from 'src/core/property/application/use-cases/retrieve-property/GetPropertyUseCase';
 import { ListPropertyUseCase } from 'src/core/property/application/use-cases/retrieve-property/ListPropertiesUseCase';
-import { ApiQuery } from '@nestjs/swagger';
+import { ApiSecurity } from '@nestjs/swagger';
 
+@ApiSecurity('token') 
 @Controller('property')
 export class PropertyController {
   constructor(
@@ -35,13 +36,13 @@ export class PropertyController {
 
   @SwaggerCreateProperty()
   @Post()
-  create(@Body() createPropertyDto: CreatePropertyDto) {
+  create(@Body() createPropertyDto: CreatePropertyDto, @Req() request) {
     if (!createPropertyDto) {
       throw new Error('Insert create property DTO');
     }
 
     const command = new CreatePropertyCommand({
-      producerId: createPropertyDto.producerId,
+      producerId: request.user,
       name: createPropertyDto.name,
       isActive: createPropertyDto.isActive,
     });

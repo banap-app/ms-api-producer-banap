@@ -18,6 +18,9 @@ import { ConfigModule } from '@nestjs/config';
 import { AxiosModule } from './axios-module/axios.module';
 import httpConfig from './config/httpConfig';
 import { PropertyModule } from './property/property.module';
+import { FieldEntity } from 'src/core/field/infrastructure/db/typeorm/FieldEntity';
+import { FieldModule } from './field/field.module';
+import { FieldBoundaryEntity } from 'src/core/field/infrastructure/db/typeorm/FieldBoundaryEntity';
 import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/PropertyEntity';
 
 @Module({
@@ -30,15 +33,18 @@ import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/Prop
       password: 'admin',
       database: 'banap_database',
       entities: [
+         FieldEntity,
+        FieldBoundaryEntity,
         ProducerEntity,
         ProfilePictureEntity,
+        PropertyEntity,
         TypeUserEntity,
         AnalysisEntity,
         AnalysisNpkEntity,
         AnalysisLimingEntity,
-        PropertyEntity
+
       ],
-      synchronize: true,
+      synchronize: false,
     }),
     ConfigModule.forRoot({
       envFilePath: '.env',
@@ -48,6 +54,7 @@ import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/Prop
     ProducerModule,
     AnalysisModule,
     PropertyModule,
+    FieldModule,
     AxiosModule,
   ],
   controllers: [AppController],

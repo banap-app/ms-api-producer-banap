@@ -9,7 +9,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 
-@Entity({ name: 'type_users' })
+@Entity('type_users')
 export class TypeUserEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
@@ -17,47 +17,33 @@ export class TypeUserEntity {
   @Column({ name: 'type_name', nullable: false, unique: true })
   typeName: string;
 
-  constructor(props?: { typeName: string; id: number }) {
-    if (props) {
-      this.typeName = props.typeName;
-      this.id = props.id;
-    }
-  }
-
   static fromVo(vo: TypeUser): TypeUserEntity {
     if (vo === TypeUser.NULL) {
       throw new Error('Tipo de usuário inválido: NULL');
     }
-    return new TypeUserEntity({
-      id: vo,
-      typeName: TypeUser[vo],
-    });
+    const entity = new TypeUserEntity();
+    entity.id = vo;
+    entity.typeName = TypeUser[vo];
+    return entity;
   }
 }
 
-@Entity({ name: 'profile_picture_entity' })
+@Entity('profile_picture_entity')
 export class ProfilePictureEntity {
-  @PrimaryGeneratedColumn()
-  id?: number;
+  @PrimaryGeneratedColumn({ name: 'id' })
+  id: number;
 
-  @Column()
+  @Column({ name: 'name' })
   name: string;
 
-  @Column()
+  @Column({ name: 'location' })
   location: string;
 
-  constructor(props?: { name: string; location: string }) {
-    if (props) {
-      this.name = props.name;
-      this.location = props.location;
-    }
-  }
-
   static fromVo(vo: ProfilePicture): ProfilePictureEntity {
-    return new ProfilePictureEntity({
-      name: vo.name,
-      location: vo.location,
-    });
+    const entity = new ProfilePictureEntity();
+    entity.name = vo.name;
+    entity.location = vo.location;
+    return entity;
   }
 }
 
@@ -74,10 +60,10 @@ export type ProducerConstructorProps = {
   deletedAt: Date;
 };
 
-@Entity({ name: 'users' })
+@Entity('users')
 export class ProducerEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
-  producer_id: string;
+  id: string;
 
   @Column({ type: 'varchar', length: 255 })
   name: string;
@@ -88,40 +74,50 @@ export class ProducerEntity {
   @Column({ type: 'text' })
   password: string;
 
-  @Column({ type: 'boolean' })
+  @Column({ type: 'boolean', name: 'is_active' })
   isActive: boolean;
 
-  @ManyToOne(() => TypeUserEntity)
-  @JoinColumn({ name: 'type_user_id', referencedColumnName: 'id' })
+  @Column({ type: 'int', name: 'type_user_id' })
+  typeUserId: number;
+
+  @ManyToOne(() => TypeUserEntity, { eager: true })
+  @JoinColumn({ name: 'type_user_id' })
   typeUser: TypeUserEntity;
 
-  @OneToOne(() => ProfilePictureEntity, { cascade: true, nullable: true })
-  @JoinColumn()
+  // --- Foto de perfil ---
+  @Column({ type: 'int', name: 'profile_picture_id', nullable: true })
+  profilePictureId?: number;
+
+  @OneToOne(() => ProfilePictureEntity, { cascade: true, eager: true, nullable: true })
+  @JoinColumn({ name: 'profile_picture_id' })
   profilePicture?: ProfilePictureEntity;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', name: 'created_at' })
   createdAt: Date;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', name: 'updated_at' })
   updatedAt: Date;
 
-  @Column({ type: 'timestamp', nullable: true })
-  deletedAt: Date;
+  @Column({ type: 'timestamp', name: 'deleted_at', nullable: true })
+  deletedAt?: Date;
 
   static fromDomain(props: ProducerConstructorProps): ProducerEntity {
     const entity = new ProducerEntity();
-    entity.producer_id = props.producerId;
+    entity.id = props.producerId;
     entity.name = props.name;
     entity.email = props.email;
     entity.password = props.password;
     entity.isActive = props.isActive;
-    entity.profilePicture = props.profilePicture
-      ? ProfilePictureEntity.fromVo(props.profilePicture)
-      : undefined;
     entity.createdAt = props.createdAt;
     entity.updatedAt = props.updatedAt;
     entity.deletedAt = props.deletedAt;
-    entity.typeUser = TypeUserEntity.fromVo(props.typeUser);
+    // Associações pelo TypeORM
+    entity.typeUserId = props.typeUser;
+    if (props.profilePicture) {
+      const pic = ProfilePictureEntity.fromVo(props.profilePicture);
+      entity.profilePicture = pic;
+      // note: pic.id será gerado no insert
+    }
     return entity;
   }
 }

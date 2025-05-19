@@ -67,7 +67,7 @@ export class Field extends Entity {
     return field;
   }
 
-  private validate(fields: string[]) {
+  public validate(fields?: string[]) {
     const fieldValidate = FieldValidatorFactory.create();
     return fieldValidate.validate(this.notification, this, fields);
   }

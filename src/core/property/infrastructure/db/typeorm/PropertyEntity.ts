@@ -1,3 +1,4 @@
+import { FieldEntity } from 'src/core/field/infrastructure/db/typeorm/FieldEntity';
 import { Producer } from 'src/core/producer/domain/Producer';
 import { ProducerEntity } from 'src/core/producer/infrastructure/db/typeorm/ProducerEntity';
 import {
@@ -5,6 +6,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -26,7 +28,7 @@ export class PropertyEntity {
   @Column({ name: 'producer_id' })
   producerId: string;
 
-  @ManyToOne(() => ProducerEntity, (producer) => producer.producer_id)
+  @ManyToOne(() => ProducerEntity, (producer) => producer.id)
   @JoinColumn({ name: 'producer_id' })
   producer: ProducerEntity;
 
@@ -44,6 +46,9 @@ export class PropertyEntity {
 
   @Column({ type: 'timestamp', name: 'deleted_at', nullable: true })
   deletedAt: Date;
+
+  @OneToMany(() => require("../../../../field/infrastructure/db/typeorm/FieldEntity").FieldEntity, (field: any) => field.property)
+  fields: any[];
 
   static fromDomain(props: PropertyConstructorProps): PropertyEntity {
     const entity = new PropertyEntity();

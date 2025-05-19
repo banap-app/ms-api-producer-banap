@@ -20,6 +20,10 @@ export class FieldBoundary extends ValueObject {
     return Either.safe(() => new FieldBoundary(points));
   }
 
+  public getPoints(): Coordinate[] {
+    return this.points
+  }
+
   private validate() {
     if (this.points.length < 3 || this.points.length > 6) {
       throw new InvalidFieldBoundaryError();

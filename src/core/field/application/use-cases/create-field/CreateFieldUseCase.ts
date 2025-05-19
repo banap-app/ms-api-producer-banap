@@ -30,13 +30,12 @@ export class CreateFieldUseCase
   }
 
   async execute(aCommand: CreateFieldCommand): Promise<FieldOutput> {
-
     const aField = Field.create(aCommand);
 
     if (aField.notification.hasErrors()) {
       throw new Error(aField.notification.toJSON());
     }
-    
+
     const property = await this.propertyRepository.findById(
       new PropertyId(aCommand.propertyId),
     );

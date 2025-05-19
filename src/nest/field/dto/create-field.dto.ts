@@ -52,12 +52,13 @@ export class CreateFieldDto {
   isActive: boolean;
 
   @ApiProperty({
-    description: 'Sequência ordenada de coordenadas definindo o polígono de contorno do campo (mínimo 3, máximo 6 pontos)',
+    description:
+      'Sequência ordenada de coordenadas definindo o polígono de contorno do campo (mínimo 3, máximo 6 pontos)',
     type: [CoordinateDto],
     example: [
       { lat: -23.55052, lng: -46.633308 },
-      { lat: -23.55100, lng: -46.634000 },
-      { lat: -23.55000, lng: -46.634500 },
+      { lat: -23.551, lng: -46.634 },
+      { lat: -23.55, lng: -46.6345 },
     ],
   })
   fieldBoundary: CoordinateDto[];

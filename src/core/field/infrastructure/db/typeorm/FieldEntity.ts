@@ -53,13 +53,12 @@ export class FieldEntity {
   boundary: FieldBoundaryEntity;
 
   @ManyToOne(() => ProducerEntity)
-  @JoinColumn({ name: 'producer_id',referencedColumnName: "id" })
+  @JoinColumn({ name: 'producer_id', referencedColumnName: 'id' })
   producerId: string;
 
   @ManyToOne(() => PropertyEntity)
-  @JoinColumn({ name: 'property_id',referencedColumnName: "propertyId" })
+  @JoinColumn({ name: 'property_id', referencedColumnName: 'propertyId' })
   propertyId: string;
-
 
   static fromDomain(props: FieldEntityConstructorProps): FieldEntity {
     const entity = new FieldEntity();

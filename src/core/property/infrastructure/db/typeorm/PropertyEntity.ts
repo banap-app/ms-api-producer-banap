@@ -47,7 +47,12 @@ export class PropertyEntity {
   @Column({ type: 'timestamp', name: 'deleted_at', nullable: true })
   deletedAt: Date;
 
-  @OneToMany(() => require("../../../../field/infrastructure/db/typeorm/FieldEntity").FieldEntity, (field: any) => field.property)
+  @OneToMany(
+    () =>
+      require('../../../../field/infrastructure/db/typeorm/FieldEntity')
+        .FieldEntity,
+    (field: any) => field.property,
+  )
   fields: any[];
 
   static fromDomain(props: PropertyConstructorProps): PropertyEntity {

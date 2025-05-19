@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreatePropertyDto {
-
   @ApiProperty({
     description: 'Name of the property',
     example: 'Banana farm',

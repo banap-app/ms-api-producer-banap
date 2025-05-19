@@ -19,6 +19,10 @@ export class Uuid extends ValueObject {
     }
   }
 
+  get getId() {
+    return this.id
+  }
+
   toString(): string {
     return this.id;
   }

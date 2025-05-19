@@ -35,7 +35,6 @@ export class TypeUserEntity {
   }
 }
 
-
 @Entity({ name: 'profile_picture_entity' })
 export class ProfilePictureEntity {
   @PrimaryGeneratedColumn()

@@ -9,27 +9,29 @@ import { AnalysisLimingEntity } from '../../core/analysis/infrastructure/db/type
 import { AnalysisTypeOrmRepository } from '../../core/analysis/infrastructure/db/typeorm/AnalysisTypeOrmRepository';
 
 @Module({
-   imports: [
-      TypeOrmModule.forFeature([AnalysisEntity, AnalysisNpkEntity, AnalysisLimingEntity]),
-    ],
+  imports: [
+    TypeOrmModule.forFeature([
+      AnalysisEntity,
+      AnalysisNpkEntity,
+      AnalysisLimingEntity,
+    ]),
+  ],
   controllers: [AnalysisController],
   providers: [
     {
       provide: AnalysisTypeOrmRepository,
-         useFactory: (repo: Repository<AnalysisEntity>) => {
-              return new AnalysisTypeOrmRepository(repo);
-            },
-            inject: [getRepositoryToken(AnalysisEntity)]
+      useFactory: (repo: Repository<AnalysisEntity>) => {
+        return new AnalysisTypeOrmRepository(repo);
+      },
+      inject: [getRepositoryToken(AnalysisEntity)],
     },
     {
       provide: CreateAnalysisUseCase,
-      useFactory: (
-        repo: AnalysisTypeOrmRepository) => {
-          return new CreateAnalysisUseCase(repo)
-        },
-        inject:[AnalysisTypeOrmRepository]
-      
-    }
-  ]
+      useFactory: (repo: AnalysisTypeOrmRepository) => {
+        return new CreateAnalysisUseCase(repo);
+      },
+      inject: [AnalysisTypeOrmRepository],
+    },
+  ],
 })
 export class AnalysisModule {}

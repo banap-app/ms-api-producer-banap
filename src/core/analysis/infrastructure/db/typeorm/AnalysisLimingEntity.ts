@@ -12,7 +12,10 @@ export class AnalysisLimingEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'analysis_liming_id' })
   analysisLimingId: string;
 
-  @OneToOne(() => require("./AnalysisEntity").AnalysisEntity, (analysis: any) => analysis.liming)
+  @OneToOne(
+    () => require('./AnalysisEntity').AnalysisEntity,
+    (analysis: any) => analysis.liming,
+  )
   @JoinColumn({ name: 'analysis_id', referencedColumnName: 'analysisId' })
   analysis: any;
 
@@ -37,8 +40,10 @@ export class AnalysisLimingEntity {
     entity.analysis = { analysisId: domain.analysisId?.value };
     entity.desiredBaseSaturation = domain.desiredBaseSaturation?.value;
     entity.currentBaseSaturation = domain.currentBaseSaturation?.value;
-    entity.totalCationExchangeCapacity = domain.totalCationExchangeCapacity?.value;
-    entity.relativeTotalNeutralizingPower = domain.relativeTotalNeutralizingPower?.value;
+    entity.totalCationExchangeCapacity =
+      domain.totalCationExchangeCapacity?.value;
+    entity.relativeTotalNeutralizingPower =
+      domain.relativeTotalNeutralizingPower?.value;
     entity.liming = domain.liming?.value;
     return entity;
   }

@@ -1,7 +1,11 @@
 import { Module } from '@nestjs/common';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import { ProducerController } from './producer.controller';
-import { ProducerEntity, ProfilePictureEntity, TypeUserEntity } from 'src/core/producer/infrastructure/db/typeorm/ProducerEntity';
+import {
+  ProducerEntity,
+  ProfilePictureEntity,
+  TypeUserEntity,
+} from 'src/core/producer/infrastructure/db/typeorm/ProducerEntity';
 
 import { ProducerTypeOrmRepository } from 'src/core/producer/infrastructure/db/typeorm/ProducerTypeOrmRepository';
 import { Repository } from 'typeorm';
@@ -13,7 +17,11 @@ import { GetProducerUseCase } from 'src/core/producer/application/use-cases/retr
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ProducerEntity, ProfilePictureEntity, TypeUserEntity]),
+    TypeOrmModule.forFeature([
+      ProducerEntity,
+      ProfilePictureEntity,
+      TypeUserEntity,
+    ]),
   ],
   controllers: [ProducerController],
   providers: [

@@ -22,7 +22,7 @@ import { GetPropertyUseCase } from 'src/core/property/application/use-cases/retr
 import { ListPropertyUseCase } from 'src/core/property/application/use-cases/retrieve-property/ListPropertiesUseCase';
 import { ApiSecurity } from '@nestjs/swagger';
 
-@ApiSecurity('token') 
+@ApiSecurity('token')
 @Controller('property')
 export class PropertyController {
   constructor(

@@ -24,7 +24,7 @@ import { TypeUser } from 'src/core/producer/domain/TypeUser';
 import { Public } from '../authguard/public.decorator';
 import { ApiSecurity } from '@nestjs/swagger';
 
-@ApiSecurity('token') 
+@ApiSecurity('token')
 @Controller('producer')
 export class ProducerController {
   constructor(
@@ -67,7 +67,12 @@ export class ProducerController {
       password: createProducerDto.password,
       isActive: createProducerDto.isActive,
       profilePicture,
-      typeUser: createProducerDto.typeUser == 2 ? TypeUser.Producer : createProducerDto.typeUser == 1? TypeUser.Engineer : TypeUser.NULL
+      typeUser:
+        createProducerDto.typeUser == 2
+          ? TypeUser.Producer
+          : createProducerDto.typeUser == 1
+            ? TypeUser.Engineer
+            : TypeUser.NULL,
     });
 
     return this.createProducerUseCase.execute(command);
@@ -111,7 +116,12 @@ export class ProducerController {
       password: updateProducerDto.password,
       isActive: updateProducerDto.isActive,
       profilePicture,
-      typeUser: updateProducerDto.typeUser == 2 ? TypeUser.Producer : updateProducerDto.typeUser == 1? TypeUser.Engineer : TypeUser.NULL
+      typeUser:
+        updateProducerDto.typeUser == 2
+          ? TypeUser.Producer
+          : updateProducerDto.typeUser == 1
+            ? TypeUser.Engineer
+            : TypeUser.NULL,
     });
 
     return this.updateProducerUseCase.execute(command);

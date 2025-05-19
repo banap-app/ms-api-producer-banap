@@ -1,23 +1,22 @@
-import { MacroNutrientError } from "../errors/MacroNutrientError";
-import { ValueObject } from "../../../shared/domain/ValueObject";
+import { MacroNutrientError } from '../errors/MacroNutrientError';
+import { ValueObject } from '../../../shared/domain/ValueObject';
 
-export class Liming extends ValueObject{
-    constructor(private readonly liming: number) {
-        super()
-        this.validate()
-    }
+export class Liming extends ValueObject {
+  constructor(private readonly liming: number) {
+    super();
+    this.validate();
+  }
 
-    private validate() {
-        
-        if(this.liming < 0 || this.liming == 0) {
-            throw new MacroNutrientError("Invalid Liming")
-        }
-        if (this.liming > 1000) {
-            throw new MacroNutrientError("Invalid Liming")
-        }
+  private validate() {
+    if (this.liming < 0 || this.liming == 0) {
+      throw new MacroNutrientError('Invalid Liming');
     }
+    if (this.liming > 1000) {
+      throw new MacroNutrientError('Invalid Liming');
+    }
+  }
 
-    public get getValue(): number {
-        return this.liming
-    }
+  public get getValue(): number {
+    return this.liming;
+  }
 }

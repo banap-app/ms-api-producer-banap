@@ -22,7 +22,6 @@ export type AnalysisConstructorProps = {
   deletedAt?: Date;
 };
 
-
 export class Analysis extends Entity {
   private analysisId: AnalysisId;
   private fieldId: FieldId;

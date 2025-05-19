@@ -55,9 +55,9 @@ export class AnalysisNpk extends Entity {
   }
 
   public defineAnalysisParent(analysisId: AnalysisId): AnalysisNpk {
-    this.analysisId = analysisId
-    this.validate(['analysisId'])
-    return this
+    this.analysisId = analysisId;
+    this.validate(['analysisId']);
+    return this;
   }
 
   private validate(fields?: string[]) {
@@ -66,9 +66,8 @@ export class AnalysisNpk extends Entity {
   }
 
   public calculateNpk() {
-
-    if(this.notification.hasErrors()) {
-      return
+    if (this.notification.hasErrors()) {
+      return;
     }
 
     const expectedProductivity = this.expectedProductivity.getValue;
@@ -253,11 +252,11 @@ export class AnalysisNpk extends Entity {
   }
   toJSON() {
     return {
-      analysisNpkId:this.analysisNpkId,
+      analysisNpkId: this.analysisNpkId,
       phosphor: this.phosphor,
       potassium: this.potassium,
       nitrogen: this.nitrogen,
-      expectedProductivity:this.expectedProductivity
-    }
+      expectedProductivity: this.expectedProductivity,
+    };
   }
 }

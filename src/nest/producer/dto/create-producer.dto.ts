@@ -40,8 +40,8 @@ export class CreateProducerDto {
   };
 
   @ApiProperty({
-    description: "Type of user",
-    example: 1
+    description: 'Type of user',
+    example: 1,
   })
-  typeUser: number
+  typeUser: number;
 }

@@ -12,7 +12,7 @@ async function bootstrap() {
         name: 'Authorization', // ou "x-token", se preferir um nome diferente
         in: 'header',
       },
-      'token'
+      'token',
     )
     .build();
   const document = SwaggerModule.createDocument(app, config);

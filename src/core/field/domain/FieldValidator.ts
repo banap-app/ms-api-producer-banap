@@ -13,6 +13,11 @@ export class FieldRules {
   })
   propertyId: string;
 
+  @IsNotEmpty({
+    groups: ['producerId'],
+  })
+  producerId: string;
+
   @MaxLength(255)
   @IsString()
   @IsNotEmpty({

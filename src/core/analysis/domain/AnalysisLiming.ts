@@ -36,19 +36,19 @@ export class AnalysisLiming extends Entity {
   private currentBaseSaturation: CurrentBaseSaturation;
   private totalCationExchangeCapacity: TotalCationExchangeCapacity;
   private relativeTotalNeutralizingPower: RelativeTotalNeutralizingPower;
-  private liming: Liming
+  private liming: Liming;
 
   constructor(props: AnalysisLimingConstructorProps) {
     super();
     this.analysisLimingId = props.analysisLimingId
       ? props.analysisLimingId
       : new AnalysisLimingId();
-    this.analysisId =props.analysisId ? props.analysisId : new AnalysisId();
-    this.currentBaseSaturation = props.currentBaseSaturation
-    this.desiredBaseSaturation = props.desiredBaseSaturation
-    this.totalCationExchangeCapacity = props.totalCationExchangeCapacity
-    this.relativeTotalNeutralizingPower = props.relativeTotalNeutralizingPower
-    this.liming = props.liming
+    this.analysisId = props.analysisId ? props.analysisId : new AnalysisId();
+    this.currentBaseSaturation = props.currentBaseSaturation;
+    this.desiredBaseSaturation = props.desiredBaseSaturation;
+    this.totalCationExchangeCapacity = props.totalCationExchangeCapacity;
+    this.relativeTotalNeutralizingPower = props.relativeTotalNeutralizingPower;
+    this.liming = props.liming;
   }
 
   static create(props: AnalysisLimingCreateProps) {
@@ -63,20 +63,20 @@ export class AnalysisLiming extends Entity {
   }
 
   public defineAnalysisParent(analysisId: AnalysisId): AnalysisLiming {
-    this.analysisId = analysisId
-    this.validate(['analysisId'])
-    return this
+    this.analysisId = analysisId;
+    this.validate(['analysisId']);
+    return this;
   }
 
   public calculateLiming() {
-    this.liming = new Liming(23)
-    return 3
+    this.liming = new Liming(23);
+    return 3;
   }
 
   get getId(): AnalysisLimingId {
-    return this.analysisLimingId
+    return this.analysisLimingId;
   }
-   public getAnalysisLimingId(): AnalysisLimingId {
+  public getAnalysisLimingId(): AnalysisLimingId {
     return this.analysisLimingId;
   }
 
@@ -111,7 +111,8 @@ export class AnalysisLiming extends Entity {
       desiredBaseSaturation: this.desiredBaseSaturation.getValue,
       currentBaseSaturation: this.currentBaseSaturation.getValue,
       totalCationExchangeCapacity: this.totalCationExchangeCapacity.getValue,
-      relativeTotalNeutralizingPower: this.relativeTotalNeutralizingPower.getValue,
+      relativeTotalNeutralizingPower:
+        this.relativeTotalNeutralizingPower.getValue,
       liming: this.liming.getValue,
     };
   }

@@ -1,4 +1,3 @@
-
 export default () => ({
   http: {
     baseURL: process.env.HTTP_BASE_URL || 'http://localhost:8192',

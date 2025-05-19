@@ -1,10 +1,9 @@
-
-import { Entity } from "../../shared/domain/Entity";
-import { Uuid } from "../../shared/domain/value-objects/UuidVo";
-import { Password } from "./PasswordVo";
-import { ProducerValidatorFactory } from "./ProducerValidator";
-import { ProfilePicture } from "./ProfilePictureVo";
-import { TypeUser } from "./TypeUser";
+import { Entity } from '../../shared/domain/Entity';
+import { Uuid } from '../../shared/domain/value-objects/UuidVo';
+import { Password } from './PasswordVo';
+import { ProducerValidatorFactory } from './ProducerValidator';
+import { ProfilePicture } from './ProfilePictureVo';
+import { TypeUser } from './TypeUser';
 
 export type ProducerConstructorProps = {
   producerId?: ProducerId;
@@ -13,7 +12,7 @@ export type ProducerConstructorProps = {
   password: Password;
   profilePicture?: ProfilePicture | null;
   isActive: boolean;
-  typeUser: TypeUser
+  typeUser: TypeUser;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
@@ -23,7 +22,7 @@ export type ProducerCreateCommand = {
   name: string;
   email: string;
   password: string;
-  typeUser: TypeUser
+  typeUser: TypeUser;
   profilePicture?: ProfilePicture | null;
   isActive: boolean;
 };
@@ -37,7 +36,7 @@ export class Producer extends Entity {
   private password: Password;
   private profilePicture: ProfilePicture | null;
   private isActive: boolean;
-  private typeUser: TypeUser
+  private typeUser: TypeUser;
   private createdAt: Date;
   private updatedAt: Date;
   private deletedAt: Date | null;
@@ -50,7 +49,7 @@ export class Producer extends Entity {
     this.password = props.password as Password;
     this.profilePicture = props.profilePicture;
     this.isActive = props.isActive;
-    this.typeUser = props.typeUser
+    this.typeUser = props.typeUser;
     this.createdAt = props.createdAt ? props.createdAt : new Date();
     this.updatedAt = props.updatedAt ? props.updatedAt : new Date();
     this.deletedAt = props.deletedAt ? props.deletedAt : null;
@@ -146,7 +145,7 @@ export class Producer extends Entity {
   }
 
   public getTypeUser(): TypeUser {
-    return this.typeUser
+    return this.typeUser;
   }
 
   toJSON() {

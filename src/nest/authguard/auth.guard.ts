@@ -26,21 +26,13 @@ export class AuthGuard implements CanActivate {
     const req = context.switchToHttp().getRequest();
     const authHeader = req.headers.authorization;
     if (!authHeader) throw new UnauthorizedException();
-
-    const response = await this.axios.post('/api/auth/verify', {
-      token: authHeader,
-    });
-    if (!response) throw new UnauthorizedException();
-    req.user = {
-      id:response.data.decodedToken
-    };
    
     const response = await this.axios.post('/api/auth/verify', {
         token: authHeader
     })
     if (!response) throw new UnauthorizedException();
     if(!response.data.success) throw new UnauthorizedException();
-    console.log(response.data.decodedToken)
+    
     req.user = {
       id: response.data.decodedToken
     };

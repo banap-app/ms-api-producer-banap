@@ -42,7 +42,7 @@ import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/Prop
         AnalysisEntity,
         AnalysisNpkEntity,
         AnalysisLimingEntity,
-       
+
       ],
       synchronize: false,
     }),

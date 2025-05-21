@@ -56,8 +56,6 @@ export class CreateAnalysisUseCase
     await anAnalysis.calculate();
     await this.analysisRepository.insert(anAnalysis);
 
-    console.log(anAnalysis);
-
     return AnalysisOutputMapper.toOutput(anAnalysis);
   }
 

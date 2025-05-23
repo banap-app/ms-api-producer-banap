@@ -20,7 +20,7 @@ export class Uuid extends ValueObject {
   }
 
   get getId() {
-    return this.id
+    return this.id;
   }
 
   toString(): string {

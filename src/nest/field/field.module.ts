@@ -10,6 +10,8 @@ import { ProducerEntity } from 'src/core/producer/infrastructure/db/typeorm/Prod
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/PropertyEntity';
 import { FieldBoundaryEntity } from 'src/core/field/infrastructure/db/typeorm/FieldBoundaryEntity';
+import { GetFieldUseCase } from 'src/core/field/application/use-cases/retrieve-field/GetFieldUseCase';
+import { ListFieldUseCase } from 'src/core/field/application/use-cases/retrieve-field/ListFieldUseCase';
 
 @Module({
   imports: [
@@ -55,6 +57,20 @@ import { FieldBoundaryEntity } from 'src/core/field/infrastructure/db/typeorm/Fi
         PropertyTypeOrmRepository,
         ProducerTypeOrmRepository,
       ],
+    },
+    {
+      provide: GetFieldUseCase,
+      useFactory: (fieldRepo: FieldTypeOrmRepository) =>
+        new GetFieldUseCase(fieldRepo),
+      inject: [FieldTypeOrmRepository],
+    },
+    {
+      provide: ListFieldUseCase,
+      useFactory: (
+        fieldRepo: FieldTypeOrmRepository,
+        propertyRepo: PropertyTypeOrmRepository,
+      ) => new ListFieldUseCase(propertyRepo, fieldRepo),
+      inject: [FieldTypeOrmRepository, PropertyTypeOrmRepository],
     },
   ],
   exports: [FieldTypeOrmRepository],

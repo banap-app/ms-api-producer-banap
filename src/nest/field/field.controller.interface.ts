@@ -19,3 +19,11 @@ export function SwaggerCreateField() {
     }),
   );
 }
+
+export function SwaggerGetField() {
+  return applyDecorators(ApiOperation({ summary: 'Get a Field' }));
+}
+
+export function SwaggerListField() {
+  return applyDecorators(ApiOperation({ summary: 'List all Fields' }));
+}

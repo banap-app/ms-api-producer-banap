@@ -3,6 +3,8 @@ import { Repository } from 'typeorm';
 import { FieldEntity } from './FieldEntity';
 import { Field, FieldId } from 'src/core/field/domain/Field';
 import { FieldEntityMapper } from './FieldEntityMapper';
+import { PropertyId } from 'src/core/property/domain/Property';
+import { FieldOutputMapper } from 'src/core/field/application/commons/FieldOutputMapper';
 
 export class FieldTypeOrmRepository implements IFieldRepository {
   private readonly ormRepository: Repository<FieldEntity>;
@@ -15,6 +17,13 @@ export class FieldTypeOrmRepository implements IFieldRepository {
   }
   bulkDelete(entities_ids: FieldId[]): Promise<void> {
     throw new Error('Method not implemented.');
+  }
+
+  async findAllByPropertyId(propertyId: PropertyId): Promise<Field[]> {
+    const fields = await this.ormRepository.findBy({
+      propertyId: propertyId.id,
+    });
+    return fields.map((field) => FieldEntityMapper.toDomain(field));
   }
 
   async insert(entity: Field): Promise<void> {
@@ -65,7 +74,6 @@ export class FieldTypeOrmRepository implements IFieldRepository {
   }
 
   async findById(entityId: FieldId): Promise<Field> {
-
     const entity = await this.ormRepository.findOne({
       where: { fieldId: entityId.id },
       relations: ['boundary'],
@@ -73,7 +81,7 @@ export class FieldTypeOrmRepository implements IFieldRepository {
     if (!entity) {
       throw new Error(`Field not found: ${entityId.toString()}`);
     }
-   
+
     return FieldEntityMapper.toDomain(entity);
   }
 

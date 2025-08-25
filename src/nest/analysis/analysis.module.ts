@@ -21,7 +21,7 @@ import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/Prop
       AnalysisLimingEntity,
       FieldEntity,
       ProducerEntity,
-      PropertyEntity
+      PropertyEntity,
     ]),
   ],
   controllers: [AnalysisController],
@@ -52,11 +52,14 @@ import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/Prop
 
     {
       provide: ListAnalysisUseCase,
-      useFactory: (analysisRepo: AnalysisTypeOrmRepository, fieldRepo: FieldTypeOrmRepository) => {
-        return new ListAnalysisUseCase(analysisRepo, fieldRepo)
+      useFactory: (
+        analysisRepo: AnalysisTypeOrmRepository,
+        fieldRepo: FieldTypeOrmRepository,
+      ) => {
+        return new ListAnalysisUseCase(analysisRepo, fieldRepo);
       },
-      inject: [AnalysisTypeOrmRepository,FieldTypeOrmRepository]
-    }
+      inject: [AnalysisTypeOrmRepository, FieldTypeOrmRepository],
+    },
   ],
 })
-export class AnalysisModule { }
+export class AnalysisModule {}

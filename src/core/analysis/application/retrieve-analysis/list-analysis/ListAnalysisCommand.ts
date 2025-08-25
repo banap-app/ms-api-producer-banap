@@ -1,7 +1,7 @@
 export class ListAnalysisCommand {
-    public fieldId: string
+  public fieldId: string;
 
-    constructor(fieldId: string) {
-        this.fieldId = fieldId
-    }
+  constructor(fieldId: string) {
+    this.fieldId = fieldId;
+  }
 }

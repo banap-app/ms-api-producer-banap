@@ -26,7 +26,7 @@ export class AnalysisController {
     @Inject(CreateAnalysisUseCase)
     private readonly createAnalysisUseCase: CreateAnalysisUseCase,
     @Inject(ListAnalysisUseCase)
-    private readonly listAnalysisUseCase: ListAnalysisUseCase
+    private readonly listAnalysisUseCase: ListAnalysisUseCase,
   ) {}
 
   @SwaggerCreateAnalysis()
@@ -44,12 +44,12 @@ export class AnalysisController {
   }
 
   @ApiOperation({
-    description: "List all analysis",
-    summary: "List all"
+    description: 'List all analysis',
+    summary: 'List all',
   })
   @Get(':id')
-  findAll(@Param("id") id: string) {
-    const aCommand = new ListAnalysisCommand(id)
-    return this.listAnalysisUseCase.execute(aCommand)
+  findAll(@Param('id') id: string) {
+    const aCommand = new ListAnalysisCommand(id);
+    return this.listAnalysisUseCase.execute(aCommand);
   }
 }

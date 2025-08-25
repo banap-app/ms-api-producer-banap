@@ -50,12 +50,11 @@ export class AnalysisTypeOrmRepository implements AnalysisRepository {
   }
 
   async findAllByFieldId(fieldId: FieldId): Promise<Analysis[]> {
-
     const entities = await this.ormRepository.find({
-      where: {fieldId: fieldId.id},
-      relations: ['npk', 'liming']
+      where: { fieldId: fieldId.id },
+      relations: ['npk', 'liming'],
     });
-    console.log(entities)
+    console.log(entities);
     return entities
       ? entities.map((e) => AnalysisEntityMapper.toDomain(e))
       : null;

@@ -14,7 +14,15 @@ import { UpdateFieldDto } from './dto/update-field.dto';
 import { CreateFieldUseCase } from 'src/core/field/application/use-cases/create-field/CreateFieldUseCase';
 import { CreateFieldCommand } from 'src/core/field/application/use-cases/create-field/CreateFieldCommand';
 import { ApiSecurity } from '@nestjs/swagger';
-import { SwaggerCreateField } from './field.controller.interface';
+import {
+  SwaggerCreateField,
+  SwaggerDeleteField,
+  SwaggerGetField,
+  SwaggerListFields,
+} from './field.controller.interface';
+import { ListFieldUseCase } from 'src/core/field/application/use-cases/retrieve-field/ListFieldsUseCase';
+import { DeleteFieldUseCase } from 'src/core/field/application/use-cases/delete-field/DeleteFieldUseCase';
+import { GetFieldUseCase } from 'src/core/field/application/use-cases/retrieve-field/GetFieldUseCase';
 
 @ApiSecurity('token')
 @Controller('field')
@@ -22,6 +30,12 @@ export class FieldController {
   constructor(
     @Inject(CreateFieldUseCase)
     private readonly createFieldUseCase: CreateFieldUseCase,
+    @Inject(ListFieldUseCase)
+    private readonly listFieldUseCase: ListFieldUseCase,
+    @Inject(GetFieldUseCase)
+    private readonly getFieldUseCase: GetFieldUseCase,
+    @Inject(DeleteFieldUseCase)
+    private readonly deleteFieldUseCase: DeleteFieldUseCase,
   ) {}
 
   @SwaggerCreateField()
@@ -39,15 +53,25 @@ export class FieldController {
     return this.createFieldUseCase.execute(aCommand);
   }
 
-  // @Get()
-  // findAll() {}
+  @SwaggerListFields()
+  @Get()
+  findAll(@Req() request) {
+    const propertyId = request.query.propertyId as string;
+    return this.listFieldUseCase.execute({ propertyId });
+  }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {}
+  @SwaggerGetField()
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.getFieldUseCase.execute({ fieldId: id });
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateFieldDto: UpdateFieldDto) {}
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {}
+  @SwaggerDeleteField()
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.deleteFieldUseCase.execute({ fieldId: id });
+  }
 }

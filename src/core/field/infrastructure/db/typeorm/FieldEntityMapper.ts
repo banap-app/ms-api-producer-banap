@@ -30,8 +30,10 @@ export class FieldEntityMapper {
       })) || [];
     const field = new Field({
       fieldId: entity.fieldId,
-      propertyId: entity.propertyId,
-      producerId: entity.producerId,
+      // @ts-ignore
+      propertyId: entity.propertyId.propertyId,
+      // @ts-ignore
+      producerId: entity.producerId.id,
       name: entity.name,
       description: entity.description,
       crop: entity.crop,
@@ -56,7 +58,15 @@ export class FieldEntityMapper {
       throw voResult.error;
     }
     const vo = voResult.ok;
-    entity.boundary = FieldBoundaryEntity.fromDomain(vo['points']);
-    entity.boundary.field = entity;
+    if (entity.boundary) {
+      // Update the existing boundary entity's geometry
+      entity.boundary.boundary = FieldBoundaryEntity.fromDomain(
+        vo['points'],
+      ).boundary;
+    } else {
+      // Create a new boundary entity if none exists
+      entity.boundary = FieldBoundaryEntity.fromDomain(vo['points']);
+      entity.boundary.field = entity;
+    }
   }
 }

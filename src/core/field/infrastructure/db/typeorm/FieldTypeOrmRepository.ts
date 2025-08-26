@@ -17,6 +17,15 @@ export class FieldTypeOrmRepository implements IFieldRepository {
     throw new Error('Method not implemented.');
   }
 
+  async findByPropertyId(propertyId: string): Promise<Field[]> {
+    const fields = await this.ormRepository.find({
+      where: { propertyId },
+      relations: ['boundary', 'propertyId', 'producerId'],
+    });
+    console.log('fields', fields);
+    return fields.map((field) => FieldEntityMapper.toDomain(field));
+  }
+
   async insert(entity: Field): Promise<void> {
     const fieldEntity = FieldEntityMapper.toTypeEntity(entity);
     console.log(fieldEntity);
@@ -26,7 +35,7 @@ export class FieldTypeOrmRepository implements IFieldRepository {
   async update(entity: Field): Promise<void> {
     const existing = await this.ormRepository.findOne({
       where: { fieldId: entity.getId.id },
-      relations: ['boundary', 'producer', 'property'],
+      relations: ['boundary'],
     });
     if (!existing) {
       throw new Error(`Field not found: ${entity.getId.id}`);
@@ -59,21 +68,20 @@ export class FieldTypeOrmRepository implements IFieldRepository {
 
   async findAll(): Promise<Field[]> {
     const entities = await this.ormRepository.find({
-      relations: ['boundary', 'producer', 'property'],
+      relations: ['boundary'],
     });
     return entities.map((e) => FieldEntityMapper.toDomain(e));
   }
 
   async findById(entityId: FieldId): Promise<Field> {
-
     const entity = await this.ormRepository.findOne({
       where: { fieldId: entityId.id },
-      relations: ['boundary'],
+      relations: ['boundary', 'propertyId', 'producerId'],
     });
     if (!entity) {
       throw new Error(`Field not found: ${entityId.toString()}`);
     }
-   
+
     return FieldEntityMapper.toDomain(entity);
   }
 

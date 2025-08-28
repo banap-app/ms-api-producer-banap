@@ -32,6 +32,6 @@ jobs:
       - name: Rodar app
         run: |
           cd /var/banap/ms_producer_banap/
-          npm run start
+          nohup npm run start &
 
       

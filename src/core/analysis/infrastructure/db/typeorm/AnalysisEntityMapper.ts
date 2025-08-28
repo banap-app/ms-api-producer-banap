@@ -24,7 +24,6 @@ import { Liming } from 'src/core/analysis/domain/value-objects/LimingVo';
 
 export class AnalysisEntityMapper {
   static toTypeEntity(analysis: Analysis): AnalysisEntity {
-    console.log(analysis);
     const entity = new AnalysisEntity();
     entity.analysisId = analysis.getId.id;
     entity.fieldId = analysis.getFieldId().id;
@@ -54,7 +53,6 @@ export class AnalysisEntityMapper {
     }
 
     if (typeAnalysis instanceof AnalysisNpk) {
-      console.log(typeAnalysis);
       const npk = new AnalysisNpkEntity();
       npk.analysisNpkId = typeAnalysis.getAnalysisNpkId().id;
       npk.analysis = entity;

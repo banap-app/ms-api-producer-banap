@@ -7,6 +7,7 @@ import {
   ApiResponse,
 } from '@nestjs/swagger';
 import { CreateFieldDto } from './dto/create-field.dto';
+import { UpdateFieldDto } from './dto/update-field.dto';
 
 export function SwaggerCreateField() {
   return applyDecorators(
@@ -78,6 +79,30 @@ export function SwaggerDeleteField() {
       required: true,
       description: 'ID of the field to delete',
       type: String,
+    }),
+    ApiResponse({
+      status: 404,
+      description: 'Field not found',
+    }),
+  );
+}
+
+export function SwaggerUpdateField() {
+  return applyDecorators(
+    ApiOperation({ summary: 'Update a Field' }),
+    ApiParam({
+      name: 'id',
+      required: true,
+      description: 'ID of the field to update',
+      type: String,
+    }),
+    ApiBody({
+      description: 'Updated field data',
+      type: UpdateFieldDto,
+    }),
+    ApiResponse({
+      status: 200,
+      description: 'Field updated successfully',
     }),
     ApiResponse({
       status: 404,

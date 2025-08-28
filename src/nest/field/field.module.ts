@@ -13,6 +13,7 @@ import { FieldBoundaryEntity } from 'src/core/field/infrastructure/db/typeorm/Fi
 import { ListFieldUseCase } from 'src/core/field/application/use-cases/retrieve-field/ListFieldsUseCase';
 import { DeleteFieldUseCase } from 'src/core/field/application/use-cases/delete-field/DeleteFieldUseCase';
 import { GetFieldUseCase } from 'src/core/field/application/use-cases/retrieve-field/GetFieldUseCase';
+import { UpdateFieldUseCase } from 'src/core/field/application/use-cases/update-field/UpdateFieldUseCase';
 
 @Module({
   imports: [
@@ -65,26 +66,27 @@ import { GetFieldUseCase } from 'src/core/field/application/use-cases/retrieve-f
         fieldRepo: FieldTypeOrmRepository,
         propertyRepo: PropertyTypeOrmRepository,
       ) => new ListFieldUseCase(fieldRepo, propertyRepo),
-      inject: [
-        FieldTypeOrmRepository,
-        PropertyTypeOrmRepository,
-        ProducerTypeOrmRepository,
-      ],
+      inject: [FieldTypeOrmRepository, PropertyTypeOrmRepository],
     },
     {
       provide: GetFieldUseCase,
       useFactory: (fieldRepo: FieldTypeOrmRepository) =>
         new GetFieldUseCase(fieldRepo),
-      inject: [
-        FieldTypeOrmRepository,
-        PropertyTypeOrmRepository,
-        ProducerTypeOrmRepository,
-      ],
+      inject: [FieldTypeOrmRepository],
     },
     {
       provide: DeleteFieldUseCase,
       useFactory: (fieldRepo: FieldTypeOrmRepository) =>
         new DeleteFieldUseCase(fieldRepo),
+      inject: [FieldTypeOrmRepository],
+    },
+    {
+      provide: UpdateFieldUseCase,
+      useFactory: (
+        fieldRepo: FieldTypeOrmRepository,
+        propertyRepo: PropertyTypeOrmRepository,
+        producerRepo: ProducerTypeOrmRepository,
+      ) => new UpdateFieldUseCase(fieldRepo, propertyRepo, producerRepo),
       inject: [
         FieldTypeOrmRepository,
         PropertyTypeOrmRepository,
@@ -92,6 +94,10 @@ import { GetFieldUseCase } from 'src/core/field/application/use-cases/retrieve-f
       ],
     },
   ],
-  exports: [FieldTypeOrmRepository],
+  exports: [
+    FieldTypeOrmRepository,
+    PropertyTypeOrmRepository,
+    ProducerTypeOrmRepository,
+  ],
 })
 export class FieldModule {}

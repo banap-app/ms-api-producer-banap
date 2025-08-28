@@ -54,7 +54,6 @@ export class AnalysisTypeOrmRepository implements AnalysisRepository {
       where: { fieldId: fieldId.id },
       relations: ['npk', 'liming'],
     });
-    console.log(entities);
     return entities
       ? entities.map((e) => AnalysisEntityMapper.toDomain(e))
       : null;
@@ -66,7 +65,6 @@ export class AnalysisTypeOrmRepository implements AnalysisRepository {
       relations: ['liming', 'npk'],
     });
 
-    console.log(entity);
     return entity ? AnalysisEntityMapper.toDomain(entity) : null;
   }
 }

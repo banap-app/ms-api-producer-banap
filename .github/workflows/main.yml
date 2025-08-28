@@ -8,6 +8,12 @@ on:
 jobs:
   deploy:
     runs-on: self-hosted   # usa o seu runner stormforge
+    env:
+      DB_HOST: stormforge.lan
+      DB_PORT: 5432
+      DB_USER: Green
+      DB_PASSWORD: StormForge01
+      DB_NAME: banap_database
     steps:
       # 1. Checkout do código
       - uses: actions/checkout@v4
@@ -21,15 +27,7 @@ jobs:
         run: |
           cd /var/banap/ms_producer_banap/
           npm install
-
-      # 4. Declarar variaveis de ambiente
-      - name: Variaveis de ambiente
-        run: |
-          export DB_HOST='stormforge.lan'
-          export DB_PORT=5432
-          export DB_USER=Green
-          export DB_PASSWORD=StormForge01
-          export DB_NAME=banap_database
+          
       # 4. Rodar sua aplicação
       - name: Rodar app
         run: |

@@ -24,7 +24,6 @@ export class ListAnalysisUseCase
 
   async execute(aCommand: ListAnalysisCommand): Promise<ListAnalysisOutput> {
     const id = new FieldId(aCommand.fieldId);
-    console.log(id);
     const field = await this.fieldRepository.findById(id);
 
     if (!field) {

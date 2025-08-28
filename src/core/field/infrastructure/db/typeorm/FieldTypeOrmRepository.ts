@@ -22,13 +22,11 @@ export class FieldTypeOrmRepository implements IFieldRepository {
       where: { propertyId },
       relations: ['boundary', 'propertyId', 'producerId'],
     });
-    console.log('fields', fields);
     return fields.map((field) => FieldEntityMapper.toDomain(field));
   }
 
   async insert(entity: Field): Promise<void> {
     const fieldEntity = FieldEntityMapper.toTypeEntity(entity);
-    console.log(fieldEntity);
     await this.ormRepository.save(fieldEntity);
   }
 

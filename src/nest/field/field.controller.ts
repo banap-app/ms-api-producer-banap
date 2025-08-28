@@ -19,10 +19,13 @@ import {
   SwaggerDeleteField,
   SwaggerGetField,
   SwaggerListFields,
+  SwaggerUpdateField,
 } from './field.controller.interface';
 import { ListFieldUseCase } from 'src/core/field/application/use-cases/retrieve-field/ListFieldsUseCase';
 import { DeleteFieldUseCase } from 'src/core/field/application/use-cases/delete-field/DeleteFieldUseCase';
 import { GetFieldUseCase } from 'src/core/field/application/use-cases/retrieve-field/GetFieldUseCase';
+import { UpdateFieldUseCase } from 'src/core/field/application/use-cases/update-field/UpdateFieldUseCase';
+import { UpdateFieldCommand } from 'src/core/field/application/use-cases/update-field/UpdateFieldcommand';
 
 @ApiSecurity('token')
 @Controller('field')
@@ -36,6 +39,8 @@ export class FieldController {
     private readonly getFieldUseCase: GetFieldUseCase,
     @Inject(DeleteFieldUseCase)
     private readonly deleteFieldUseCase: DeleteFieldUseCase,
+    @Inject(UpdateFieldUseCase)
+    private readonly updateFieldUseCase: UpdateFieldUseCase,
   ) {}
 
   @SwaggerCreateField()
@@ -66,8 +71,24 @@ export class FieldController {
     return this.getFieldUseCase.execute({ fieldId: id });
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateFieldDto: UpdateFieldDto) {}
+  @SwaggerUpdateField()
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateFieldDto: UpdateFieldDto) {
+    if (!updateFieldDto) {
+      throw new Error('Insert update field DTO');
+    }
+
+    const aCommand = new UpdateFieldCommand({
+      fieldId: id,
+      propertyId: updateFieldDto.propertyId,
+      producerId: updateFieldDto.producerId,
+      name: updateFieldDto.name,
+      description: updateFieldDto.description,
+      crop: updateFieldDto.crop,
+      fieldBoundary: updateFieldDto.fieldBoundary,
+    });
+    return this.updateFieldUseCase.execute(aCommand);
+  }
 
   @SwaggerDeleteField()
   @Delete(':id')

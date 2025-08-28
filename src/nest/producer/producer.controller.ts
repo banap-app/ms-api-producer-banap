@@ -8,6 +8,7 @@ import {
   Delete,
   BadRequestException,
   Inject,
+  Req,
 } from '@nestjs/common';
 import { CreateProducerDto } from './dto/create-producer.dto';
 import { UpdateProducerDto } from './dto/update-producer.dto';
@@ -28,6 +29,7 @@ import {
 import { TypeUser } from 'src/core/producer/domain/TypeUser';
 import { Public } from '../authguard/public.decorator';
 import { ApiSecurity } from '@nestjs/swagger';
+import { request } from 'http';
 
 @ApiSecurity('token')
 @Controller('producer')
@@ -89,14 +91,16 @@ export class ProducerController {
   // }
 
   @SwaggerGetProducer()
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get()
+  findOne(@Req() request) {
+    const id = request.user.id as string;
     return this.getProducerUseCase.execute({ producerId: id });
   }
 
   @SwaggerUpdateProducer()
   @Patch()
-  update(@Body() updateProducerDto: UpdateProducerDto) {
+  update(@Req() request, @Body() updateProducerDto: UpdateProducerDto) {
+    const id = request.user.id as string;
     let profilePicture;
 
     if (!updateProducerDto) {
@@ -117,7 +121,7 @@ export class ProducerController {
     }
 
     const command = new UpdateProducerCommand({
-      producerId: updateProducerDto.producerId,
+      producerId: id,
       name: updateProducerDto.name,
       email: updateProducerDto.email,
       password: updateProducerDto.password,
@@ -135,8 +139,9 @@ export class ProducerController {
   }
 
   @SwaggerDeleteProducer()
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete()
+  remove(@Req() request) {
+    const id = request.user.id as string;
     const command = new DeleteProducerCommand(id);
     this.deleteProducerUseCase.execute(command);
   }

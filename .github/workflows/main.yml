@@ -22,8 +22,18 @@ jobs:
           cd /var/banap/ms_producer_banap/
           npm install
 
+      # 4. Declarar variaveis de ambiente
+      - name: Variaveis de ambiente
+        run: |
+          export DB_HOST='stormforge.lan'
+          export DB_PORT=5432
+          export DB_USER=Green
+          export DB_PASSWORD=StormForge01
+          export DB_NAME=banap_database
       # 4. Rodar sua aplicação
       - name: Rodar app
         run: |
           cd /var/banap/ms_producer_banap/
           npm run start
+
+      

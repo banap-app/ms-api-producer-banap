@@ -5,7 +5,7 @@ on:
     - main
 jobs:
   deploy:
-    runs-on: [self-hosted, linux, arch]
+    runs-on: [self-hosted, Linux, X64]
     steps:
       - uses: actions/checkout@v4
       - run: echo "Rodando no runner Arch Linux!"

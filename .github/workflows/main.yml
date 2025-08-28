@@ -28,10 +28,12 @@ jobs:
           cd /var/banap/ms_producer_banap/
           npm install
           
-      # 4. Rodar sua aplicação
-      - name: Rodar app
+      - name: Build app
         run: |
           cd /var/banap/ms_producer_banap/
-          pm2 restart ms_producer_banap || pm2 start npm --name "ms_producer_banap" -- run start
+          npm run build
 
-      
+      - name: Start or Restart app with PM2
+        run: |
+          cd /var/banap/ms_producer_banap/
+          pm2 restart ms_producer_banap || pm2 start dist/main.js --name ms_producer_banap --cwd /var/banap/ms_producer_banap/

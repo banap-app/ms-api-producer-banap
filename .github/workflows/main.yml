@@ -1,0 +1,11 @@
+name: Firts Deploy using GitHub Actions
+on:
+  push:
+    branches:
+    - main
+jobs:
+  deploy:
+    runs-on: [self-hosted, linux, arch]
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Rodando no runner Arch Linux!"

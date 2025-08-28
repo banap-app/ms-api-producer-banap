@@ -1,11 +1,29 @@
-name: Firts Deploy using GitHub Actions
+name: Deploy Node App
+
 on:
   push:
     branches:
-    - main
+      - main
+
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: self-hosted   # usa o seu runner stormforge
     steps:
+      # 1. Checkout do código
       - uses: actions/checkout@v4
-      - run: echo "Rodando no runner Arch Linux!"
+
+      # 2. Entrar em uma pasta específica no servidor
+      - name: Entrar na pasta do projeto
+        run: cd /var/banap/ms_producer_banap/ && git pull origin main
+
+      # 3. Instalar dependências
+      - name: Instalar dependências
+        run: |
+          cd /var/banap/ms_producer_banap/
+          npm install
+
+      # 4. Rodar sua aplicação
+      - name: Rodar app
+        run: |
+          cd /var/banap/ms_producer_banap/
+          npm run start

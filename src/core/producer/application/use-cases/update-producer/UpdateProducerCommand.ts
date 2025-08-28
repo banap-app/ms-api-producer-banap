@@ -18,7 +18,7 @@ export class UpdateProducerCommand {
   public password: string;
   public profilePicture: ProfilePicture;
   public isActive: boolean;
-  typeUser: TypeUser;
+  public typeUser: TypeUser;
   constructor(props: UpdateProducerCommandProps) {
     if (!props) return;
     this.producerId = props.producerId;
@@ -27,5 +27,6 @@ export class UpdateProducerCommand {
     this.password = props.password;
     this.profilePicture = props.profilePicture;
     this.isActive = props.isActive;
+    this.typeUser = props.typeUser;
   }
 }

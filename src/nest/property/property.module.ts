@@ -10,6 +10,7 @@ import { ProducerEntity } from 'src/core/producer/infrastructure/db/typeorm/Prod
 import { ProducerModule } from '../producer/producer.module';
 import { GetPropertyUseCase } from 'src/core/property/application/use-cases/retrieve-property/GetPropertyUseCase';
 import { ListPropertyUseCase } from 'src/core/property/application/use-cases/retrieve-property/ListPropertiesUseCase';
+import { DeletePropertyUseCase } from 'src/core/property/application/use-cases/delete-property/DeletePropertyUseCase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([PropertyEntity]), ProducerModule],
@@ -44,6 +45,13 @@ import { ListPropertyUseCase } from 'src/core/property/application/use-cases/ret
       ) => new ListPropertyUseCase(propertyRepo, producerRepo),
       inject: [PropertyTypeOrmRepository, ProducerTypeOrmRepository],
     },
+    {
+      provide: DeletePropertyUseCase,
+      useFactory: (
+        propertyRepo: PropertyTypeOrmRepository
+      ) => new DeletePropertyUseCase(propertyRepo),
+      inject: [PropertyTypeOrmRepository]
+    }
   ],
 })
 export class PropertyModule {}

@@ -38,8 +38,10 @@ export class PropertyTypeOrmRepository implements IPropertyRepository {
     throw new Error('Method not implemented.');
   }
 
-  delete(entity_id: PropertyId): Promise<void> {
-    throw new Error('Method not implemented.');
+  async delete(entity_id: PropertyId): Promise<void> {
+    const property = await this.findById(entity_id);
+    property.deactivate();
+    await this.insert(property);
   }
 
   bulkDelete(entities_ids: PropertyId[]): Promise<void> {

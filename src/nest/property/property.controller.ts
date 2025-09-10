@@ -16,6 +16,7 @@ import { CreatePropertyUseCase } from 'src/core/property/application/use-cases/c
 import { CreatePropertyCommand } from 'src/core/property/application/use-cases/create-property/CreatePropertyCommand';
 import {
   SwaggerCreateProperty,
+  SwaggerDeleteProperty,
   SwaggerGetProperty,
   SwaggerListProperties,
 } from './property.controller.interface';
@@ -23,6 +24,7 @@ import { GetPropertyUseCase } from 'src/core/property/application/use-cases/retr
 import { ListPropertyUseCase } from 'src/core/property/application/use-cases/retrieve-property/ListPropertiesUseCase';
 import { ApiSecurity } from '@nestjs/swagger';
 import { AuthGuard } from '../authguard/auth.guard';
+import { DeletePropertyUseCase } from 'src/core/property/application/use-cases/delete-property/DeletePropertyUseCase';
 
 @UseGuards(AuthGuard)
 @ApiSecurity('token')
@@ -35,6 +37,8 @@ export class PropertyController {
     private readonly getPropertyUseCase: GetPropertyUseCase,
     @Inject(ListPropertyUseCase)
     private readonly listPropertyUseCase: ListPropertyUseCase,
+    @Inject(DeletePropertyUseCase)
+    private readonly deletePropertyUseCase: DeletePropertyUseCase,
   ) {}
 
   @SwaggerCreateProperty()
@@ -77,8 +81,11 @@ export class PropertyController {
   //   return this.propertyService.update(+id, updatePropertyDto);
   // }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.propertyService.remove(+id);
-  // }
+  @SwaggerDeleteProperty()
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.deletePropertyUseCase.execute({
+      propertyId: id,
+    });
+  }
 }

@@ -1,7 +1,15 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { create } from 'lodash';
+import { UpdateProducerDto } from '../producer/dto/update-producer.dto';
+import { UpdatePropertyDto } from './dto/update-property.dto';
 
 export function SwaggerCreateProperty() {
   return applyDecorators(
@@ -75,6 +83,16 @@ export function SwaggerGetProperty() {
       status: 404,
       description: 'Property not found',
     }),
+  );
+}
+
+export function SwaggerUpdateProperty() {
+  return applyDecorators(
+    ApiOperation({ summary: 'Update a Property' }),
+    ApiBody({ description: 'Fields to update', type: UpdatePropertyDto }),
+    ApiResponse({ status: 200, description: 'Property updated successfully' }),
+    ApiResponse({ status: 400, description: 'Invalid input' }),
+    ApiResponse({ status: 404, description: 'Property not found' }),
   );
 }
 

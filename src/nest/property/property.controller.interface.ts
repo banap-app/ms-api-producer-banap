@@ -77,3 +77,13 @@ export function SwaggerGetProperty() {
     }),
   );
 }
+
+export function SwaggerDeleteProperty() {
+  return applyDecorators(
+    ApiOperation({ summary: 'Delete a Property by ID' }),
+    ApiResponse({
+      status: 200,
+      description: 'Property deleted',
+    }),
+  );
+}

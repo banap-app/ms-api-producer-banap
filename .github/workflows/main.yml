@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted   # usa o seu runner stormforge
+    runs-on: self-hosted # usa o seu runner stormforge
     env:
       DB_HOST: stormforge.lan
       DB_PORT: 5432
@@ -27,7 +27,7 @@ jobs:
         run: |
           cd /var/banap/ms_producer_banap/
           npm install
-          
+
       - name: Build app
         run: |
           cd /var/banap/ms_producer_banap/

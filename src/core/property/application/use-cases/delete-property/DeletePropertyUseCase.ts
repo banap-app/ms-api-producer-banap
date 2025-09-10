@@ -33,6 +33,6 @@ export class DeletePropertyUseCase
 
     await this.propertyRepository.delete(propertyToDelete.getId);
 
-    return true
+    return true;
   }
 }

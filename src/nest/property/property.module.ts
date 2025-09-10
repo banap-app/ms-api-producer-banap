@@ -1,4 +1,4 @@
-import { Get, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { PropertyController } from './property.controller';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/PropertyEntity';
@@ -6,11 +6,11 @@ import { PropertyTypeOrmRepository } from '../../core/property/infrastructure/db
 import { Repository } from 'typeorm';
 import { CreatePropertyUseCase } from 'src/core/property/application/use-cases/create-property/CreatePropertyUseCase';
 import { ProducerTypeOrmRepository } from 'src/core/producer/infrastructure/db/typeorm/ProducerTypeOrmRepository';
-import { ProducerEntity } from 'src/core/producer/infrastructure/db/typeorm/ProducerEntity';
 import { ProducerModule } from '../producer/producer.module';
 import { GetPropertyUseCase } from 'src/core/property/application/use-cases/retrieve-property/GetPropertyUseCase';
 import { ListPropertyUseCase } from 'src/core/property/application/use-cases/retrieve-property/ListPropertiesUseCase';
 import { DeletePropertyUseCase } from 'src/core/property/application/use-cases/delete-property/DeletePropertyUseCase';
+import { UpdatePropertyUseCase } from '../../core/property/application/use-cases/update-property/UpdatePropertyUseCase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([PropertyEntity]), ProducerModule],
@@ -47,11 +47,16 @@ import { DeletePropertyUseCase } from 'src/core/property/application/use-cases/d
     },
     {
       provide: DeletePropertyUseCase,
-      useFactory: (
-        propertyRepo: PropertyTypeOrmRepository
-      ) => new DeletePropertyUseCase(propertyRepo),
-      inject: [PropertyTypeOrmRepository]
-    }
+      useFactory: (propertyRepo: PropertyTypeOrmRepository) =>
+        new DeletePropertyUseCase(propertyRepo),
+      inject: [PropertyTypeOrmRepository],
+    },
+    {
+      provide: UpdatePropertyUseCase,
+      useFactory: (propertyRepo: PropertyTypeOrmRepository) =>
+        new UpdatePropertyUseCase(propertyRepo),
+      inject: [PropertyTypeOrmRepository],
+    },
   ],
 })
 export class PropertyModule {}

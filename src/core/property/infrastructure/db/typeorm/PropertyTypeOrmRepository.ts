@@ -30,8 +30,13 @@ export class PropertyTypeOrmRepository implements IPropertyRepository {
     throw new Error('Method not implemented.');
   }
 
-  update(entity: Property): Promise<void> {
-    throw new Error('Method not implemented.');
+  async update(entity: Property): Promise<void> {
+    await this.ormRepository.update(
+      { propertyId: entity.getId.toString() },
+      {
+        name: entity.getName(),
+      },
+    );
   }
 
   bulkUpdate(entities: Property[]): Promise<void> {

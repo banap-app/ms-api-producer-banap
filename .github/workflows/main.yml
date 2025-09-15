@@ -2,38 +2,56 @@ name: Deploy Node App
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   deploy:
-    runs-on: self-hosted # usa o seu runner stormforge
+    runs-on: self-hosted
     env:
       DB_HOST: stormforge.lan
-      DB_PORT: 5432
+      DB_PORT: "5432"
       DB_USER: Green
       DB_PASSWORD: StormForge01
       DB_NAME: banap_database
+
     steps:
-      # 1. Checkout do código
       - uses: actions/checkout@v4
 
-      # 2. Entrar em uma pasta específica no servidor
-      - name: Entrar na pasta do projeto
-        run: cd /var/banap/ms_producer_banap/ && git pull origin main
+      - name: Pull código no servidor
+        run: |
+          cd /var/banap/ms_producer_banap
+          git pull origin main
 
-      # 3. Instalar dependências
       - name: Instalar dependências
         run: |
-          cd /var/banap/ms_producer_banap/
-          npm install
+          cd /var/banap/ms_producer_banap
+          npm ci
 
       - name: Build app
         run: |
-          cd /var/banap/ms_producer_banap/
+          cd /var/banap/ms_producer_banap
           npm run build
 
-      - name: Start or Restart app with PM2
+      - name: (Re)subir com PM2 e injetar ENV
         run: |
-          cd /var/banap/ms_producer_banap/
-          pm2 restart ms_producer_banap || pm2 start dist/main.js --name ms_producer_banap --cwd /var/banap/ms_producer_banap/
+          cd /var/banap/ms_producer_banap
+
+          # Diagnóstico opcional
+          echo "DB_HOST=$DB_HOST DB_USER=$DB_USER DB_NAME=$DB_NAME"
+
+          # Se o processo já existe, reinicia carregando o environment NOVO
+          if pm2 describe ms_producer_banap >/dev/null 2>&1; then
+            pm2 restart ms_producer_banap --update-env
+          else
+            # Na primeira subida, injeta as variáveis explicitamente
+            DB_HOST="$DB_HOST" \
+            DB_PORT="$DB_PORT" \
+            DB_USER="$DB_USER" \
+            DB_PASSWORD="$DB_PASSWORD" \
+            DB_NAME="$DB_NAME" \
+            pm2 start dist/main.js \
+              --name ms_producer_banap \
+              --cwd /var/banap/ms_producer_banap
+          fi
+
+          pm2 save

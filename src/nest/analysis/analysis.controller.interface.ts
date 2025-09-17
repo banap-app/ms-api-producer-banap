@@ -29,8 +29,17 @@ export function SwaggerCreateAnalysis() {
 export function SwaggerListAnalysis() {
   return applyDecorators(
     ApiOperation({
-      description: 'List all analysis',
+      description: 'List all Analysis',
       summary: 'List all',
+    }),
+  );
+}
+
+export function SwaggerGetAnalysis() {
+  return applyDecorators(
+    ApiOperation({
+      description: 'Get Analysis',
+      summary: 'Get Analysis by id',
     }),
   );
 }

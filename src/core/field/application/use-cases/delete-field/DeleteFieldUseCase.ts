@@ -15,7 +15,9 @@ export class DeleteFieldUseCase
       throw new Error('Field dont exists');
     }
     field.deactivate();
+
     await this.fieldRepository.update(field);
+
     return;
   }
 }

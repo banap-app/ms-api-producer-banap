@@ -6,7 +6,7 @@ import { Coordinate, FieldBoundary } from './FieldBoundaryVo';
 import { FieldValidatorFactory } from './FieldValidator';
 
 export type FieldConstructorProps = {
-  fieldId?: string;
+  fieldId?: FieldId;
   propertyId: string;
   producerId: string;
   name: string;
@@ -46,7 +46,7 @@ export class Field extends Entity {
 
   constructor(props: FieldConstructorProps) {
     super();
-    this.fieldId = props.fieldId ? new FieldId(props.fieldId) : new FieldId();
+    this.fieldId = props.fieldId ? props.fieldId : new FieldId();
     this.propertyId = new PropertyId(props.propertyId);
     this.producerId = new ProducerId(props.producerId);
     this.name = props.name;

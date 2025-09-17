@@ -8,7 +8,7 @@ import { FieldBoundaryEntity } from './FieldBoundaryEntity';
 export class FieldEntityMapper {
   static toTypeEntity(entity: Field): FieldEntity {
     return FieldEntity.fromDomain({
-      fieldId: entity.getId.id,
+      fieldId: entity.getId.toString(),
       crop: entity.getCrop(),
       description: entity.getDescription(),
       fieldBoundary: entity.getFieldBoundary(),
@@ -29,7 +29,7 @@ export class FieldEntityMapper {
         lng,
       })) || [];
     const field = new Field({
-      fieldId: entity.fieldId,
+      fieldId: new FieldId(entity.fieldId),
       // @ts-ignore
       propertyId: entity.propertyId.propertyId,
       // @ts-ignore

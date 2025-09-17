@@ -27,7 +27,8 @@ export class AnalysisEntity {
 
   // NÃO declara @JoinColumn aqui — o lado filho tem a FK
   @OneToOne(() => AnalysisLimingEntity, (liming) => liming.analysis, {
-    cascade: true,
+    eager: true,
+    cascade: ['insert', 'update'],
     nullable: true,
   })
   liming?: AnalysisLimingEntity;

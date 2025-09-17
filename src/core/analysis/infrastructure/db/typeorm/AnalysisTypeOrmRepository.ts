@@ -5,6 +5,8 @@ import { AnalysisEntity } from './AnalysisEntity';
 import { AnalysisEntityMapper } from './AnalysisEntityMapper';
 import { AnalysisId } from '../../../domain/AnalysisId';
 import { FieldId } from 'src/core/field/domain/Field';
+import { AnalysisLimingEntity } from './AnalysisLimingEntity';
+import { AnalysisNpkEntity } from './AnalysisNpkEntity';
 
 export class AnalysisTypeOrmRepository implements AnalysisRepository {
   private ormRepository: Repository<AnalysisEntity>;
@@ -24,11 +26,57 @@ export class AnalysisTypeOrmRepository implements AnalysisRepository {
   }
 
   async update(entity: Analysis): Promise<void> {
-    const analysis = AnalysisEntityMapper.toTypeEntity(entity);
+    const mapped = AnalysisEntityMapper.toTypeEntity(entity);
+
+    // se não usa @UpdateDateColumn
+    mapped.updatedAt = new Date();
+
+    // NÃO envie relações no update()
+    const { liming, npk, ...onlyAnalysis } = mapped as any;
+
     await this.ormRepository.update(
-      { analysisId: analysis.analysisId },
-      analysis,
+      { analysisId: mapped.analysisId },
+      onlyAnalysis, // só colunas diretas de Analysis
     );
+
+    // Repositórios das relações usando o manager do próprio repo
+    const limingRepo =
+      this.ormRepository.manager.getRepository(AnalysisLimingEntity);
+    const npkRepo = this.ormRepository.manager.getRepository(AnalysisNpkEntity);
+
+    // --- LIMING ---
+    if (liming !== undefined) {
+      if (liming === null) {
+        await limingRepo.delete({
+          analysis: { analysisId: mapped.analysisId },
+        });
+      } else if (liming.analysisLimingId) {
+        await limingRepo.update(liming.analysisLimingId, { ...liming });
+      } else {
+        await limingRepo.save(
+          limingRepo.create({
+            ...liming,
+            analysis: { analysisId: mapped.analysisId },
+          }),
+        );
+      }
+    }
+
+    // --- NPK ---
+    if (npk !== undefined) {
+      if (npk === null) {
+        await npkRepo.delete({ analysis: { analysisId: mapped.analysisId } });
+      } else if ((npk as any).analysisNpkId) {
+        await npkRepo.update((npk as any).analysisNpkId, { ...npk });
+      } else {
+        await npkRepo.save(
+          npkRepo.create({
+            ...(npk as any),
+            analysis: { analysisId: mapped.analysisId },
+          }),
+        );
+      }
+    }
   }
 
   async bulkUpdate(entities: Analysis[]): Promise<void> {

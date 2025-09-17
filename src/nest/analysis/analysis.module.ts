@@ -12,6 +12,7 @@ import { ListAnalysisUseCase } from 'src/core/analysis/application/retrieve-anal
 import { FieldTypeOrmRepository } from 'src/core/field/infrastructure/db/typeorm/FieldTypeOrmRepository';
 import { ProducerEntity } from 'src/core/producer/infrastructure/db/typeorm/ProducerEntity';
 import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/PropertyEntity';
+import { DeleteAnalysisUseCase } from 'src/core/analysis/application/delete-analysis/DeleteAnalysisUseCase';
 
 @Module({
   imports: [
@@ -59,6 +60,14 @@ import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/Prop
         return new ListAnalysisUseCase(analysisRepo, fieldRepo);
       },
       inject: [AnalysisTypeOrmRepository, FieldTypeOrmRepository],
+    },
+
+    {
+      provide: DeleteAnalysisUseCase,
+      useFactory: (analysisRepo: AnalysisTypeOrmRepository) => {
+        return new DeleteAnalysisUseCase(analysisRepo);
+      },
+      inject: [AnalysisTypeOrmRepository],
     },
   ],
 })

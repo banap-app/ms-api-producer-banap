@@ -17,10 +17,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Pull código no servidor
+      - name: Reset repo no servidor (descarta alterações locais)
         run: |
           cd /var/banap/ms_producer_banap
-          git pull origin main
+          git fetch origin main --prune
+          git reset --hard origin/main
+          git clean -fdx
 
       - name: Instalar dependências
         run: |
@@ -35,15 +37,10 @@ jobs:
       - name: (Re)subir com PM2 e injetar ENV
         run: |
           cd /var/banap/ms_producer_banap
-
-          # Diagnóstico opcional
           echo "DB_HOST=$DB_HOST DB_USER=$DB_USER DB_NAME=$DB_NAME"
-
-          # Se o processo já existe, reinicia carregando o environment NOVO
           if pm2 describe ms_producer_banap >/dev/null 2>&1; then
             pm2 restart ms_producer_banap --update-env
           else
-            # Na primeira subida, injeta as variáveis explicitamente
             DB_HOST="$DB_HOST" \
             DB_PORT="$DB_PORT" \
             DB_USER="$DB_USER" \
@@ -53,5 +50,4 @@ jobs:
               --name ms_producer_banap \
               --cwd /var/banap/ms_producer_banap
           fi
-
           pm2 save

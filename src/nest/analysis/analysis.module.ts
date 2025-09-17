@@ -13,6 +13,7 @@ import { FieldTypeOrmRepository } from 'src/core/field/infrastructure/db/typeorm
 import { ProducerEntity } from 'src/core/producer/infrastructure/db/typeorm/ProducerEntity';
 import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/PropertyEntity';
 import { DeleteAnalysisUseCase } from 'src/core/analysis/application/delete-analysis/DeleteAnalysisUseCase';
+import { GetAnalysisUseCase } from 'src/core/analysis/application/retrieve-analysis/get-analysis/GetAnalysisUseCase';
 
 @Module({
   imports: [
@@ -66,6 +67,13 @@ import { DeleteAnalysisUseCase } from 'src/core/analysis/application/delete-anal
       provide: DeleteAnalysisUseCase,
       useFactory: (analysisRepo: AnalysisTypeOrmRepository) => {
         return new DeleteAnalysisUseCase(analysisRepo);
+      },
+      inject: [AnalysisTypeOrmRepository],
+    },
+    {
+      provide: GetAnalysisUseCase,
+      useFactory: (analysisRepo: AnalysisTypeOrmRepository) => {
+        return new GetAnalysisUseCase(analysisRepo);
       },
       inject: [AnalysisTypeOrmRepository],
     },

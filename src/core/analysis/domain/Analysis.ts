@@ -79,6 +79,20 @@ export class Analysis extends Entity {
     }
   }
 
+  public activate() {
+    if (this.deletedAt !== null || this.deletedAt !== undefined) {
+      this.deletedAt = null;
+    }
+    this.updatedAt = new Date();
+    this.isActive = true;
+  }
+
+  public deactivate() {
+    this.isActive = false;
+    this.updatedAt = new Date();
+    this.deletedAt = new Date();
+  }
+
   public getFieldId(): FieldId {
     return this.fieldId;
   }

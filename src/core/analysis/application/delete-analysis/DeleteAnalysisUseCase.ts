@@ -26,6 +26,11 @@ export class DeleteAnalysisUseCase
     if (analysisToDelete.notification.hasErrors()) {
       throw new Error(analysisToDelete.notification.toJSON());
     }
-    return true;
+
+    analysisToDelete.deactivate();
+
+    await this.analysisRepository.update(analysisToDelete);
+
+    return;
   }
 }

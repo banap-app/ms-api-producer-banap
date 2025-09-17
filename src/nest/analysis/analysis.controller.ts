@@ -15,9 +15,14 @@ import { CreateAnalysisUseCase } from '../../core/analysis/application/create-an
 import { CreateAnalysisCommand } from '../../core/analysis/application/create-analysis/CreateAnalysisCommand';
 import { Request } from 'express';
 import { ApiOperation, ApiSecurity } from '@nestjs/swagger';
-import { SwaggerCreateAnalysis } from './analysis.controller.interface';
+import {
+  SwaggerCreateAnalysis,
+  SwaggerDeleteAnalysis,
+  SwaggerListAnalysis,
+} from './analysis.controller.interface';
 import { ListAnalysisUseCase } from 'src/core/analysis/application/retrieve-analysis/list-analysis/ListAnalysisUseCase';
 import { ListAnalysisCommand } from 'src/core/analysis/application/retrieve-analysis/list-analysis/ListAnalysisCommand';
+import { DeleteAnalysisUseCase } from 'src/core/analysis/application/delete-analysis/DeleteAnalysisUseCase';
 
 @ApiSecurity('token')
 @Controller('analysis')
@@ -27,6 +32,8 @@ export class AnalysisController {
     private readonly createAnalysisUseCase: CreateAnalysisUseCase,
     @Inject(ListAnalysisUseCase)
     private readonly listAnalysisUseCase: ListAnalysisUseCase,
+    @Inject(DeleteAnalysisUseCase)
+    private readonly deleteAnalysisUseCase: DeleteAnalysisUseCase,
   ) {}
 
   @SwaggerCreateAnalysis()
@@ -43,13 +50,18 @@ export class AnalysisController {
     return this.createAnalysisUseCase.execute(aCommand);
   }
 
-  @ApiOperation({
-    description: 'List all analysis',
-    summary: 'List all',
-  })
-  @Get(':id')
-  findAll(@Param('id') id: string) {
-    const aCommand = new ListAnalysisCommand(id);
+  @SwaggerListAnalysis()
+  @Get(':fieldId')
+  findAll(@Param('fieldId') fieldId: string) {
+    const aCommand = new ListAnalysisCommand(fieldId);
     return this.listAnalysisUseCase.execute(aCommand);
+  }
+
+  @SwaggerDeleteAnalysis()
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return this.deleteAnalysisUseCase.execute({
+      analysisId: id,
+    });
   }
 }

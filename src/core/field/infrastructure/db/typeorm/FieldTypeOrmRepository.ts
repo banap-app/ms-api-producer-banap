@@ -73,7 +73,7 @@ export class FieldTypeOrmRepository implements IFieldRepository {
 
   async findById(entityId: FieldId): Promise<Field> {
     const entity = await this.ormRepository.findOne({
-      where: { fieldId: entityId.id },
+      where: { fieldId: entityId.getId },
       relations: ['boundary', 'propertyId', 'producerId'],
     });
     if (!entity) {

@@ -22,7 +22,7 @@ export type AnalysisLimingConstructorProps = {
 
 export type AnalysisLimingCreateProps = {
   analysisId?: AnalysisId;
-  desiredBaseSaturation: DesiredBaseSaturation;
+  desiredBaseSaturation?: DesiredBaseSaturation;
   currentBaseSaturation: CurrentBaseSaturation;
   totalCationExchangeCapacity: TotalCationExchangeCapacity;
   relativeTotalNeutralizingPower: RelativeTotalNeutralizingPower;
@@ -45,7 +45,9 @@ export class AnalysisLiming extends Entity {
       : new AnalysisLimingId();
     this.analysisId = props.analysisId ? props.analysisId : new AnalysisId();
     this.currentBaseSaturation = props.currentBaseSaturation;
-    this.desiredBaseSaturation = props.desiredBaseSaturation;
+    this.desiredBaseSaturation = props.desiredBaseSaturation
+      ? props.desiredBaseSaturation
+      : new DesiredBaseSaturation(70);
     this.totalCationExchangeCapacity = props.totalCationExchangeCapacity;
     this.relativeTotalNeutralizingPower = props.relativeTotalNeutralizingPower;
     this.liming = props.liming;

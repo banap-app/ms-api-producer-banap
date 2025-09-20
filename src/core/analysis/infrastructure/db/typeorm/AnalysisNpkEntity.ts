@@ -41,7 +41,6 @@ export class AnalysisNpkEntity {
 
   static fromDomain(props: AnalysisNpkEntityProps): AnalysisNpkEntity {
     const entity = new AnalysisNpkEntity();
-    entity.analysis = { analysisId: props.analysisId };
     entity.phosphor = props.phosphor;
     entity.potassium = props.potassium;
     entity.expectedProductivity = props.expectedProductivity;

@@ -12,6 +12,7 @@ import {
 import {
   CreateAnalysisDto,
   LimingAnalysisDto,
+  LimingAnalysisDtoDesiredOptional,
   NpkAnalysisDto,
 } from './dto/create-analysis.dto';
 import { CreateAnalysisUseCase } from '../../core/analysis/application/create-analysis/CreateAnalysisUseCase';
@@ -57,7 +58,7 @@ export class AnalysisController {
         isActive: { type: 'boolean' },
         typeAnalysis: {
           oneOf: [
-            { $ref: getSchemaPath(LimingAnalysisDto) },
+            { $ref: getSchemaPath(LimingAnalysisDtoDesiredOptional) },
             { $ref: getSchemaPath(NpkAnalysisDto) },
           ],
         },

@@ -3,11 +3,19 @@ import {
   ApiProperty,
   ApiPropertyOptional,
   getSchemaPath,
+  IntersectionType,
+  OmitType,
 } from '@nestjs/swagger';
+import { IsOptional } from 'class-validator';
 
 export class LimingAnalysisDto {
-  @ApiProperty({ description: 'Saturação por bases desejada (%)', example: 60 })
-  desiredBaseSaturation: number;
+  @ApiProperty({
+    description: 'Saturação por bases desejada (%)',
+    example: 60,
+    nullable: true,
+  })
+  @IsOptional()
+  desiredBaseSaturation?: number;
 
   @ApiProperty({ description: 'Saturação por bases atual (%)', example: 45 })
   currentBaseSaturation: number;
@@ -69,3 +77,20 @@ export class CreateAnalysisDto {
         potassium?: number;
       };
 }
+
+class LimingDesiredOptionalOnly {
+  @ApiPropertyOptional({
+    description: 'Saturação por bases desejada (%)',
+    example: 60,
+  })
+  desiredBaseSaturation?: number;
+}
+
+class LimingAnalysisDtoWithoutDesired extends OmitType(LimingAnalysisDto, [
+  'desiredBaseSaturation',
+] as const) {}
+
+export class LimingAnalysisDtoDesiredOptional extends IntersectionType(
+  LimingAnalysisDtoWithoutDesired,
+  LimingDesiredOptionalOnly,
+) {}

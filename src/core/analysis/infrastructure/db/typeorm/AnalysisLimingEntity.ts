@@ -7,6 +7,16 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+export type AnalysisLimingEntityProps = {
+  analysisLimingId?: string;
+  analysisId: string;
+  desiredBaseSaturation: number;
+  currentBaseSaturation: number;
+  totalCationExchangeCapacity: number;
+  relativeTotalNeutralizingPower: number;
+  liming?: number;
+};
+
 @Entity({ name: 'analysis_liming' })
 export class AnalysisLimingEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'analysis_liming_id' })
@@ -34,17 +44,14 @@ export class AnalysisLimingEntity {
   @Column({ name: 'liming', type: 'float', nullable: true })
   liming?: number;
 
-  static fromDomain(domain: any): AnalysisLimingEntity {
+  static fromDomain(props: AnalysisLimingEntityProps): AnalysisLimingEntity {
     const entity = new AnalysisLimingEntity();
-    entity.analysisLimingId = domain.getId?.value;
-    entity.analysis = { analysisId: domain.analysisId?.value };
-    entity.desiredBaseSaturation = domain.desiredBaseSaturation?.value;
-    entity.currentBaseSaturation = domain.currentBaseSaturation?.value;
-    entity.totalCationExchangeCapacity =
-      domain.totalCationExchangeCapacity?.value;
+    entity.desiredBaseSaturation = props.desiredBaseSaturation;
+    entity.currentBaseSaturation = props.currentBaseSaturation;
+    entity.totalCationExchangeCapacity = props.totalCationExchangeCapacity;
     entity.relativeTotalNeutralizingPower =
-      domain.relativeTotalNeutralizingPower?.value;
-    entity.liming = domain.liming?.value;
+      props.relativeTotalNeutralizingPower;
+    entity.liming = props.liming;
     return entity;
   }
 }

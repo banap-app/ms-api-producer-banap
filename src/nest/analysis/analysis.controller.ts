@@ -12,7 +12,6 @@ import {
 import {
   CreateAnalysisDto,
   LimingAnalysisDto,
-  LimingAnalysisDtoDesiredOptional,
   NpkAnalysisDto,
 } from './dto/create-analysis.dto';
 import { CreateAnalysisUseCase } from '../../core/analysis/application/create-analysis/CreateAnalysisUseCase';
@@ -58,7 +57,7 @@ export class AnalysisController {
         isActive: { type: 'boolean' },
         typeAnalysis: {
           oneOf: [
-            { $ref: getSchemaPath(LimingAnalysisDtoDesiredOptional) },
+            { $ref: getSchemaPath(LimingAnalysisDto) },
             { $ref: getSchemaPath(NpkAnalysisDto) },
           ],
         },
@@ -71,7 +70,7 @@ export class AnalysisController {
           fieldId: '8a9f3a3e-79bd-4f9f-b672-024f3cc0d6e2',
           isActive: true,
           typeAnalysis: {
-            desiredBaseSaturation: 60,
+            //desiredBaseSaturation: 60,
             currentBaseSaturation: 45,
             totalCationExchangeCapacity: 12,
             relativeTotalNeutralizingPower: 80,

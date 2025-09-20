@@ -12,10 +12,11 @@ export type PropertyOutput = {
 
 export class PropertyOutputMapper {
   static toOutput(entity: Property) {
-    const { propertyId, ...otherProps } = entity.toJSON();
+    const { propertyId,engineerId, ...otherProps } = entity.toJSON();
 
     return {
       id: propertyId,
+      engineerId: engineerId ? engineerId : null,
       ...otherProps,
     };
   }

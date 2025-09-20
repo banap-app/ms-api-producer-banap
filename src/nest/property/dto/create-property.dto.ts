@@ -12,4 +12,10 @@ export class CreatePropertyDto {
     example: true,
   })
   isActive: boolean;
+
+    @ApiProperty({
+    description: 'Engineer id',
+    example: true,
+  })
+  engineerId: string;
 }

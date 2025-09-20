@@ -11,6 +11,8 @@ import { GetPropertyUseCase } from 'src/core/property/application/use-cases/retr
 import { ListPropertyUseCase } from 'src/core/property/application/use-cases/retrieve-property/ListPropertiesUseCase';
 import { DeletePropertyUseCase } from 'src/core/property/application/use-cases/delete-property/DeletePropertyUseCase';
 import { UpdatePropertyUseCase } from '../../core/property/application/use-cases/update-property/UpdatePropertyUseCase';
+import { EngineerGateway } from 'src/core/others/infrastructure/gateway/EngineerGateway';
+import { SimpleEngineer } from 'src/core/others/domain/SimpleEngineer';
 
 @Module({
   imports: [TypeOrmModule.forFeature([PropertyEntity]), ProducerModule],
@@ -23,13 +25,26 @@ import { UpdatePropertyUseCase } from '../../core/property/application/use-cases
       },
       inject: [getRepositoryToken(PropertyEntity)],
     },
+
+    {
+      provide: EngineerGateway,
+      useFactory: () => {
+        return new EngineerGateway();
+      },
+    },
     {
       provide: CreatePropertyUseCase,
       useFactory: (
         propertyRepo: PropertyTypeOrmRepository,
         producerRepo: ProducerTypeOrmRepository,
-      ) => new CreatePropertyUseCase(propertyRepo, producerRepo),
-      inject: [PropertyTypeOrmRepository, ProducerTypeOrmRepository],
+        engineerGateway: EngineerGateway,
+      ) =>
+        new CreatePropertyUseCase(propertyRepo, producerRepo, engineerGateway),
+      inject: [
+        PropertyTypeOrmRepository,
+        ProducerTypeOrmRepository,
+        EngineerGateway,
+      ],
     },
     {
       provide: GetPropertyUseCase,

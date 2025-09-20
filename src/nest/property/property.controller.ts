@@ -57,6 +57,7 @@ export class PropertyController {
       producerId: request.user.id,
       name: createPropertyDto.name,
       isActive: createPropertyDto.isActive,
+      engineerId: createPropertyDto.engineerId
     });
 
     return this.createPropertyUseCase.execute(command);

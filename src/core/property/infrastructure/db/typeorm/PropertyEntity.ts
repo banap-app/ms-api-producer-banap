@@ -1,5 +1,3 @@
-import { FieldEntity } from 'src/core/field/infrastructure/db/typeorm/FieldEntity';
-import { Producer } from 'src/core/producer/domain/Producer';
 import { ProducerEntity } from 'src/core/producer/infrastructure/db/typeorm/ProducerEntity';
 import {
   Column,
@@ -13,6 +11,7 @@ import {
 export type PropertyConstructorProps = {
   propertyId: string;
   producerId: string;
+  engineerId?: string;
   name: string;
   isActive: boolean;
   createdAt: Date;
@@ -27,6 +26,9 @@ export class PropertyEntity {
 
   @Column({ name: 'producer_id' })
   producerId: string;
+
+  @Column({ name: 'engineer_id', nullable: true })
+  engineer_id: string;
 
   @ManyToOne(() => ProducerEntity, (producer) => producer.id)
   @JoinColumn({ name: 'producer_id' })
@@ -62,6 +64,7 @@ export class PropertyEntity {
     entity.producerId = props.producerId;
     entity.name = props.name;
     entity.isActive = props.isActive;
+    entity.engineer_id = props.engineerId
     entity.createdAt = props.createdAt;
     entity.updatedAt = props.updatedAt;
     entity.deletedAt = props.deletedAt;

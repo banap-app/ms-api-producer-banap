@@ -1,3 +1,4 @@
+import { EngineerId } from 'src/core/others/domain/SimpleEngineer';
 import { ProducerId } from '../../producer/domain/Producer';
 import { Entity } from '../../shared/domain/Entity';
 import { Uuid } from '../../shared/domain/value-objects/UuidVo';
@@ -6,6 +7,7 @@ import { PropertyValidatorFactory } from './PropertyValidator';
 export type PropertyConstructorProps = {
   propertyId?: string;
   producerId: string;
+  engineerId?: string
   name: string;
   isActive: boolean;
   createdAt?: Date;
@@ -15,6 +17,7 @@ export type PropertyConstructorProps = {
 
 export type PropertyCreateCommand = {
   producerId: string;
+  engineerId?: string
   name: string;
   isActive: boolean;
 };
@@ -24,6 +27,7 @@ export class PropertyId extends Uuid {}
 export class Property extends Entity {
   private propertyId: PropertyId;
   private producerId: ProducerId;
+  private engineerId?: EngineerId | null
   private name: string;
   private isActive: boolean;
   private createdAt: Date;
@@ -36,6 +40,7 @@ export class Property extends Entity {
       ? new PropertyId(props.propertyId)
       : new PropertyId();
     this.producerId = new ProducerId(props.producerId);
+    this.engineerId = props.engineerId ? new EngineerId(props.engineerId) : null
     this.name = props.name;
     this.isActive = props.isActive;
     this.createdAt = props.createdAt ? props.createdAt : new Date();
@@ -52,6 +57,10 @@ export class Property extends Entity {
   public validate(fields: string[]) {
     const propertyValidate = PropertyValidatorFactory.create();
     return propertyValidate.validate(this.notification, this, fields);
+  }
+
+  public aggregateEngineer(engineerId: EngineerId) {
+    this.engineerId = engineerId
   }
 
   public changeName(name: string) {
@@ -71,6 +80,10 @@ export class Property extends Entity {
 
   public getProducerId() {
     return this.producerId;
+  }
+
+  public getEngineerId() {
+    return this.engineerId
   }
 
   public getName() {
@@ -101,6 +114,7 @@ export class Property extends Entity {
     return {
       propertyId: this.propertyId.id,
       producerId: this.producerId.id,
+      engineerId: this.engineerId ? this.engineerId.id : null,
       name: this.name,
       isActive: this.isActive,
       createdAt: this.createdAt,

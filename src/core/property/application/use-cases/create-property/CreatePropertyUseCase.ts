@@ -9,6 +9,8 @@ import {
 import { CreatePropertyCommand } from './CreatePropertyCommand';
 import { ProducerRepository } from 'src/core/producer/domain/ProducerRepository';
 import { ProducerId } from 'src/core/producer/domain/Producer';
+import { IEngineerRepository } from 'src/core/others/domain/IEngineerRepository';
+import { EngineerId } from 'src/core/others/domain/SimpleEngineer';
 
 export type CreatePropertyOutput = PropertyOutput;
 
@@ -17,13 +19,16 @@ export class CreatePropertyUseCase
 {
   private propertyRepository: IPropertyRepository;
   private producerRepository: ProducerRepository;
+  private engineerRepository: IEngineerRepository;
 
   constructor(
     propertyRepository: IPropertyRepository,
     producerRepository: ProducerRepository,
+    engineerRepository: IEngineerRepository
   ) {
     this.propertyRepository = propertyRepository;
     this.producerRepository = producerRepository;
+    this.engineerRepository = engineerRepository
   }
 
   async execute(
@@ -35,11 +40,15 @@ export class CreatePropertyUseCase
       throw new EntityValidationError(aProperty.notification.toJSON());
     }
 
-    const { producerId } = aCommand;
+    const { producerId, engineerId } = aCommand;
 
     const producerExists = await this.producerRepository.findById(
       new ProducerId(producerId),
     );
+
+    if (engineerId && await this.engineerRepository.findById(new EngineerId(engineerId))) {
+        aProperty.aggregateEngineer(new EngineerId(engineerId))
+    }
 
     if (!producerExists) {
       aProperty.notification.addError('Producer does not exist', 'producerId');

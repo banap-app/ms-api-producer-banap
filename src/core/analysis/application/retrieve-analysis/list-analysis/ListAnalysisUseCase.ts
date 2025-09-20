@@ -53,7 +53,10 @@ export class ListAnalysisUseCase
 
     return {
       count: analysis.length,
-      analysis: analysis.map((e) => AnalysisOutputMapper.toOutput(e)),
+      analysis: analysis.map((e) => {
+        console.log(e);
+        return AnalysisOutputMapper.toOutput(e);
+      }),
     };
   }
 }

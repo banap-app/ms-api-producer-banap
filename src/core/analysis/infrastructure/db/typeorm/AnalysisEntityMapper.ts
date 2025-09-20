@@ -24,6 +24,7 @@ import { Liming } from 'src/core/analysis/domain/value-objects/LimingVo';
 
 export class AnalysisEntityMapper {
   static toTypeEntity(analysis: Analysis): AnalysisEntity {
+    // (sem mudanças)
     const entity = new AnalysisEntity();
     entity.analysisId = analysis.getId.id;
     entity.fieldId = analysis.getFieldId().id;
@@ -70,62 +71,70 @@ export class AnalysisEntityMapper {
   }
 
   static toDomain(entity: AnalysisEntity | AnalysisEntity[]): Analysis {
+    if (Array.isArray(entity)) {
+      throw new Error(
+        'AnalysisEntityMapper.toDomain espera uma única entidade (não array).',
+      );
+    }
+
     let typeAnalysis: AnalysisLiming | AnalysisNpk | undefined;
 
-    if (!Array.isArray(entity)) {
-      if (entity.typeAnalysis === 'LIMING' && entity.typeAnalysis) {
-        typeAnalysis = new AnalysisLiming({
-          analysisLimingId: new AnalysisLimingId(
-            entity.liming.analysisLimingId,
-          ),
-          analysisId: new AnalysisId(entity.analysisId),
-          desiredBaseSaturation: new DesiredBaseSaturation(
-            entity.liming.desiredBaseSaturation,
-          ),
-          currentBaseSaturation: new CurrentBaseSaturation(
-            entity.liming.currentBaseSaturation,
-          ),
-          totalCationExchangeCapacity: new TotalCationExchangeCapacity(
-            entity.liming.totalCationExchangeCapacity,
-          ),
-          relativeTotalNeutralizingPower: new RelativeTotalNeutralizingPower(
-            entity.liming.relativeTotalNeutralizingPower,
-          ),
-          liming: new Liming(entity.liming.liming),
-        });
-      }
-
-      if (entity.typeAnalysis === 'NPK' && entity.npk) {
-        typeAnalysis = new AnalysisNpk({
-          analysisNpkId: new AnalysisNpkId(entity.npk.analysisNpkId),
-          analysisId: new AnalysisId(entity.analysisId),
-          phosphor: new Phosphor(entity.npk.phosphor),
-          potassium: new Potassium(entity.npk.potassium),
-          expectedProductivity: new ExpectedProductivity(
-            entity.npk.expectedProductivity,
-          ),
-          nitrogen: new Nitrogen(entity.npk.nitrogen),
-        });
-      }
-
-      const analysis = new Analysis({
+    // LIMING: só entra se o tipo for LIMING **e** existir entity.liming
+    if (entity.typeAnalysis === 'LIMING' && entity.liming) {
+      typeAnalysis = new AnalysisLiming({
+        analysisLimingId: new AnalysisLimingId(entity.liming.analysisLimingId),
         analysisId: new AnalysisId(entity.analysisId),
-        fieldId: new FieldId(entity.fieldId),
-        isActive: entity.isActive,
-        typeAnalysis,
-        createdAt: entity.createdAt,
-        updatedAt: entity.updatedAt,
-        deletedAt: entity.deletedAt,
+        desiredBaseSaturation: new DesiredBaseSaturation(
+          entity.liming.desiredBaseSaturation,
+        ),
+        currentBaseSaturation: new CurrentBaseSaturation(
+          entity.liming.currentBaseSaturation,
+        ),
+        totalCationExchangeCapacity: new TotalCationExchangeCapacity(
+          entity.liming.totalCationExchangeCapacity,
+        ),
+        relativeTotalNeutralizingPower: new RelativeTotalNeutralizingPower(
+          entity.liming.relativeTotalNeutralizingPower,
+        ),
+        liming: new Liming(entity.liming.liming),
       });
-
-      analysis.validate();
-
-      if (analysis.notification.hasErrors()) {
-        throw new Error(analysis.notification.toJSON());
-      }
-
-      return analysis;
-    } else if (Array.isArray(entity)) {
     }
+
+    // NPK: já estava certo; mantém o guard de entity.npk
+    if (!typeAnalysis && entity.typeAnalysis === 'NPK' && entity.npk) {
+      typeAnalysis = new AnalysisNpk({
+        analysisNpkId: new AnalysisNpkId(entity.npk.analysisNpkId),
+        analysisId: new AnalysisId(entity.analysisId),
+        phosphor: new Phosphor(entity.npk.phosphor),
+        potassium: new Potassium(entity.npk.potassium),
+        expectedProductivity: new ExpectedProductivity(
+          entity.npk.expectedProductivity,
+        ),
+        nitrogen: new Nitrogen(entity.npk.nitrogen),
+      });
+    }
+
+    if (!typeAnalysis) {
+      throw new Error(
+        'typeAnalysis inválido ou incompleto para AnalysisEntity.',
+      );
+    }
+
+    const analysis = new Analysis({
+      analysisId: new AnalysisId(entity.analysisId),
+      fieldId: new FieldId(entity.fieldId),
+      isActive: entity.isActive,
+      typeAnalysis,
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
+      deletedAt: entity.deletedAt,
+    });
+
+    analysis.validate();
+    if (analysis.notification.hasErrors()) {
+      throw new Error(analysis.notification.toJSON());
+    }
+
+    return analysis;
   }
 }

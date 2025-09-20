@@ -17,8 +17,14 @@ export class GetAnalysisUseCase
 
   async execute(aCommand: GetAnalysisCommand): Promise<AnalysisOutput> {
     const analysisId = new AnalysisId(aCommand.analysisId);
-    console.log(analysisId);
     const analysis = await this.analysisRepository.findById(analysisId);
+
+    if (!analysis) {
+      throw new Error('Not found analysis');
+    }
+    console.log(analysis.getIsActive());
+    console.log(analysis);
+
     return AnalysisOutputMapper.toOutput(analysis);
   }
 }

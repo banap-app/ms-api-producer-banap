@@ -41,7 +41,6 @@ export class CreateAnalysisUseCase
 
     anAnalysis.defineTypeOfAnalysis(typeAnalysis);
 
-    // Validação de erros na entidade
     if (anAnalysis.notification.hasErrors()) {
       throw new EntityValidationError(anAnalysis.notification.toJSON());
     }
@@ -54,6 +53,7 @@ export class CreateAnalysisUseCase
     }
 
     await anAnalysis.calculate();
+
     await this.analysisRepository.insert(anAnalysis);
 
     return AnalysisOutputMapper.toOutput(anAnalysis);
@@ -66,16 +66,17 @@ export class CreateAnalysisUseCase
     let typeAnalysis = aCommand.typeAnalysis;
 
     if (
-      'desiredBaseSaturation' in typeAnalysis &&
+      ('desiredBaseSaturation' in typeAnalysis ||
+        !('desiredBaseSaturation' in typeAnalysis)) &&
       'currentBaseSaturation' in typeAnalysis &&
       'totalCationExchangeCapacity' in typeAnalysis &&
       'relativeTotalNeutralizingPower' in typeAnalysis
     ) {
       return AnalysisLiming.create({
         analysisId,
-        desiredBaseSaturation: new DesiredBaseSaturation(
-          typeAnalysis.desiredBaseSaturation,
-        ),
+        desiredBaseSaturation: typeAnalysis.desiredBaseSaturation
+          ? new DesiredBaseSaturation(typeAnalysis.desiredBaseSaturation)
+          : null,
         currentBaseSaturation: new CurrentBaseSaturation(
           typeAnalysis.currentBaseSaturation,
         ),

@@ -21,9 +21,7 @@ export class RedisService<EntityCache extends Entity>
 
     const entityJson = JSON.stringify(entityToCache);
 
-    await this.redisClient.expire(keyCache, timeToExpire ? timeToExpire : this.timeToExpire ? this.timeToExpire : 60)
-
-    await this.redisClient.set(keyCache, entityJson);
+    await this.redisClient.set(keyCache, entityJson, {EX: timeToExpire ? timeToExpire : this.timeToExpire ? this.timeToExpire : 15});
 
     return true;
   }

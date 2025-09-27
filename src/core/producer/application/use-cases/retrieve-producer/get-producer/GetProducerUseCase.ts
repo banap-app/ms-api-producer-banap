@@ -24,6 +24,7 @@ export class GetProducerUseCase
   async execute(aCommand: GetProducerCommand): Promise<GetProducerOutput> {
 
     if(await this.cacheAdapter.isCacheaded(`producer:${aCommand.producerId}`)) {
+      console.log('cachead')
       const cache = await this.cacheAdapter.get(`producer:${aCommand.producerId}`)
 
       const producer = new Producer({

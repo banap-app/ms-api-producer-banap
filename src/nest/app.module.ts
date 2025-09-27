@@ -22,6 +22,7 @@ import { FieldEntity } from 'src/core/field/infrastructure/db/typeorm/FieldEntit
 import { FieldModule } from './field/field.module';
 import { FieldBoundaryEntity } from 'src/core/field/infrastructure/db/typeorm/FieldBoundaryEntity';
 import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/PropertyEntity';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/Prop
     PropertyModule,
     FieldModule,
     AxiosModule,
+    RedisModule
   ],
   controllers: [AppController],
   providers: [

@@ -6,17 +6,12 @@ import {
 import { ProducerEntity } from 'src/core/producer/infrastructure/db/typeorm/ProducerEntity';
 import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/PropertyEntity';
 import {
-  BeforeInsert,
-  BeforeUpdate,
   Column,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
   OneToOne,
-  Polygon,
   PrimaryGeneratedColumn,
-  RelationId,
 } from 'typeorm';
 import { FieldBoundaryEntity } from './FieldBoundaryEntity';
 

@@ -29,12 +29,7 @@ export class ProducerEntityTypeMapper {
       name: producerEntity.name,
       email: producerEntity.email,
       isActive: producerEntity.isActive,
-      typeUser:
-        producerEntity.typeUser.typeName == 'Producer'
-          ? TypeUser.Producer
-          : producerEntity.typeUser.typeName == 'Engineer'
-            ? TypeUser.Engineer
-            : TypeUser.NULL,
+      typeUser: producerEntity.typeUser.id,
       password:
         options.needPasswords == true && producerEntity.password
           ? Password.hashPassword(producerEntity.password)

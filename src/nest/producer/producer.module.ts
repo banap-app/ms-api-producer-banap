@@ -14,6 +14,10 @@ import { BcryptService } from 'src/core/producer/infrastructure/services/BcryptS
 import { UpdateProducerUseCase } from 'src/core/producer/application/use-cases/update-producer/UpdateProducerUseCase';
 import { DeleteProducerUseCase } from 'src/core/producer/application/use-cases/delete-producer/DeleteProducerUseCase';
 import { GetProducerUseCase } from 'src/core/producer/application/use-cases/retrieve-producer/get-producer/GetProducerUseCase';
+import { RedisService } from 'src/core/shared/infrastructure/services/RedisService';
+import { Producer } from 'src/core/producer/domain/Producer';
+import { ICache } from 'src/core/shared/application/ICache';
+import { ICACHE_PRODUCER } from 'src/core/shared/infrastructure/di/tokens';
 
 @Module({
   imports: [
@@ -53,9 +57,11 @@ import { GetProducerUseCase } from 'src/core/producer/application/use-cases/retr
     },
     {
       provide: GetProducerUseCase,
-      useFactory: (repo: ProducerTypeOrmRepository) =>
-        new GetProducerUseCase(repo),
-      inject: [ProducerTypeOrmRepository],
+      useFactory: (
+        repo: ProducerTypeOrmRepository,
+        cache: ICache<Producer>, 
+      ) => new GetProducerUseCase(repo, cache),
+      inject: [ProducerTypeOrmRepository, ICACHE_PRODUCER],
     },
   ],
   exports: [ProducerTypeOrmRepository],

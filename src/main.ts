@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './nest/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { NotFoundFilter } from './nest/exceptionsFilters/not-found-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +19,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+  app.useGlobalFilters(new NotFoundFilter());
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

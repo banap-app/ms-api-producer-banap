@@ -75,4 +75,3 @@ export class CreateAnalysisDto {
         potassium?: number;
       };
 }
-

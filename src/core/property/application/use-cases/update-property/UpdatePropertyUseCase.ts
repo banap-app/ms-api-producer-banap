@@ -7,6 +7,7 @@ import {
 } from '../../commons/PropertyOutputMapper';
 import { EntityValidationError } from 'src/core/shared/domain/validators/ValidationErrors';
 import { PropertyId } from 'src/core/property/domain/Property';
+import { NotFoundError } from 'src/core/shared/domain/errors/NotFoundError';
 
 export type UpdatePropertyOutput = PropertyOutput;
 
@@ -26,7 +27,7 @@ export class UpdatePropertyUseCase
     );
 
     if (!propertyToUpdate) {
-      throw new Error('Property not found');
+      throw new NotFoundError('Property not found');
     }
 
     propertyToUpdate.validate([]);

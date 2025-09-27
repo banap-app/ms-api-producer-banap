@@ -6,6 +6,7 @@ import {
   ProducerOutputMapper,
 } from '../../commons/ProducerOutputMapper';
 import { EntityValidationError } from 'src/core/shared/domain/validators/ValidationErrors';
+import { NotFoundError } from 'src/core/shared/domain/errors/NotFoundError';
 
 export class GetProducerUseCase
   implements UseCase<GetProducerCommand, GetProducerOutput>
@@ -21,14 +22,19 @@ export class GetProducerUseCase
       new ProducerId(aCommand.producerId),
     );
     if (!producer) {
-      throw new Error('Not found a Producer');
+      throw new NotFoundError(
+        `Not found a Producer with ID: ${aCommand.producerId}`,
+      );
     }
 
     producer.validate();
 
     if (!producer.getIsActive()) {
-      throw new Error('Not found a Producer');
+      throw new NotFoundError(
+        `Not found a Producer with ID: ${aCommand.producerId}`,
+      );
     }
+
     if (producer.notification.hasErrors()) {
       throw new EntityValidationError(producer.notification.toJSON());
     }

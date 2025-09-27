@@ -5,6 +5,7 @@ import {
   AnalysisOutputMapper,
 } from '../../commons/AnalysisOutputMapper';
 import { AnalysisRepository } from 'src/core/analysis/domain/AnalysisRepository';
+import { NotFoundError } from 'src/core/shared/domain/errors/NotFoundError';
 
 export class GetAnalysisUseCase
   implements UseCase<GetAnalysisCommand, GetAnalysisOutput>
@@ -20,7 +21,7 @@ export class GetAnalysisUseCase
     const analysis = await this.analysisRepository.findById(analysisId);
 
     if (!analysis) {
-      throw new Error('Not found analysis');
+      throw new NotFoundError(`Not Found Analysis with ID: ${analysisId}`);
     }
     console.log(analysis.getIsActive());
     console.log(analysis);

@@ -64,7 +64,7 @@ export class PropertyEntity {
     entity.producerId = props.producerId;
     entity.name = props.name;
     entity.isActive = props.isActive;
-    entity.engineer_id = props.engineerId
+    entity.engineer_id = props.engineerId;
     entity.createdAt = props.createdAt;
     entity.updatedAt = props.updatedAt;
     entity.deletedAt = props.deletedAt;

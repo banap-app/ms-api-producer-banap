@@ -4,6 +4,8 @@ import {
   FieldOutputMapper,
 } from '../../commons/FieldOutputMapper';
 import { ListFieldsCommand } from './ListFieldsCommand';
+import { NotFoundError } from 'src/core/shared/domain/errors/NotFoundError';
+import { PropertyId } from 'src/core/property/domain/Property';
 
 export type ListFieldOutput = FieldOutput[];
 
@@ -20,10 +22,11 @@ export class ListFieldUseCase
 
   async execute(aCommand: ListFieldsCommand): Promise<ListFieldOutput> {
     const property = await this.propertyRepository.findById(
-      aCommand.propertyId,
+      new PropertyId(aCommand.propertyId),
     );
+
     if (!property) {
-      throw new Error('Property not found');
+      throw new NotFoundError('Property not found');
     }
 
     const fields = await this.fieldRepository.findByPropertyId(

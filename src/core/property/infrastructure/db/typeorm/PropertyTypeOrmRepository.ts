@@ -61,6 +61,7 @@ export class PropertyTypeOrmRepository implements IPropertyRepository {
     const property = await this.ormRepository.findOneBy({
       propertyId: entity_id.id,
     });
-    return PropertyEntityTypeMapper.toDomain(property);
+
+    return property ? PropertyEntityTypeMapper.toDomain(property) : null;
   }
 }

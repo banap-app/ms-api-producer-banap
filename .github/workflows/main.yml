@@ -2,14 +2,14 @@ name: Deploy Node App
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: self-hosted
     env:
       DB_HOST: stormforge.lan
-      DB_PORT: "5432"
+      DB_PORT: '5432'
       DB_USER: Green
       DB_PASSWORD: StormForge01
       DB_NAME: banap_database

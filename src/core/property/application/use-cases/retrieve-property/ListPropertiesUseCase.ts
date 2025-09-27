@@ -7,6 +7,7 @@ import { IPropertyRepository } from 'src/core/property/domain/IPropertyRepositor
 import { ProducerRepository } from 'src/core/producer/domain/ProducerRepository';
 import { ProducerId } from 'src/core/producer/domain/Producer';
 import { ListPropertiesCommand } from './ListPropertiesCommand';
+import { NotFoundError } from 'src/core/shared/domain/errors/NotFoundError';
 
 export type ListPropertiesOutput = PropertyOutput[];
 
@@ -31,7 +32,7 @@ export class ListPropertyUseCase
       new ProducerId(aCommand.producerId),
     );
     if (!producer) {
-      throw new Error('Producer not found');
+      throw new NotFoundError('Producer not found');
     }
 
     const properties = await this.propertyRespository.findByProducerId(

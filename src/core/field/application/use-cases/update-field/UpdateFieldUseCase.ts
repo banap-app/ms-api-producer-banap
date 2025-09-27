@@ -10,6 +10,7 @@ import { UpdateFieldCommand } from './UpdateFieldcommand';
 import { FieldId } from 'src/core/field/domain/Field';
 import { Property, PropertyId } from 'src/core/property/domain/Property';
 import { ProducerId } from 'src/core/producer/domain/Producer';
+import { NotFoundError } from 'src/core/shared/domain/errors/NotFoundError';
 
 export class UpdateFieldUseCase
   implements UseCase<UpdateFieldCommand, UpdateFieldOutput>
@@ -33,7 +34,7 @@ export class UpdateFieldUseCase
       new FieldId(aCommand.fieldId),
     );
     if (!field) {
-      throw new Error('Field not found');
+      throw new NotFoundError('Field not found');
     }
 
     const property = await this.propertyRepository.findById(

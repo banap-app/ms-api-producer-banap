@@ -7,6 +7,7 @@ import {
 } from '../../commons/PropertyOutputMapper';
 import { PropertyId } from 'src/core/property/domain/Property';
 import { EntityValidationError } from 'src/core/shared/domain/validators/ValidationErrors';
+import { NotFoundError } from 'src/core/shared/domain/errors/NotFoundError';
 
 export type GetPropertyOutput = PropertyOutput;
 
@@ -24,13 +25,17 @@ export class GetPropertyUseCase
       new PropertyId(aCommand.propertyId),
     );
     if (!property) {
-      throw new Error('Not found a Property');
+      throw new NotFoundError(
+        `Not found a Property with ID: ${aCommand.propertyId}`,
+      );
     }
 
     property.validate([]);
 
     if (!property.getIsActive()) {
-      throw new Error('Not found a Property');
+      throw new NotFoundError(
+        `Not found a Property with ID: ${aCommand.propertyId}`,
+      );
     }
 
     if (property.notification.hasErrors()) {

@@ -4,6 +4,7 @@ import { DeletePropertyCommand } from './DeletePropertyCommand';
 
 import { EntityValidationError } from 'src/core/shared/domain/validators/ValidationErrors';
 import { PropertyId } from 'src/core/property/domain/Property';
+import { NotFoundError } from 'src/core/shared/domain/errors/NotFoundError';
 
 export class DeletePropertyUseCase
   implements UseCase<DeletePropertyCommand, Boolean>
@@ -24,7 +25,7 @@ export class DeletePropertyUseCase
     propertyToDelete.validate([]);
 
     if (!propertyToDelete.getIsActive()) {
-      throw new Error('Not found a Property');
+      throw new NotFoundError('Not found a Property');
     }
 
     if (propertyToDelete.notification.hasErrors()) {

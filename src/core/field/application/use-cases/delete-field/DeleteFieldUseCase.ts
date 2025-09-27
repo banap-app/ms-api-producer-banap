@@ -1,6 +1,7 @@
 import { UseCase } from 'src/core/shared/application/IUseCase';
 import { DeleteFieldCommand } from './DeleteFieldCommand';
 import { FieldId } from 'src/core/field/domain/Field';
+import { NotFoundError } from 'src/core/shared/domain/errors/NotFoundError';
 
 export class DeleteFieldUseCase
   implements UseCase<DeleteFieldCommand, DeleteFieldOutput>
@@ -14,7 +15,7 @@ export class DeleteFieldUseCase
 
     const field = await this.fieldRepository.findById(new FieldId(fieldId));
     if (!field) {
-      throw new Error('Field dont exists');
+      throw new NotFoundError('Field dont exists');
     }
     field.deactivate();
 

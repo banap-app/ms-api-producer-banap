@@ -3,6 +3,7 @@ import { DeleteProducerCommand } from './DeleteProducerCommand';
 import { ProducerRepository } from 'src/core/producer/domain/ProducerRepository';
 import { ProducerId } from 'src/core/producer/domain/Producer';
 import { ICrypt } from 'src/core/shared/application/ICrypt';
+import { NotFoundError } from 'src/core/shared/domain/errors/NotFoundError';
 
 export class DeleteProducerUseCase
   implements UseCase<DeleteProducerCommand, DeleteProducerOutput>
@@ -17,12 +18,17 @@ export class DeleteProducerUseCase
     aCommand: DeleteProducerCommand,
   ): Promise<DeleteProducerOutput> {
     const producerId = new ProducerId(aCommand.producerId);
+
     const producer = await this.producerRepository.findById(producerId);
+
     if (!producer) {
-      throw new Error('Producer dont exists');
+      throw new NotFoundError('Producer dont exists');
     }
+
     producer.deactive();
+
     await this.producerRepository.update(producer);
+
     return;
   }
 }

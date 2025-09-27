@@ -7,7 +7,7 @@ import { PropertyValidatorFactory } from './PropertyValidator';
 export type PropertyConstructorProps = {
   propertyId?: string;
   producerId: string;
-  engineerId?: string
+  engineerId?: string;
   name: string;
   isActive: boolean;
   createdAt?: Date;
@@ -17,7 +17,7 @@ export type PropertyConstructorProps = {
 
 export type PropertyCreateCommand = {
   producerId: string;
-  engineerId?: string
+  engineerId?: string;
   name: string;
   isActive: boolean;
 };
@@ -27,7 +27,7 @@ export class PropertyId extends Uuid {}
 export class Property extends Entity {
   private propertyId: PropertyId;
   private producerId: ProducerId;
-  private engineerId?: EngineerId | null
+  private engineerId?: EngineerId | null;
   private name: string;
   private isActive: boolean;
   private createdAt: Date;
@@ -40,7 +40,9 @@ export class Property extends Entity {
       ? new PropertyId(props.propertyId)
       : new PropertyId();
     this.producerId = new ProducerId(props.producerId);
-    this.engineerId = props.engineerId ? new EngineerId(props.engineerId) : null
+    this.engineerId = props.engineerId
+      ? new EngineerId(props.engineerId)
+      : null;
     this.name = props.name;
     this.isActive = props.isActive;
     this.createdAt = props.createdAt ? props.createdAt : new Date();
@@ -60,7 +62,7 @@ export class Property extends Entity {
   }
 
   public aggregateEngineer(engineerId: EngineerId) {
-    this.engineerId = engineerId
+    this.engineerId = engineerId;
   }
 
   public changeName(name: string) {
@@ -83,7 +85,7 @@ export class Property extends Entity {
   }
 
   public getEngineerId() {
-    return this.engineerId
+    return this.engineerId;
   }
 
   public getName() {

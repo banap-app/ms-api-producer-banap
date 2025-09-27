@@ -6,7 +6,9 @@ export class PropertyEntityTypeMapper {
     return PropertyEntity.fromDomain({
       propertyId: property.getId.toString(),
       producerId: property.getProducerId().toString(),
-      engineerId: property.getEngineerId() ? property.getEngineerId().toString() : null,
+      engineerId: property.getEngineerId()
+        ? property.getEngineerId().toString()
+        : null,
       name: property.getName(),
       isActive: property.getIsActive(),
       createdAt: property.getCreatedAt(),

@@ -26,7 +26,10 @@ export class CreateProducerUseCase
     const aProducer = Producer.create(aCommand);
 
     if (aCommand.typeUser !== TypeUser.Producer) {
-      aProducer.notification.addError('InvalidTypeOfUser', 'InvalidTypeUser');
+      aProducer.notification.addError(
+        'Type of User is invalid',
+        'InvalidTypeUser',
+      );
     }
 
     if (aProducer.notification.hasErrors()) {

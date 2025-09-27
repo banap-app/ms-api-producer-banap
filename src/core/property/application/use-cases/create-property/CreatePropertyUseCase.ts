@@ -24,11 +24,11 @@ export class CreatePropertyUseCase
   constructor(
     propertyRepository: IPropertyRepository,
     producerRepository: ProducerRepository,
-    engineerRepository: IEngineerRepository
+    engineerRepository: IEngineerRepository,
   ) {
     this.propertyRepository = propertyRepository;
     this.producerRepository = producerRepository;
-    this.engineerRepository = engineerRepository
+    this.engineerRepository = engineerRepository;
   }
 
   async execute(
@@ -46,12 +46,16 @@ export class CreatePropertyUseCase
       new ProducerId(producerId),
     );
 
-    if (engineerId && await this.engineerRepository.findById(new EngineerId(engineerId))) {
-        aProperty.aggregateEngineer(new EngineerId(engineerId))
+    if (
+      engineerId &&
+      (await this.engineerRepository.findById(new EngineerId(engineerId)))
+    ) {
+      aProperty.aggregateEngineer(new EngineerId(engineerId));
     }
 
     if (!producerExists) {
       aProperty.notification.addError('Producer does not exist', 'producerId');
+      console.log(aProperty.notification.toJSON());
       throw new EntityValidationError(aProperty.notification.toJSON());
     }
 

@@ -13,7 +13,7 @@ export class CreatePropertyDto {
   })
   isActive: boolean;
 
-    @ApiProperty({
+  @ApiProperty({
     description: 'Engineer id',
     example: true,
   })

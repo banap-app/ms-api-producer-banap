@@ -9,6 +9,7 @@ import {
   BadRequestException,
   Inject,
   Req,
+  UseFilters,
 } from '@nestjs/common';
 import { CreateProducerDto } from './dto/create-producer.dto';
 import { UpdateProducerDto } from './dto/update-producer.dto';
@@ -30,8 +31,10 @@ import { TypeUser } from 'src/core/producer/domain/TypeUser';
 import { Public } from '../authguard/public.decorator';
 import { ApiSecurity } from '@nestjs/swagger';
 import { request } from 'http';
+import { HttpExceptionFilter } from '../exceptionsFilters/http-exception.filter';
 
 @ApiSecurity('token')
+@UseFilters(HttpExceptionFilter)
 @Controller('producer')
 export class ProducerController {
   constructor(

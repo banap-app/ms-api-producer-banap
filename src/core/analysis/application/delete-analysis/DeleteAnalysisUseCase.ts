@@ -2,6 +2,7 @@ import { UseCase } from 'src/core/shared/application/IUseCase';
 import { DeleteAnalysisCommand } from './DeleteAnalysisCommand';
 import { AnalysisRepository } from '../../domain/AnalysisRepository';
 import { AnalysisId } from '../../domain/AnalysisId';
+import { NotFoundError } from 'src/core/shared/domain/errors/NotFoundError';
 
 export class DeleteAnalysisUseCase
   implements UseCase<DeleteAnalysisCommand, Boolean>
@@ -18,7 +19,7 @@ export class DeleteAnalysisUseCase
     );
 
     if (!analysisToDelete) {
-      throw new Error('Analysis not found');
+      throw new NotFoundError('Analysis not found');
     }
 
     analysisToDelete.validate([]);

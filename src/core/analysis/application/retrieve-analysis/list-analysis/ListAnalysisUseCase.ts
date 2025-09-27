@@ -7,6 +7,7 @@ import { FieldId } from 'src/core/field/domain/Field';
 import { AnalysisOutputMapper } from '../../commons/AnalysisOutputMapper';
 import { IFieldRepository } from 'src/core/field/domain/IFieldRepository';
 import { EntityValidationError } from 'src/core/shared/domain/validators/ValidationErrors';
+import { NotFoundError } from 'src/core/shared/domain/errors/NotFoundError';
 
 export class ListAnalysisUseCase
   implements UseCase<ListAnalysisCommand, ListAnalysisOutput>
@@ -41,7 +42,7 @@ export class ListAnalysisUseCase
     );
 
     if (!analysis) {
-      throw new Error('Not exists analysis');
+      throw new NotFoundError('Not exists analysis');
     }
 
     const analysisValidated = analysis.map((e) => {

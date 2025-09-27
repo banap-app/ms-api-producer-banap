@@ -6,6 +6,7 @@ import {
 import { IFieldRepository } from 'src/core/field/domain/IFieldRepository';
 import { FieldId } from 'src/core/field/domain/Field';
 import { EntityValidationError } from 'src/core/shared/domain/validators/ValidationErrors';
+import { NotFoundError } from 'src/core/shared/domain/errors/NotFoundError';
 
 export class GetFieldUseCase
   implements UseCase<GetFieldCommand, GetFieldOutput>
@@ -20,13 +21,13 @@ export class GetFieldUseCase
       new FieldId(aCommand.fieldId),
     );
     if (!field) {
-      throw new Error('Not found a Field');
+      throw new NotFoundError(`Not found a Field with ID: ${aCommand.fieldId}`);
     }
 
     field.validate();
 
     if (!field.getIsActive()) {
-      throw new Error('Not found a Field');
+      throw new NotFoundError(`Not found a Field with ID: ${aCommand.fieldId}`);
     }
     if (field.notification.hasErrors()) {
       throw new EntityValidationError(field.notification.toJSON());

@@ -31,10 +31,8 @@ import { TypeUser } from 'src/core/producer/domain/TypeUser';
 import { Public } from '../authguard/public.decorator';
 import { ApiSecurity } from '@nestjs/swagger';
 import { request } from 'http';
-import { HttpExceptionFilter } from '../exceptionsFilters/http-exception.filter';
 
 @ApiSecurity('token')
-@UseFilters(HttpExceptionFilter)
 @Controller('producer')
 export class ProducerController {
   constructor(

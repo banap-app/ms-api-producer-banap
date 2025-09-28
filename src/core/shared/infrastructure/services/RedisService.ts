@@ -43,10 +43,13 @@ export class RedisService<EntityCache extends Entity>
     if (raw === null) return false;
     return true;
   }
-  delete(key: string): boolean {
-    throw new Error('Method not implemented.');
+  async delete(key: string): Promise<boolean> {
+    return Boolean(await this.redisClient.del(key));
   }
-  update(key: string, entityToCache: EntityCache | EntityCache[]): boolean {
+  async update(
+    key: string,
+    entityToCache: EntityCache | EntityCache[],
+  ): boolean {
     throw new Error('Method not implemented.');
   }
 }

@@ -6,7 +6,10 @@ export interface ICache<EntityCache extends Entity> {
     entityToCache: EntityCache[] | EntityCache,
     timeToExpire?: number,
   ): Promise<boolean>;
-  delete(key: string): boolean;
+  delete(key: string): Promise<boolean>;
   isCacheaded(key: string): Promise<boolean>;
-  update(key: string, entityToCache: EntityCache[] | EntityCache): boolean;
+  update(
+    key: string,
+    entityToCache: EntityCache[] | EntityCache,
+  ): Promise<boolean>;
 }

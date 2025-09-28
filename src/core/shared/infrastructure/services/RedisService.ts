@@ -38,7 +38,7 @@ export class RedisService<EntityCache extends Entity>
     return true;
   }
 
-  async isCacheaded(key: string): Promise<boolean> {
+  async isCached(key: string): Promise<boolean> {
     const raw = await this.redisClient.get(key);
     if (raw === null) return false;
     return true;
@@ -49,7 +49,7 @@ export class RedisService<EntityCache extends Entity>
   async update(
     key: string,
     entityToCache: EntityCache | EntityCache[],
-  ): boolean {
+  ): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
 }

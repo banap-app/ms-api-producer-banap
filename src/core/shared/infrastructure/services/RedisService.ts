@@ -49,7 +49,7 @@ export class RedisService<EntityCache extends Entity>
   async update(
     key: string,
     entityToCache: EntityCache | EntityCache[],
-  ): boolean {
+  ): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
 }

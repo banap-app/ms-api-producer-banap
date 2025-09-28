@@ -38,7 +38,7 @@ export class RedisService<EntityCache extends Entity>
     return true;
   }
 
-  async isCacheaded(key: string): Promise<boolean> {
+  async isCached(key: string): Promise<boolean> {
     const raw = await this.redisClient.get(key);
     if (raw === null) return false;
     return true;

@@ -57,10 +57,8 @@ import { ICACHE_PRODUCER } from 'src/core/shared/infrastructure/di/tokens';
     },
     {
       provide: GetProducerUseCase,
-      useFactory: (
-        repo: ProducerTypeOrmRepository,
-        cache: ICache<Producer>, 
-      ) => new GetProducerUseCase(repo, cache),
+      useFactory: (repo: ProducerTypeOrmRepository, cache: ICache<Producer>) =>
+        new GetProducerUseCase(repo, cache),
       inject: [ProducerTypeOrmRepository, ICACHE_PRODUCER],
     },
   ],

@@ -56,7 +56,7 @@ import { RedisModule } from './redis/redis.module';
     PropertyModule,
     FieldModule,
     AxiosModule,
-    RedisModule
+    RedisModule,
   ],
   controllers: [AppController],
   providers: [

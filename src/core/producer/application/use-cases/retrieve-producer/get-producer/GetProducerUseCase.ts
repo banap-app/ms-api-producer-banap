@@ -16,16 +16,22 @@ export class GetProducerUseCase
   private producerRepository: ProducerRepository;
   private cacheAdapter: ICache<Producer>;
 
-  constructor(producerRepository: ProducerRepository, cacheAdapter: ICache<Producer>) {
+  constructor(
+    producerRepository: ProducerRepository,
+    cacheAdapter: ICache<Producer>,
+  ) {
     this.producerRepository = producerRepository;
-    this.cacheAdapter = cacheAdapter
+    this.cacheAdapter = cacheAdapter;
   }
 
   async execute(aCommand: GetProducerCommand): Promise<GetProducerOutput> {
-
-    if(await this.cacheAdapter.isCacheaded(`producer:${aCommand.producerId}`)) {
-      console.log('cachead')
-      const cache = await this.cacheAdapter.get(`producer:${aCommand.producerId}`)
+    if (
+      await this.cacheAdapter.isCacheaded(`producer:${aCommand.producerId}`)
+    ) {
+      console.log('cachead');
+      const cache = await this.cacheAdapter.get(
+        `producer:${aCommand.producerId}`,
+      );
 
       const producer = new Producer({
         producerId: new ProducerId(cache.producerId),
@@ -37,21 +43,21 @@ export class GetProducerUseCase
         createdAt: cache.createdAt,
         updatedAt: cache.updatedAt,
         deletedAt: cache.deletedAt,
-        profilePicture: cache.profilePicture
-      })
+        profilePicture: cache.profilePicture,
+      });
 
-      producer.validate([])
+      producer.validate([]);
       if (producer.notification.hasErrors()) {
         throw new EntityValidationError(producer.notification.toJSON());
       }
-      
+
       return ProducerOutputMapper.toOutput(producer);
     }
 
     const producer = await this.producerRepository.findById(
       new ProducerId(aCommand.producerId),
     );
-    
+
     if (!producer) {
       throw new NotFoundError(
         `Not found a Producer with ID: ${aCommand.producerId}`,
@@ -68,8 +74,8 @@ export class GetProducerUseCase
     if (producer.notification.hasErrors()) {
       throw new EntityValidationError(producer.notification.toJSON());
     }
-    await this.cacheAdapter.set(producer)
-   
+    await this.cacheAdapter.set(producer);
+
     return ProducerOutputMapper.toOutput(producer);
   }
 }

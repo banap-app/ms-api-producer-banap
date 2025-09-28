@@ -43,7 +43,7 @@ export class Producer extends Entity {
 
   constructor(props: ProducerConstructorProps) {
     super();
-    this.producerId = props.producerId ?? new ProducerId();
+    this.producerId = props.producerId ? props.producerId : new ProducerId();
     this.name = props.name;
     this.email = props.email;
     this.password = props.password as Password;
@@ -90,7 +90,9 @@ export class Producer extends Entity {
 
   public changePassword(password: string) {
     const [passwordValid, errorPassword] = Password.create(password).asArray();
-    this.notification.addError(errorPassword.message, 'password');
+    if (errorPassword) {
+      this.notification.addError(errorPassword.message, 'password');
+    }
     this.password = passwordValid;
   }
 

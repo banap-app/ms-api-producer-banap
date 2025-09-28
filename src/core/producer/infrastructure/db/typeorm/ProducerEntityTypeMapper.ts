@@ -40,6 +40,9 @@ export class ProducerEntityTypeMapper {
             location: producerEntity.profilePicture.location,
           })
         : undefined,
+      createdAt: producerEntity.createdAt,
+      updatedAt: producerEntity.updatedAt,
+      deletedAt: producerEntity.deletedAt,
     });
 
     producer.validate();

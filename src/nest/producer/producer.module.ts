@@ -45,9 +45,12 @@ import { ICACHE_PRODUCER } from 'src/core/shared/infrastructure/di/tokens';
     },
     {
       provide: UpdateProducerUseCase,
-      useFactory: (repo: ProducerTypeOrmRepository, crypt: BcryptService) =>
-        new UpdateProducerUseCase(repo, crypt),
-      inject: [ProducerTypeOrmRepository, BcryptService],
+      useFactory: (
+        repo: ProducerTypeOrmRepository,
+        crypt: BcryptService,
+        cache: ICache<Producer>,
+      ) => new UpdateProducerUseCase(repo, crypt, cache),
+      inject: [ProducerTypeOrmRepository, BcryptService, ICACHE_PRODUCER],
     },
     {
       provide: DeleteProducerUseCase,

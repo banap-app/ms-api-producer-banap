@@ -28,7 +28,6 @@ export class GetProducerUseCase
     if (
       await this.cacheAdapter.isCacheaded(`producer:${aCommand.producerId}`)
     ) {
-      console.log('cachead');
       const cache = await this.cacheAdapter.get(
         `producer:${aCommand.producerId}`,
       );
@@ -63,6 +62,7 @@ export class GetProducerUseCase
         `Not found a Producer with ID: ${aCommand.producerId}`,
       );
     }
+
     producer.validate();
 
     if (!producer.getIsActive()) {

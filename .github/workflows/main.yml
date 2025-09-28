@@ -13,6 +13,11 @@ jobs:
       DB_USER: Green
       DB_PASSWORD: StormForge01
       DB_NAME: banap_database
+      REDIS_HOST: stormforge.lan
+      REDIS_PORT: 6379
+      REDIS_USER: default
+      REDIS_PASSWORD: StormForge01
+      TIME_TO_EXPIRE_CACHE: 120
 
     steps:
       - uses: actions/checkout@v4
@@ -46,6 +51,12 @@ jobs:
             DB_USER="$DB_USER" \
             DB_PASSWORD="$DB_PASSWORD" \
             DB_NAME="$DB_NAME" \
+            REDIS_HOST="$REDIS_HOST" \
+            REDIS_PORT="$REDIS_PORT" \
+            REDIS_USER="$REDIS_USER" \
+            REDIS_PASSWORD="$REDIS_PASSWORD" \
+            TIME_TO_EXPIRE_CACHE="$TIME_TO_EXPIRE_CACHE"
+            
             pm2 start dist/main.js \
               --name ms_producer_banap \
               --cwd /var/banap/ms_producer_banap

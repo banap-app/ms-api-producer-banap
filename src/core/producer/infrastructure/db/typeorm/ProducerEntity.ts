@@ -9,7 +9,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 
-@Entity('type_users')
+@Entity('user_type')
 export class TypeUserEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
@@ -77,11 +77,11 @@ export class ProducerEntity {
   @Column({ type: 'boolean', name: 'is_active' })
   isActive: boolean;
 
-  @Column({ type: 'int', name: 'type_user_id' })
+  @Column({ type: 'int', name: 'user_type_id' })
   typeUserId: number;
 
   @ManyToOne(() => TypeUserEntity, { eager: true })
-  @JoinColumn({ name: 'type_user_id' })
+  @JoinColumn({ name: 'user_type_id' })
   typeUser: TypeUserEntity;
 
   // --- Foto de perfil ---

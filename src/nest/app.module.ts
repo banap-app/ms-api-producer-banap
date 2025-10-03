@@ -49,7 +49,7 @@ import { RedisModule } from './redis/redis.module';
         AnalysisNpkEntity,
         AnalysisLimingEntity,
       ],
-      synchronize: false,
+      synchronize: true,
     }),
     ProducerModule,
     AnalysisModule,

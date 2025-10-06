@@ -4,9 +4,13 @@ import { createClient, type RedisClientType } from 'redis';
 import {
   REDIS_CLIENT,
   ICACHE_PRODUCER,
+  ICACHE_PROPERTY,
+  ICACHE_FIELD,
 } from 'src/core/shared/infrastructure/di/tokens';
 import { RedisService } from 'src/core/shared/infrastructure/services/RedisService';
 import { Producer } from 'src/core/producer/domain/Producer';
+import { Property } from 'src/core/property/domain/Property';
+import { Field } from 'src/core/field/domain/Field';
 
 @Global()
 @Module({
@@ -36,7 +40,25 @@ import { Producer } from 'src/core/producer/domain/Producer';
         ),
       inject: [REDIS_CLIENT],
     },
+       {
+      provide: ICACHE_FIELD,
+      useFactory: (client: RedisClientType) =>
+        new RedisService<Field>(
+          client,
+          Number(process.env.TIME_TO_EXPIRE_CACHE),
+        ),
+      inject: [REDIS_CLIENT],
+    },
+    {
+      provide: ICACHE_PROPERTY,
+      useFactory: (client: RedisClientType) =>
+        new RedisService<Property>(
+          client,
+          Number(process.env.TIME_TO_EXPIRE_CACHE),
+        ),
+      inject: [REDIS_CLIENT],
+    },
   ],
-  exports: [REDIS_CLIENT, ICACHE_PRODUCER],
+  exports: [REDIS_CLIENT, ICACHE_PRODUCER, ICACHE_PROPERTY, ICACHE_FIELD],
 })
 export class RedisModule {}

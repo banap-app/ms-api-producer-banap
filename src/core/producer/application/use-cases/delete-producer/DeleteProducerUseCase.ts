@@ -1,18 +1,19 @@
 import { UseCase } from 'src/core/shared/application/IUseCase';
 import { DeleteProducerCommand } from './DeleteProducerCommand';
 import { ProducerRepository } from 'src/core/producer/domain/ProducerRepository';
-import { ProducerId } from 'src/core/producer/domain/Producer';
+import { Producer, ProducerId } from 'src/core/producer/domain/Producer';
 import { ICrypt } from 'src/core/shared/application/ICrypt';
 import { NotFoundError } from 'src/core/shared/domain/errors/NotFoundError';
+import { ICache } from 'src/core/shared/application/ICache';
 
 export class DeleteProducerUseCase
   implements UseCase<DeleteProducerCommand, DeleteProducerOutput>
 {
   private producerRepository: ProducerRepository;
-  private cryptService: ICrypt;
-  constructor(producerRepository: ProducerRepository, cryptService: ICrypt) {
+  private cacheAdapter: ICache<Producer>;
+  constructor(producerRepository: ProducerRepository, cacheAdapter: ICache<Producer>) {
     this.producerRepository = producerRepository;
-    this.cryptService = cryptService;
+    this.cacheAdapter = cacheAdapter;
   }
   async execute(
     aCommand: DeleteProducerCommand,
@@ -25,9 +26,14 @@ export class DeleteProducerUseCase
       throw new NotFoundError('Producer dont exists');
     }
 
+    if (!producer.getIsActive()) {
+      throw new NotFoundError('Producer dont exists');
+    }
+
     producer.deactive();
 
     await this.producerRepository.update(producer);
+    await this.cacheAdapter.delete(`producer:${aCommand.producerId}`)
 
     return;
   }

@@ -59,8 +59,13 @@ export class UpdateFieldUseCase
         fieldId: fieldCached.fieldId,
       });
 
-      if(field.getName() == aCommand.name && field.getCrop() == aCommand.crop && field.getDescription() == aCommand.description && field.getName() == aCommand.name) {
-        return FieldOutputMapper.toOutput(field)
+      if (
+        field.getName() == aCommand.name &&
+        field.getCrop() == aCommand.crop &&
+        field.getDescription() == aCommand.description &&
+        field.getName() == aCommand.name
+      ) {
+        return FieldOutputMapper.toOutput(field);
       }
     }
 
@@ -91,7 +96,7 @@ export class UpdateFieldUseCase
     }
 
     await this.fieldRepository.update(field);
-    await this.cacheAdapter.set(field)
+    await this.cacheAdapter.set(field);
     return FieldOutputMapper.toOutput(field);
   }
 }

@@ -47,7 +47,7 @@ export class ListPropertyUseCase
         `property:${aCommand.producerId}`,
       );
       properties = properties.entityArray.map(
-        (property:propertyCached) =>
+        (property: propertyCached) =>
           new Property({
             producerId: property.producerId,
             isActive: property.isActive,
@@ -59,7 +59,9 @@ export class ListPropertyUseCase
             deletedAt: property.deletedAt,
           }),
       );
-      return properties.filter((property:Property) => property.getIsActive()).map((property:Property) => PropertyOutputMapper.toOutput(property))
+      return properties
+        .filter((property: Property) => property.getIsActive())
+        .map((property: Property) => PropertyOutputMapper.toOutput(property));
     }
 
     const producer = await this.producerRepository.findById(

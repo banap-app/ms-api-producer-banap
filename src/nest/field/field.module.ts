@@ -68,7 +68,7 @@ import { ICACHE_FIELD } from 'src/core/shared/infrastructure/di/tokens';
       useFactory: (
         fieldRepo: FieldTypeOrmRepository,
         propertyRepo: PropertyTypeOrmRepository,
-        cache: ICache<Field>
+        cache: ICache<Field>,
       ) => new ListFieldUseCase(fieldRepo, propertyRepo, cache),
       inject: [FieldTypeOrmRepository, PropertyTypeOrmRepository, ICACHE_FIELD],
     },
@@ -90,13 +90,13 @@ import { ICACHE_FIELD } from 'src/core/shared/infrastructure/di/tokens';
         fieldRepo: FieldTypeOrmRepository,
         propertyRepo: PropertyTypeOrmRepository,
         producerRepo: ProducerTypeOrmRepository,
-        cache: ICache<Field>
+        cache: ICache<Field>,
       ) => new UpdateFieldUseCase(fieldRepo, propertyRepo, producerRepo, cache),
       inject: [
         FieldTypeOrmRepository,
         PropertyTypeOrmRepository,
         ProducerTypeOrmRepository,
-        ICACHE_FIELD
+        ICACHE_FIELD,
       ],
     },
   ],

@@ -13,16 +13,17 @@ export class GetFieldUseCase
   implements UseCase<GetFieldCommand, GetFieldOutput>
 {
   private fieldRepository: IFieldRepository;
-  private cacheAdapter: ICache<Field>
+  private cacheAdapter: ICache<Field>;
   constructor(fieldRepository: IFieldRepository, cacheAdapter: ICache<Field>) {
     this.fieldRepository = fieldRepository;
-    this.cacheAdapter = cacheAdapter
+    this.cacheAdapter = cacheAdapter;
   }
 
   async execute(aCommand: GetFieldCommand): Promise<GetFieldOutput> {
-
-    if(await this.cacheAdapter.isCached(`field:${aCommand.fieldId}`)) {
-      const fieldCached = await this.cacheAdapter.get(`field:${aCommand.fieldId}`)
+    if (await this.cacheAdapter.isCached(`field:${aCommand.fieldId}`)) {
+      const fieldCached = await this.cacheAdapter.get(
+        `field:${aCommand.fieldId}`,
+      );
 
       const field = new Field({
         name: fieldCached.name,
@@ -35,8 +36,8 @@ export class GetFieldUseCase
         createdAt: fieldCached.createdAt,
         updatedAt: fieldCached.updatedAt,
         deletedAt: fieldCached.deletedAt,
-        fieldId: fieldCached.fieldId
-      })
+        fieldId: fieldCached.fieldId,
+      });
 
       return FieldOutputMapper.toOutput(field);
     }
@@ -56,7 +57,7 @@ export class GetFieldUseCase
     if (field.notification.hasErrors()) {
       throw new EntityValidationError(field.notification.toJSON());
     }
-    await this.cacheAdapter.set(field)
+    await this.cacheAdapter.set(field);
     return FieldOutputMapper.toOutput(field);
   }
 }

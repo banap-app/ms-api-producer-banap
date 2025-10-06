@@ -11,10 +11,13 @@ export class DeletePropertyUseCase
   implements UseCase<DeletePropertyCommand, Boolean>
 {
   private propertyRepository: IPropertyRepository;
-  private cacheAdapter: ICache<Property>
-  constructor(propertyRepository: IPropertyRepository, cacheAdapter: ICache<Property>) {
+  private cacheAdapter: ICache<Property>;
+  constructor(
+    propertyRepository: IPropertyRepository,
+    cacheAdapter: ICache<Property>,
+  ) {
     this.propertyRepository = propertyRepository;
-    this.cacheAdapter = cacheAdapter
+    this.cacheAdapter = cacheAdapter;
   }
   async execute(aCommand: DeletePropertyCommand): Promise<Boolean> {
     const propertyToDelete = await this.propertyRepository.findById(
@@ -36,7 +39,9 @@ export class DeletePropertyUseCase
     }
 
     await this.propertyRepository.delete(propertyToDelete.getId);
-    await this.cacheAdapter.delete(`property:${propertyToDelete.getProducerId()}`)
+    await this.cacheAdapter.delete(
+      `property:${propertyToDelete.getProducerId()}`,
+    );
 
     return true;
   }

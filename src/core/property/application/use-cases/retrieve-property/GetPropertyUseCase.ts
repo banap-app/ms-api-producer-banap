@@ -16,17 +16,21 @@ export class GetPropertyUseCase
   implements UseCase<GetPropertyCommand, GetPropertyOutput>
 {
   private propertyRepository: IPropertyRepository;
-  private cacheAdapter: ICache<Property>
+  private cacheAdapter: ICache<Property>;
 
-  constructor(propertyRepository: IPropertyRepository, cacheAdapter: ICache<Property>) {
+  constructor(
+    propertyRepository: IPropertyRepository,
+    cacheAdapter: ICache<Property>,
+  ) {
     this.propertyRepository = propertyRepository;
-    this.cacheAdapter = cacheAdapter
+    this.cacheAdapter = cacheAdapter;
   }
 
   async execute(aCommand: GetPropertyCommand): Promise<GetPropertyOutput> {
-
     if (await this.cacheAdapter.isCached(`property:${aCommand.propertyId}`)) {
-      const propertyCached = await this.cacheAdapter.get(`property:${aCommand.propertyId}`)
+      const propertyCached = await this.cacheAdapter.get(
+        `property:${aCommand.propertyId}`,
+      );
       const property = new Property({
         name: propertyCached.name,
         isActive: propertyCached.isActive,
@@ -35,9 +39,9 @@ export class GetPropertyUseCase
         updatedAt: propertyCached.updatedAt,
         deletedAt: propertyCached.deletedAt,
         engineerId: propertyCached.engineerId,
-        propertyId: propertyCached.propertyId
-      })
-      return PropertyOutputMapper.toOutput(property)
+        propertyId: propertyCached.propertyId,
+      });
+      return PropertyOutputMapper.toOutput(property);
     }
 
     const property = await this.propertyRepository.findById(
@@ -60,9 +64,9 @@ export class GetPropertyUseCase
     if (property.notification.hasErrors()) {
       throw new EntityValidationError(property.notification.toJSON());
     }
-    
-    await this.cacheAdapter.set(property)
-    
+
+    await this.cacheAdapter.set(property);
+
     return PropertyOutputMapper.toOutput(property);
   }
 }

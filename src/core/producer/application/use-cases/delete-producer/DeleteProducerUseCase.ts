@@ -11,7 +11,10 @@ export class DeleteProducerUseCase
 {
   private producerRepository: ProducerRepository;
   private cacheAdapter: ICache<Producer>;
-  constructor(producerRepository: ProducerRepository, cacheAdapter: ICache<Producer>) {
+  constructor(
+    producerRepository: ProducerRepository,
+    cacheAdapter: ICache<Producer>,
+  ) {
     this.producerRepository = producerRepository;
     this.cacheAdapter = cacheAdapter;
   }
@@ -33,7 +36,7 @@ export class DeleteProducerUseCase
     producer.deactive();
 
     await this.producerRepository.update(producer);
-    await this.cacheAdapter.delete(`producer:${aCommand.producerId}`)
+    await this.cacheAdapter.delete(`producer:${aCommand.producerId}`);
 
     return;
   }

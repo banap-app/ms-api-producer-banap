@@ -1,8 +1,9 @@
 import { Entity } from '../domain/Entity';
 
 export type EntitiesCache<EntityCache extends Entity> = {
-  entityArray: EntityCache[], key:string
-}
+  entityArray: EntityCache[];
+  key: string;
+};
 export interface ICache<EntityCache extends Entity> {
   get(key: string): Promise<any>;
   set(

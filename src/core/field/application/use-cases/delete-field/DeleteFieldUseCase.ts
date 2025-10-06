@@ -9,10 +9,10 @@ export class DeleteFieldUseCase
   implements UseCase<DeleteFieldCommand, DeleteFieldOutput>
 {
   private fieldRepository: IFieldRepository;
-  private cacheAdapter: ICache<Field>
+  private cacheAdapter: ICache<Field>;
   constructor(fieldRepository: IFieldRepository, cacheAdapter: ICache<Field>) {
     this.fieldRepository = fieldRepository;
-    this.cacheAdapter = cacheAdapter
+    this.cacheAdapter = cacheAdapter;
   }
   async execute(aCommand: DeleteFieldCommand): Promise<DeleteFieldOutput> {
     const fieldId = aCommand.fieldId;
@@ -24,7 +24,7 @@ export class DeleteFieldUseCase
     field.deactivate();
 
     await this.fieldRepository.update(field);
-    await this.cacheAdapter.delete(`field:${field.getId}`)
+    await this.cacheAdapter.delete(`field:${field.getId}`);
     return;
   }
 }

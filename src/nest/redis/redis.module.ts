@@ -40,7 +40,7 @@ import { Field } from 'src/core/field/domain/Field';
         ),
       inject: [REDIS_CLIENT],
     },
-       {
+    {
       provide: ICACHE_FIELD,
       useFactory: (client: RedisClientType) =>
         new RedisService<Field>(

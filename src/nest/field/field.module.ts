@@ -14,6 +14,9 @@ import { ListFieldUseCase } from 'src/core/field/application/use-cases/retrieve-
 import { DeleteFieldUseCase } from 'src/core/field/application/use-cases/delete-field/DeleteFieldUseCase';
 import { GetFieldUseCase } from 'src/core/field/application/use-cases/retrieve-field/GetFieldUseCase';
 import { UpdateFieldUseCase } from 'src/core/field/application/use-cases/update-field/UpdateFieldUseCase';
+import { ICache } from 'src/core/shared/application/ICache';
+import { Field } from 'src/core/field/domain/Field';
+import { ICACHE_FIELD } from 'src/core/shared/infrastructure/di/tokens';
 
 @Module({
   imports: [
@@ -65,20 +68,21 @@ import { UpdateFieldUseCase } from 'src/core/field/application/use-cases/update-
       useFactory: (
         fieldRepo: FieldTypeOrmRepository,
         propertyRepo: PropertyTypeOrmRepository,
-      ) => new ListFieldUseCase(fieldRepo, propertyRepo),
-      inject: [FieldTypeOrmRepository, PropertyTypeOrmRepository],
+        cache: ICache<Field>,
+      ) => new ListFieldUseCase(fieldRepo, propertyRepo, cache),
+      inject: [FieldTypeOrmRepository, PropertyTypeOrmRepository, ICACHE_FIELD],
     },
     {
       provide: GetFieldUseCase,
-      useFactory: (fieldRepo: FieldTypeOrmRepository) =>
-        new GetFieldUseCase(fieldRepo),
-      inject: [FieldTypeOrmRepository],
+      useFactory: (fieldRepo: FieldTypeOrmRepository, cache: ICache<Field>) =>
+        new GetFieldUseCase(fieldRepo, cache),
+      inject: [FieldTypeOrmRepository, ICACHE_FIELD],
     },
     {
       provide: DeleteFieldUseCase,
-      useFactory: (fieldRepo: FieldTypeOrmRepository) =>
-        new DeleteFieldUseCase(fieldRepo),
-      inject: [FieldTypeOrmRepository],
+      useFactory: (fieldRepo: FieldTypeOrmRepository, cache: ICache<Field>) =>
+        new DeleteFieldUseCase(fieldRepo, cache),
+      inject: [FieldTypeOrmRepository, ICACHE_FIELD],
     },
     {
       provide: UpdateFieldUseCase,
@@ -86,11 +90,13 @@ import { UpdateFieldUseCase } from 'src/core/field/application/use-cases/update-
         fieldRepo: FieldTypeOrmRepository,
         propertyRepo: PropertyTypeOrmRepository,
         producerRepo: ProducerTypeOrmRepository,
-      ) => new UpdateFieldUseCase(fieldRepo, propertyRepo, producerRepo),
+        cache: ICache<Field>,
+      ) => new UpdateFieldUseCase(fieldRepo, propertyRepo, producerRepo, cache),
       inject: [
         FieldTypeOrmRepository,
         PropertyTypeOrmRepository,
         ProducerTypeOrmRepository,
+        ICACHE_FIELD,
       ],
     },
   ],

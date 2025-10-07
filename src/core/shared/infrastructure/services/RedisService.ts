@@ -1,6 +1,7 @@
 import { RedisClientType } from 'redis';
-import { ICache } from '../../application/ICache';
+import { EntitiesCache, ICache } from '../../application/ICache';
 import { Entity } from '../../domain/Entity';
+import { createHash, Hash } from 'node:crypto';
 
 export class RedisService<EntityCache extends Entity>
   implements ICache<EntityCache>
@@ -18,21 +19,39 @@ export class RedisService<EntityCache extends Entity>
   }
 
   async set(
-    entityToCache: EntityCache | EntityCache[],
+    entityToCache: EntitiesCache<EntityCache> | EntityCache,
     timeToExpire?: number,
   ): Promise<boolean> {
-    const className = Object(entityToCache).constructor.name.toLowerCase();
+    let keyCache: string;
 
-    const keyCache: string = `${className}:${Object(entityToCache)[className + 'Id']}`;
+    let entityJson: string;
 
-    const entityJson = JSON.stringify(entityToCache);
+    if (typeof entityToCache == 'object' && 'entityArray' in entityToCache) {
+      entityToCache = entityToCache as EntitiesCache<EntityCache>;
+
+      const className = Object(
+        entityToCache.entityArray[0],
+      ).constructor.name.toLowerCase();
+
+      keyCache = `${className}:${entityToCache.key}`;
+
+      delete entityToCache.key;
+
+      entityJson = JSON.stringify(entityToCache);
+    } else {
+      const className = Object(entityToCache).constructor.name.toLowerCase();
+
+      keyCache = `${className}:${Object(entityToCache)[className + 'Id']}`;
+
+      entityJson = JSON.stringify(entityToCache);
+    }
 
     await this.redisClient.set(keyCache, entityJson, {
       EX: timeToExpire
         ? timeToExpire
         : this.timeToExpire
           ? this.timeToExpire
-          : 15,
+          : 45,
     });
 
     return true;

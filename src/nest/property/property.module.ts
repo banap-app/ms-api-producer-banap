@@ -12,7 +12,10 @@ import { ListPropertyUseCase } from 'src/core/property/application/use-cases/ret
 import { DeletePropertyUseCase } from 'src/core/property/application/use-cases/delete-property/DeletePropertyUseCase';
 import { UpdatePropertyUseCase } from '../../core/property/application/use-cases/update-property/UpdatePropertyUseCase';
 import { EngineerGateway } from 'src/core/others/infrastructure/gateway/EngineerGateway';
-import { SimpleEngineer } from 'src/core/others/domain/SimpleEngineer';
+
+import { Property } from 'src/core/property/domain/Property';
+import { ICache } from 'src/core/shared/application/ICache';
+import { ICACHE_PROPERTY } from 'src/core/shared/infrastructure/di/tokens';
 
 @Module({
   imports: [TypeOrmModule.forFeature([PropertyEntity]), ProducerModule],
@@ -48,29 +51,40 @@ import { SimpleEngineer } from 'src/core/others/domain/SimpleEngineer';
     },
     {
       provide: GetPropertyUseCase,
-      useFactory: (propertyRepo: PropertyTypeOrmRepository) =>
-        new GetPropertyUseCase(propertyRepo),
-      inject: [PropertyTypeOrmRepository],
+      useFactory: (
+        propertyRepo: PropertyTypeOrmRepository,
+        cache: ICache<Property>,
+      ) => new GetPropertyUseCase(propertyRepo, cache),
+      inject: [PropertyTypeOrmRepository, ICACHE_PROPERTY],
     },
     {
       provide: ListPropertyUseCase,
       useFactory: (
         propertyRepo: PropertyTypeOrmRepository,
         producerRepo: ProducerTypeOrmRepository,
-      ) => new ListPropertyUseCase(propertyRepo, producerRepo),
-      inject: [PropertyTypeOrmRepository, ProducerTypeOrmRepository],
+        cache: ICache<Property>,
+      ) => new ListPropertyUseCase(propertyRepo, producerRepo, cache),
+      inject: [
+        PropertyTypeOrmRepository,
+        ProducerTypeOrmRepository,
+        ICACHE_PROPERTY,
+      ],
     },
     {
       provide: DeletePropertyUseCase,
-      useFactory: (propertyRepo: PropertyTypeOrmRepository) =>
-        new DeletePropertyUseCase(propertyRepo),
-      inject: [PropertyTypeOrmRepository],
+      useFactory: (
+        propertyRepo: PropertyTypeOrmRepository,
+        cache: ICache<Property>,
+      ) => new DeletePropertyUseCase(propertyRepo, cache),
+      inject: [PropertyTypeOrmRepository, ICACHE_PROPERTY],
     },
     {
       provide: UpdatePropertyUseCase,
-      useFactory: (propertyRepo: PropertyTypeOrmRepository) =>
-        new UpdatePropertyUseCase(propertyRepo),
-      inject: [PropertyTypeOrmRepository],
+      useFactory: (
+        propertyRepo: PropertyTypeOrmRepository,
+        cache: ICache<Property>,
+      ) => new UpdatePropertyUseCase(propertyRepo, cache),
+      inject: [PropertyTypeOrmRepository, ICACHE_PROPERTY],
     },
   ],
 })

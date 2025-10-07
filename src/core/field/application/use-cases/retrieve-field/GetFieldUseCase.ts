@@ -4,19 +4,44 @@ import {
   FieldOutputMapper,
 } from '../../commons/FieldOutputMapper';
 import { IFieldRepository } from 'src/core/field/domain/IFieldRepository';
-import { FieldId } from 'src/core/field/domain/Field';
+import { Field, FieldId } from 'src/core/field/domain/Field';
 import { EntityValidationError } from 'src/core/shared/domain/validators/ValidationErrors';
 import { NotFoundError } from 'src/core/shared/domain/errors/NotFoundError';
+import { ICache } from 'src/core/shared/application/ICache';
 
 export class GetFieldUseCase
   implements UseCase<GetFieldCommand, GetFieldOutput>
 {
   private fieldRepository: IFieldRepository;
-  constructor(fieldRepository: IFieldRepository) {
+  private cacheAdapter: ICache<Field>;
+  constructor(fieldRepository: IFieldRepository, cacheAdapter: ICache<Field>) {
     this.fieldRepository = fieldRepository;
+    this.cacheAdapter = cacheAdapter;
   }
 
   async execute(aCommand: GetFieldCommand): Promise<GetFieldOutput> {
+    if (await this.cacheAdapter.isCached(`field:${aCommand.fieldId}`)) {
+      const fieldCached = await this.cacheAdapter.get(
+        `field:${aCommand.fieldId}`,
+      );
+
+      const field = new Field({
+        name: fieldCached.name,
+        crop: fieldCached.crop,
+        description: fieldCached.description,
+        fieldBoundary: fieldCached.fieldBoundary.points,
+        isActive: fieldCached.isActive,
+        producerId: fieldCached.producerId,
+        propertyId: fieldCached.propertyId,
+        createdAt: fieldCached.createdAt,
+        updatedAt: fieldCached.updatedAt,
+        deletedAt: fieldCached.deletedAt,
+        fieldId: fieldCached.fieldId,
+      });
+
+      return FieldOutputMapper.toOutput(field);
+    }
+
     const field = await this.fieldRepository.findById(
       new FieldId(aCommand.fieldId),
     );
@@ -32,7 +57,7 @@ export class GetFieldUseCase
     if (field.notification.hasErrors()) {
       throw new EntityValidationError(field.notification.toJSON());
     }
-
+    await this.cacheAdapter.set(field);
     return FieldOutputMapper.toOutput(field);
   }
 }

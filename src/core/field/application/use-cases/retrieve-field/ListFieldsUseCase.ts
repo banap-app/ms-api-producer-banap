@@ -9,7 +9,7 @@ import { PropertyId } from 'src/core/property/domain/Property';
 import { IFieldRepository } from 'src/core/field/domain/IFieldRepository';
 import { IPropertyRepository } from 'src/core/property/domain/IPropertyRepository';
 import { ICache } from 'src/core/shared/application/ICache';
-import { Field } from 'src/core/field/domain/Field';
+import { Field, FieldId } from 'src/core/field/domain/Field';
 
 export type ListFieldOutput = FieldOutput[];
 
@@ -37,7 +37,7 @@ export class ListFieldUseCase
       fields = fields.entityArray.map(
         (field) =>
           new Field({
-            fieldId: field.fieldId,
+            fieldId: new FieldId(field.fieldId),
             crop: field.crop,
             description: field.description,
             fieldBoundary: field.fieldBoundary.points,

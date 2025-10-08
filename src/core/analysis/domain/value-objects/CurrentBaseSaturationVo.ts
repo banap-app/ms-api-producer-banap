@@ -16,6 +16,12 @@ export class CurrentBaseSaturation extends ValueObject {
     }
   }
 
+  public toJSON() {
+    return {
+      currentBaseSaturation: this.currentBaseSaturation,
+    };
+  }
+
   public get getValue(): number {
     return this.currentBaseSaturation;
   }

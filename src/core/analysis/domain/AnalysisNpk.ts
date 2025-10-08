@@ -253,10 +253,10 @@ export class AnalysisNpk extends Entity {
   toJSON() {
     return {
       analysisNpkId: this.analysisNpkId,
-      phosphor: this.phosphor,
-      potassium: this.potassium,
-      nitrogen: this.nitrogen,
-      expectedProductivity: this.expectedProductivity,
+      phosphor: this.phosphor.getValue,
+      potassium: this.potassium.getValue,
+      nitrogen: this.nitrogen.getValue,
+      expectedProductivity: this.expectedProductivity.getValue,
     };
   }
 }

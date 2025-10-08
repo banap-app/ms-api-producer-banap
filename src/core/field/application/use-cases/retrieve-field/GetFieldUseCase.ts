@@ -36,7 +36,7 @@ export class GetFieldUseCase
         createdAt: fieldCached.createdAt,
         updatedAt: fieldCached.updatedAt,
         deletedAt: fieldCached.deletedAt,
-        fieldId: fieldCached.fieldId,
+        fieldId: new FieldId(fieldCached.fieldId),
       });
 
       return FieldOutputMapper.toOutput(field);

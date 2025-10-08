@@ -63,10 +63,15 @@ import { Analysis } from 'src/core/analysis/domain/Analysis';
       useFactory: (
         analysisRepo: AnalysisTypeOrmRepository,
         fieldRepo: FieldTypeOrmRepository,
+        cache: ICache<Analysis>,
       ) => {
-        return new ListAnalysisUseCase(analysisRepo, fieldRepo);
+        return new ListAnalysisUseCase(analysisRepo, fieldRepo, cache);
       },
-      inject: [AnalysisTypeOrmRepository, FieldTypeOrmRepository],
+      inject: [
+        AnalysisTypeOrmRepository,
+        FieldTypeOrmRepository,
+        ICACHE_ANALYSIS,
+      ],
     },
 
     {

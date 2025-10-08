@@ -24,11 +24,15 @@ import {
   ExpectedProductivity,
 } from '../../domain/value-objects/indexVo';
 import { FieldId } from 'src/core/field/domain/Field';
+import { ICache } from 'src/core/shared/application/ICache';
 
 export class CreateAnalysisUseCase
   implements UseCase<CreateAnalysisCommand, CreateAnalysisOutput>
 {
-  constructor(private analysisRepository: AnalysisRepository) {}
+  constructor(
+    private analysisRepository: AnalysisRepository,
+    private cacheAdapter: ICache<Analysis>,
+  ) {}
 
   async execute(
     aCommand: CreateAnalysisCommand,
@@ -55,6 +59,8 @@ export class CreateAnalysisUseCase
     await anAnalysis.calculate();
 
     await this.analysisRepository.insert(anAnalysis);
+
+    await this.cacheAdapter.set(anAnalysis);
 
     return AnalysisOutputMapper.toOutput(anAnalysis);
   }

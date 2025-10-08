@@ -55,7 +55,7 @@ export class CreatePropertyUseCase
 
     if (!producerExists) {
       aProperty.notification.addError('Producer does not exist', 'producerId');
-      console.log(aProperty.notification.toJSON());
+
       throw new EntityValidationError(aProperty.notification.toJSON());
     }
 

@@ -14,6 +14,9 @@ import { ProducerEntity } from 'src/core/producer/infrastructure/db/typeorm/Prod
 import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/PropertyEntity';
 import { DeleteAnalysisUseCase } from 'src/core/analysis/application/delete-analysis/DeleteAnalysisUseCase';
 import { GetAnalysisUseCase } from 'src/core/analysis/application/retrieve-analysis/get-analysis/GetAnalysisUseCase';
+import { ICache } from 'src/core/shared/application/ICache';
+import { ICACHE_ANALYSIS } from 'src/core/shared/infrastructure/di/tokens';
+import { Analysis } from 'src/core/analysis/domain/Analysis';
 
 @Module({
   imports: [
@@ -46,10 +49,13 @@ import { GetAnalysisUseCase } from 'src/core/analysis/application/retrieve-analy
 
     {
       provide: CreateAnalysisUseCase,
-      useFactory: (repo: AnalysisTypeOrmRepository) => {
-        return new CreateAnalysisUseCase(repo);
+      useFactory: (
+        repo: AnalysisTypeOrmRepository,
+        cache: ICache<Analysis>,
+      ) => {
+        return new CreateAnalysisUseCase(repo, cache);
       },
-      inject: [AnalysisTypeOrmRepository],
+      inject: [AnalysisTypeOrmRepository, ICACHE_ANALYSIS],
     },
 
     {
@@ -72,10 +78,13 @@ import { GetAnalysisUseCase } from 'src/core/analysis/application/retrieve-analy
     },
     {
       provide: GetAnalysisUseCase,
-      useFactory: (analysisRepo: AnalysisTypeOrmRepository) => {
-        return new GetAnalysisUseCase(analysisRepo);
+      useFactory: (
+        analysisRepo: AnalysisTypeOrmRepository,
+        cache: ICache<Analysis>,
+      ) => {
+        return new GetAnalysisUseCase(analysisRepo, cache);
       },
-      inject: [AnalysisTypeOrmRepository],
+      inject: [AnalysisTypeOrmRepository, ICACHE_ANALYSIS],
     },
   ],
 })

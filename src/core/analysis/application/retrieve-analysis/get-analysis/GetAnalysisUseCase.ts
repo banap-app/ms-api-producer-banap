@@ -26,6 +26,7 @@ import { DesiredBaseSaturation } from 'src/core/analysis/domain/value-objects/De
 import { RelativeTotalNeutralizingPower } from 'src/core/analysis/domain/value-objects/RelativeTotalNeutralizingPowerVo';
 import { TotalCationExchangeCapacity } from 'src/core/analysis/domain/value-objects/TotalCationExchangeCapacityVo';
 import { Liming } from 'src/core/analysis/domain/value-objects/LimingVo';
+import { FieldId } from 'src/core/field/domain/Field';
 
 export class GetAnalysisUseCase
   implements UseCase<GetAnalysisCommand, GetAnalysisOutput>
@@ -75,11 +76,11 @@ export class GetAnalysisUseCase
           analysisId: new AnalysisId(analysisCached.analysisId),
           analysisNpkId: new AnalysisNpkId(analysisCached.analysisNpkId),
           expectedProductivity: new ExpectedProductivity(
-            analysisCached.expectedProductivity,
+            analysisCached.typeAnalysis.expectedProductivity,
           ),
-          nitrogen: new Nitrogen(analysisCached.nitrogen),
-          phosphor: new Phosphor(analysisCached.phosphor),
-          potassium: new Potassium(analysisCached.potassium),
+          nitrogen: new Nitrogen(analysisCached.typeAnalysis.nitrogen),
+          phosphor: new Phosphor(analysisCached.typeAnalysis.phosphor),
+          potassium: new Potassium(analysisCached.typeAnalysis.potassium),
         });
       }
       const analysis = new Analysis({
@@ -88,9 +89,12 @@ export class GetAnalysisUseCase
         createdAt: analysisCached.createdAt,
         updatedAt: analysisCached.updatedAt,
         deletedAt: analysisCached.deletedAt,
-        fieldId: analysisCached.fieldId,
+        fieldId: new FieldId(analysisCached.fieldId),
+        typeAnalysis: analysisType,
       });
+
       analysis.defineTypeOfAnalysis(analysisType);
+
       return AnalysisOutputMapper.toOutput(analysis);
     }
     const analysis = await this.analysisRepository.findById(analysisId);

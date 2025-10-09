@@ -7,10 +7,7 @@ import {
   AnalysisOutput,
   AnalysisOutputMapper,
 } from '../commons/AnalysisOutputMapper';
-import {
-  AnalysisLiming,
-  AnalysisLimingCreateProps,
-} from '../../domain/AnalysisLiming';
+import { AnalysisLiming } from '../../domain/AnalysisLiming';
 import { AnalysisNpk } from '../../domain/AnalysisNpk';
 import {
   DesiredBaseSaturation,
@@ -60,7 +57,8 @@ export class CreateAnalysisUseCase
 
     await this.analysisRepository.insert(anAnalysis);
 
-    await this.cacheAdapter.set(anAnalysis);
+    await this.cacheAdapter.delete(`analysis:${anAnalysis.getId.id}`);
+    await this.cacheAdapter.delete(`analysis:${aCommand.fieldId}`);
 
     return AnalysisOutputMapper.toOutput(anAnalysis);
   }

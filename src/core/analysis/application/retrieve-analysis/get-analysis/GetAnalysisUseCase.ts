@@ -16,7 +16,6 @@ import {
   AnalysisNpk,
   AnalysisNpkId,
 } from 'src/core/analysis/domain/AnalysisNpk';
-import { AnalysisConstructorProps } from '../../../domain/Analysis';
 import { Potassium } from 'src/core/analysis/domain/value-objects/PotassiumVo';
 import { Phosphor } from 'src/core/analysis/domain/value-objects/PhosporVo';
 import { Nitrogen } from 'src/core/analysis/domain/value-objects/NitrogenVo';

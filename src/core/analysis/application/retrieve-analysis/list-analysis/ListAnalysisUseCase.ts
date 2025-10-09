@@ -2,7 +2,6 @@ import { UseCase } from 'src/core/shared/application/IUseCase';
 import { ListAnalysisCommand } from './ListAnalysisCommand';
 import { ListAnalysisOutput } from './ListAnalysisOutput';
 import { AnalysisRepository } from 'src/core/analysis/domain/AnalysisRepository';
-import { PropertyId } from 'src/core/property/domain/Property';
 import { FieldId } from 'src/core/field/domain/Field';
 import { AnalysisOutputMapper } from '../../commons/AnalysisOutputMapper';
 import { IFieldRepository } from 'src/core/field/domain/IFieldRepository';

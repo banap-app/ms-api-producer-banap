@@ -56,11 +56,13 @@ import { ICACHE_FIELD } from 'src/core/shared/infrastructure/di/tokens';
         fieldRepo: FieldTypeOrmRepository,
         propertyRepo: PropertyTypeOrmRepository,
         producerRepo: ProducerTypeOrmRepository,
-      ) => new CreateFieldUseCase(fieldRepo, propertyRepo, producerRepo),
+        cache: ICache<Field>,
+      ) => new CreateFieldUseCase(fieldRepo, propertyRepo, producerRepo, cache),
       inject: [
         FieldTypeOrmRepository,
         PropertyTypeOrmRepository,
         ProducerTypeOrmRepository,
+        ICACHE_FIELD,
       ],
     },
     {

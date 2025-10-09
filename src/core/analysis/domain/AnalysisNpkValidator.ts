@@ -1,9 +1,4 @@
-import {
-  IsNotEmpty,
-  IsNotEmptyObject,
-  IsNumber,
-  IsOptional,
-} from 'class-validator';
+import { IsNotEmpty, IsNotEmptyObject } from 'class-validator';
 import { AnalysisId } from './AnalysisId';
 import { ClassValidatorRules } from '../../shared/domain/validators/ClassValidatorRules';
 import { Notification } from '../../shared/domain/validators/Notification';

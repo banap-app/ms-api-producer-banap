@@ -7,10 +7,7 @@ import {
   AnalysisOutput,
   AnalysisOutputMapper,
 } from '../commons/AnalysisOutputMapper';
-import {
-  AnalysisLiming,
-  AnalysisLimingCreateProps,
-} from '../../domain/AnalysisLiming';
+import { AnalysisLiming } from '../../domain/AnalysisLiming';
 import { AnalysisNpk } from '../../domain/AnalysisNpk';
 import {
   DesiredBaseSaturation,

@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import { IsBoolean, IsNotEmpty } from 'class-validator';
 import { Analysis } from './Analysis';
 import { ClassValidatorRules } from '../../shared/domain/validators/ClassValidatorRules';
 import { Notification } from '../../shared/domain/validators/Notification';

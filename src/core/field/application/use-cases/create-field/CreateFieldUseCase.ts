@@ -9,6 +9,7 @@ import { IPropertyRepository } from 'src/core/property/domain/IPropertyRepositor
 import { ProducerRepository } from 'src/core/producer/domain/ProducerRepository';
 import { PropertyId } from 'src/core/property/domain/Property';
 import { Field } from 'src/core/field/domain/Field';
+import { ICache } from 'src/core/shared/application/ICache';
 
 export type CreateFieldOutput = FieldOutput;
 
@@ -18,15 +19,18 @@ export class CreateFieldUseCase
   private fieldRepository: IFieldRepository;
   private propertyRepository: IPropertyRepository;
   private producerRepository: ProducerRepository;
+  private cacheAdapter: ICache<Field>;
 
   constructor(
     fieldRepository: IFieldRepository,
     propertyRepository: IPropertyRepository,
     producerRepository: ProducerRepository,
+    cacheAdapter: ICache<Field>,
   ) {
     this.fieldRepository = fieldRepository;
     this.propertyRepository = propertyRepository;
     this.producerRepository = producerRepository;
+    this.cacheAdapter = cacheAdapter;
   }
 
   async execute(aCommand: CreateFieldCommand): Promise<FieldOutput> {
@@ -54,7 +58,8 @@ export class CreateFieldUseCase
     }
 
     await this.fieldRepository.insert(aField);
-
+    await this.cacheAdapter.delete(`field:${aField.getId.id}`);
+    await this.cacheAdapter.delete(`field:${aCommand.propertyId}`);
     return FieldOutputMapper.toOutput(aField);
   }
 }

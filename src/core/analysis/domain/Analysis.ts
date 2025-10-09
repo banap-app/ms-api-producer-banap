@@ -1,5 +1,4 @@
 import { Entity } from '../../shared/domain/Entity';
-import { Uuid } from '../../shared/domain/value-objects/UuidVo';
 import { FieldId } from '../../field/domain/Field';
 import { AnalysisLiming } from './AnalysisLiming';
 import { AnalysisNpk } from './AnalysisNpk';

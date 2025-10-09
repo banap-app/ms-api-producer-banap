@@ -7,7 +7,6 @@ export type AnalysisOutput = {
   fieldId: string;
   typeAnalysis:
     | {
-        // LIMING
         analysisLimingId: string;
         analysisId: string;
         desiredBaseSaturation: number;
@@ -17,7 +16,6 @@ export type AnalysisOutput = {
         liming: number;
       }
     | {
-        // NPK
         analysisNpkId: string;
         phosphor: number;
         potassium: number;

@@ -41,12 +41,19 @@ import { ICACHE_PROPERTY } from 'src/core/shared/infrastructure/di/tokens';
         propertyRepo: PropertyTypeOrmRepository,
         producerRepo: ProducerTypeOrmRepository,
         engineerGateway: EngineerGateway,
+        cache: ICache<Property>,
       ) =>
-        new CreatePropertyUseCase(propertyRepo, producerRepo, engineerGateway),
+        new CreatePropertyUseCase(
+          propertyRepo,
+          producerRepo,
+          engineerGateway,
+          cache,
+        ),
       inject: [
         PropertyTypeOrmRepository,
         ProducerTypeOrmRepository,
         EngineerGateway,
+        ICACHE_PROPERTY,
       ],
     },
     {

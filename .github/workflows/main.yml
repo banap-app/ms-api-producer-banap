@@ -17,7 +17,7 @@ jobs:
       REDIS_PORT: 6379
       REDIS_USER: default
       REDIS_PASSWORD: StormForge01
-      TIME_TO_EXPIRE_CACHE: 120
+      TIME_TO_EXPIRE_CACHE: 300
 
     steps:
       - uses: actions/checkout@v4

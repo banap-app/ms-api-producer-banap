@@ -57,7 +57,8 @@ export class CreateAnalysisUseCase
 
     await this.analysisRepository.insert(anAnalysis);
 
-    await this.cacheAdapter.set(anAnalysis);
+    await this.cacheAdapter.delete(`analysis:${anAnalysis.getId.id}`);
+    await this.cacheAdapter.delete(`analysis:${aCommand.fieldId}`);
 
     return AnalysisOutputMapper.toOutput(anAnalysis);
   }

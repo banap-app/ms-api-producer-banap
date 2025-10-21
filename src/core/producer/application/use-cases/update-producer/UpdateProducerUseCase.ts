@@ -56,9 +56,7 @@ export class UpdateProducerUseCase
         : null,
     });
 
-    if (
-      await this.cacheAdapter.isCached(`producer:${aCommand.producerId}`)
-    ) {
+    if (await this.cacheAdapter.isCached(`producer:${aCommand.producerId}`)) {
       const cache = await this.cacheAdapter.get(
         `producer:${aCommand.producerId}`,
       );

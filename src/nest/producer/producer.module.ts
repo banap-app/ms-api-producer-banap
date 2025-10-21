@@ -18,6 +18,7 @@ import { RedisService } from 'src/core/shared/infrastructure/services/RedisServi
 import { Producer } from 'src/core/producer/domain/Producer';
 import { ICache } from 'src/core/shared/application/ICache';
 import { ICACHE_PRODUCER } from 'src/core/shared/infrastructure/di/tokens';
+import { ExistsProducerByEmailUseCase } from 'src/core/producer/application/use-cases/retrieve-producer/exists-producer/ExistsProducerByEmailUseCase';
 
 @Module({
   imports: [
@@ -43,6 +44,14 @@ import { ICACHE_PRODUCER } from 'src/core/shared/infrastructure/di/tokens';
         new CreateProducerUseCase(repo, crypt),
       inject: [ProducerTypeOrmRepository, BcryptService],
     },
+
+    {
+      provide: ExistsProducerByEmailUseCase,
+      useFactory: (repo: ProducerTypeOrmRepository) =>
+        new ExistsProducerByEmailUseCase(repo),
+      inject: [ProducerTypeOrmRepository],
+    },
+
     {
       provide: UpdateProducerUseCase,
       useFactory: (

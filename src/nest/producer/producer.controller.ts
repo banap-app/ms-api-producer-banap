@@ -24,6 +24,8 @@ import { GetProducerUseCase } from 'src/core/producer/application/use-cases/retr
 import {
   SwaggerCreateProducer,
   SwaggerDeleteProducer,
+  SwaggerExistsProducer,
+  SwaggerExistsProducer,
   SwaggerGetProducer,
   SwaggerUpdateProducer,
 } from './producer.controller.interface';
@@ -31,6 +33,8 @@ import { TypeUser } from 'src/core/producer/domain/TypeUser';
 import { Public } from '../authguard/public.decorator';
 import { ApiSecurity } from '@nestjs/swagger';
 import { request } from 'http';
+import { ExistsProducerByEmailUseCase } from 'src/core/producer/application/use-cases/retrieve-producer/exists-producer/ExistsProducerByEmailUseCase';
+import { ExistsProducerByEmailUseCase } from 'src/core/producer/application/use-cases/retrieve-producer/exists-producer/ExistsProducerByEmailUseCase';
 
 @ApiSecurity('token')
 @Controller('producer')
@@ -44,6 +48,10 @@ export class ProducerController {
     private readonly deleteProducerUseCase: DeleteProducerUseCase,
     @Inject(GetProducerUseCase)
     private readonly getProducerUseCase: GetProducerUseCase,
+    @Inject(ExistsProducerByEmailUseCase)
+    private readonly existsProducerUseCase: ExistsProducerByEmailUseCase,
+    @Inject(ExistsProducerByEmailUseCase)
+    private readonly existsProducerUseCase: ExistsProducerByEmailUseCase,
   ) {}
 
   @SwaggerCreateProducer()
@@ -86,10 +94,11 @@ export class ProducerController {
     return this.createProducerUseCase.execute(command);
   }
 
-  // @Get()
-  // findAll() {
-  //   return;
-  // }
+  @SwaggerExistsProducer()
+  @Get('/exists/:email')
+  findProducerByEmail(@Param('email') email: string) {
+    return this.existsProducerUseCase.execute({ email });
+  }
 
   @SwaggerGetProducer()
   @Get()

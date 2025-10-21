@@ -25,7 +25,6 @@ import {
   SwaggerCreateProducer,
   SwaggerDeleteProducer,
   SwaggerExistsProducer,
-  SwaggerExistsProducer,
   SwaggerGetProducer,
   SwaggerUpdateProducer,
 } from './producer.controller.interface';
@@ -33,7 +32,6 @@ import { TypeUser } from 'src/core/producer/domain/TypeUser';
 import { Public } from '../authguard/public.decorator';
 import { ApiSecurity } from '@nestjs/swagger';
 import { request } from 'http';
-import { ExistsProducerByEmailUseCase } from 'src/core/producer/application/use-cases/retrieve-producer/exists-producer/ExistsProducerByEmailUseCase';
 import { ExistsProducerByEmailUseCase } from 'src/core/producer/application/use-cases/retrieve-producer/exists-producer/ExistsProducerByEmailUseCase';
 
 @ApiSecurity('token')
@@ -48,8 +46,6 @@ export class ProducerController {
     private readonly deleteProducerUseCase: DeleteProducerUseCase,
     @Inject(GetProducerUseCase)
     private readonly getProducerUseCase: GetProducerUseCase,
-    @Inject(ExistsProducerByEmailUseCase)
-    private readonly existsProducerUseCase: ExistsProducerByEmailUseCase,
     @Inject(ExistsProducerByEmailUseCase)
     private readonly existsProducerUseCase: ExistsProducerByEmailUseCase,
   ) {}

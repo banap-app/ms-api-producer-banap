@@ -1,5 +1,11 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiOkResponse,
+  ApiParam,
+} from '@nestjs/swagger';
 import { CreateProducerDto } from './dto/create-producer.dto';
 
 export function SwaggerCreateProducer() {
@@ -50,6 +56,27 @@ export function SwaggerGetProducer() {
     ApiResponse({
       status: 404,
       description: 'Producer not found',
+    }),
+  );
+}
+
+export function SwaggerExistsProducer() {
+  return applyDecorators(
+    ApiOperation({ summary: 'Check if a Producer exists by e-mail' }),
+    ApiParam({
+      name: 'email',
+      required: true,
+      description: 'E-mail to check',
+      example: 'nath@gmail.com',
+    }),
+    ApiOkResponse({
+      description: 'Returns whether the e-mail exists',
+      schema: {
+        type: 'object',
+        properties: {
+          exists: { type: 'boolean', example: true },
+        },
+      },
     }),
   );
 }

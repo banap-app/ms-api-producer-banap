@@ -53,7 +53,7 @@ export class ProducerController {
   @SwaggerCreateProducer()
   @Public()
   @Post()
-  create(@Body() createProducerDto: CreateProducerDto) {
+  create(@Body() createProducerDto: CreateProducerDto, @Req() request) {
     let profilePicture;
 
     if (!createProducerDto) {
@@ -79,12 +79,7 @@ export class ProducerController {
       password: createProducerDto.password,
       isActive: createProducerDto.isActive,
       profilePicture,
-      typeUser:
-        createProducerDto.typeUser == 2
-          ? TypeUser.Producer
-          : createProducerDto.typeUser == 1
-            ? TypeUser.Engineer
-            : TypeUser.NULL,
+      typeUser: 2
     });
 
     return this.createProducerUseCase.execute(command);

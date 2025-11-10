@@ -10,7 +10,7 @@ export class PestProductRules {
     @MaxLength(255, {
         groups: ['name'],
       })
-      @IsEnum(Culture)
+    
       @IsNotEmpty()
       culture: Culture;
 }

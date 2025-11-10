@@ -23,6 +23,7 @@ import { FieldModule } from './field/field.module';
 import { FieldBoundaryEntity } from 'src/core/field/infrastructure/db/typeorm/FieldBoundaryEntity';
 import { PropertyEntity } from 'src/core/property/infrastructure/db/typeorm/PropertyEntity';
 import { RedisModule } from './redis/redis.module';
+import { PestProductModule } from './pest-product/pest-product.module';
 
 @Module({
   imports: [
@@ -57,6 +58,7 @@ import { RedisModule } from './redis/redis.module';
     FieldModule,
     AxiosModule,
     RedisModule,
+    PestProductModule
   ],
   controllers: [AppController],
   providers: [

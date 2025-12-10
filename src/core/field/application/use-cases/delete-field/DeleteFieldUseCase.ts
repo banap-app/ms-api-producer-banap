@@ -25,7 +25,7 @@ export class DeleteFieldUseCase
 
     await this.fieldRepository.update(field);
     await this.cacheAdapter.delete(`field:${field.getId}`);
-    await this.cacheAdapter.delete(`field:${field.getProducerId().getId}`);
+    await this.cacheAdapter.delete(`field:${field.getPropertyId().getId}`);
     return;
   }
 }

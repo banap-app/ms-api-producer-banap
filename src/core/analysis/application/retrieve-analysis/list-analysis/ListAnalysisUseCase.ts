@@ -135,9 +135,7 @@ export class ListAnalysisUseCase
       }
     });
     await this.cacheAdapter.set({ entityArray: analysis, key: id.getId });
-    console.log(analysis);
     analysis = analysis.filter((analysis) => analysis.getIsActive() == true);
-    console.log(analysis);
     return {
       count: analysis.length,
       analysis: analysis.map((e) => {

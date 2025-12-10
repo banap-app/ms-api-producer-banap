@@ -3,14 +3,21 @@ import { DeleteAnalysisCommand } from './DeleteAnalysisCommand';
 import { AnalysisRepository } from '../../domain/AnalysisRepository';
 import { AnalysisId } from '../../domain/AnalysisId';
 import { NotFoundError } from 'src/core/shared/domain/errors/NotFoundError';
+import { Analysis } from '../../domain/Analysis';
+import { ICache } from 'src/core/shared/application/ICache';
 
 export class DeleteAnalysisUseCase
   implements UseCase<DeleteAnalysisCommand, Boolean>
 {
   private analysisRepository: AnalysisRepository;
+  private cacheAdapter: ICache<Analysis>;
 
-  constructor(analysisRepository: AnalysisRepository) {
+  constructor(
+    analysisRepository: AnalysisRepository,
+    cacheAdapter: ICache<Analysis>,
+  ) {
     this.analysisRepository = analysisRepository;
+    this.cacheAdapter = cacheAdapter;
   }
 
   async execute(aCommand: DeleteAnalysisCommand): Promise<Boolean> {
@@ -31,6 +38,10 @@ export class DeleteAnalysisUseCase
     analysisToDelete.deactivate();
 
     await this.analysisRepository.update(analysisToDelete);
+    await this.cacheAdapter.delete(`analysis:${aCommand.analysisId}`);
+    await this.cacheAdapter.delete(
+      `analysis:${analysisToDelete.getFieldId().getId}`,
+    );
 
     return;
   }

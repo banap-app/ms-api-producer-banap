@@ -76,10 +76,13 @@ import { Analysis } from 'src/core/analysis/domain/Analysis';
 
     {
       provide: DeleteAnalysisUseCase,
-      useFactory: (analysisRepo: AnalysisTypeOrmRepository) => {
-        return new DeleteAnalysisUseCase(analysisRepo);
+      useFactory: (
+        analysisRepo: AnalysisTypeOrmRepository,
+        cache: ICache<Analysis>,
+      ) => {
+        return new DeleteAnalysisUseCase(analysisRepo, cache);
       },
-      inject: [AnalysisTypeOrmRepository],
+      inject: [AnalysisTypeOrmRepository, ICACHE_ANALYSIS],
     },
     {
       provide: GetAnalysisUseCase,

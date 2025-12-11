@@ -19,7 +19,7 @@ export class ExistsProducerByEmailUseCase
   async execute(aCommand: ExistsProducerCommand): Promise<ProducerOutput> {
     const anEmail = aCommand.email;
 
-    const producer = await this.producerRepository.findByEmail(anEmail);
+    const producer = await this.producerRepository.existsProducer(anEmail);
 
     if (!producer || !producer.getIsActive()) {
       throw new NotFoundError('Producer not exists');

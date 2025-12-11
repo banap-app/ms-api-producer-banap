@@ -9,6 +9,15 @@ export class ProducerTypeOrmRepository implements ProducerRepository {
   constructor(ormRepository: Repository<ProducerEntity>) {
     this.ormRepository = ormRepository;
   }
+
+  async existsProducer(email: string): Promise<Producer> {
+    const producer = await this.ormRepository.findOneBy({
+      email,
+      typeUser: { typeName: 'producer' },
+    });
+    return producer ? ProducerEntityTypeMapper.toDomain(producer) : null;
+  }
+
   async findByEmail(email: string): Promise<Producer> {
     const producer = await this.ormRepository.findOneBy({ email });
     return producer ? ProducerEntityTypeMapper.toDomain(producer) : null;
